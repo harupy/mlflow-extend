@@ -1,4 +1,5 @@
 pandas
 numpy
 matplotlib
-mlflow>=1.6
+seaborn
+mlflow
