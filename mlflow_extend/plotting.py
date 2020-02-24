@@ -161,7 +161,7 @@ def roc_curve(fpr, tpr, auc=None):
 
 def pr_curve(pre, rec, auc=None):
     """
-    Plot precision-recall importance.
+    Plot Precision-Recall curve.
 
     Parameters
     ----------
@@ -179,7 +179,7 @@ def pr_curve(pre, rec, auc=None):
 
     """
     fig, ax = plt.subplots()
-    ax.plot(pre, rec)
+    ax.plot(rec, pre)
     ax.set_xlabel("Recall")
     ax.set_ylabel("Presision")
     auc_str = " (AUC: {:.3f})".format(auc) if (auc is not None) else ""
