@@ -22,7 +22,7 @@ def save_figure(request, tmpdir):
     Save a matplotlib figure when "--savefig" is enabled.
     """
     yield
-    if request.config.getoption("--savefig"):
+    if request.config.getoption("--savefig") and len(plt.get_fignums()) > 0:
         plt.gcf().savefig(tmpdir.join("test.png"))
 
 
