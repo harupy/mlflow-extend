@@ -53,4 +53,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: documentation
-          path: docs/build
+          path: docs/build/html
