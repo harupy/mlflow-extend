@@ -2,4 +2,4 @@ pandas
 numpy
 matplotlib
 seaborn
-mlflow>=1.6
+mlflow
