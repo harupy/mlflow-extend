@@ -1,5 +1,11 @@
+# Lint & Formatting
 flake8
 black
 
+# Test
 pytest
 pytest-cov
+
+# Documentation
+sphinx
+sphinx-rtd-theme
