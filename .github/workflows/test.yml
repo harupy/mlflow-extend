@@ -9,7 +9,7 @@ on:
       - master
 
 jobs:
-  test:
+  main:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 3
