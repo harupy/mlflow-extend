@@ -21,10 +21,28 @@ def test_corr_matrix(tmpdir, corr):
     assert_is_figure(fig)
 
 
-@pytest.mark.parametrize("limit", [None, 10])
-def test_feature_importance(tmpdir, limit):
+def test_feature_importance(tmpdir):
+    features = ["a", "b", "c"]
+    importances = [1, 2, 3]
+    importance_type = "gain"
+    fig = mplt.feature_importance(features, importances, importance_type)
+    assert_is_figure(fig)
+
+
+@pytest.mark.parametrize("limit", [2, 3, 4])
+def test_feature_importance_with_limit(tmpdir, limit):
     features = ["a", "b", "c"]
     importances = [1, 2, 3]
     importance_type = "gain"
     fig = mplt.feature_importance(features, importances, importance_type, limit)
+    assert_is_figure(fig)
+
+
+def test_feature_importance_with_normalize(tmpdir):
+    features = ["a", "b", "c"]
+    importances = [1, 2, 3]
+    importance_type = "gain"
+    fig = mplt.feature_importance(
+        features, importances, importance_type, normalize=True
+    )
     assert_is_figure(fig)

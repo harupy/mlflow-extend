@@ -67,17 +67,16 @@ def test_log_feature_importance(path):
         assert_file_exists_in_artifacts(run, path or "feature_importance.png")
 
 
-@pytest.mark.parametrize("limit", [2, 4])
+@pytest.mark.parametrize("limit", [2, 3, 4])
 def test_log_feature_importance_with_limit(limit):
     with mlflow.start_run() as run:
         mlflow.log_feature_importance(["a", "b", "c"], [1, 2, 3], "gain", limit=limit)
         assert_file_exists_in_artifacts(run, "feature_importance.png")
 
 
-@pytest.mark.parametrize("normalize", [False, True])
-def test_log_feature_importance_with_normalize(normalize):
+def test_log_feature_importance_with_normalize():
     with mlflow.start_run() as run:
         mlflow.log_feature_importance(
-            ["a", "b", "c"], [1, 2, 3], "gain", normalize=normalize
+            ["a", "b", "c"], [1, 2, 3], "gain", normalize=True
         )
         assert_file_exists_in_artifacts(run, "feature_importance.png")
