@@ -38,10 +38,10 @@ def log_df(df, path):
         df.to_csv(tmp_path, index=False)
 
 
-def log_str(s, path):
+def log_text(text, path):
     with _artifact_context(path) as tmp_path:
         with open(tmp_path, "w") as f:
-            f.write(s)
+            f.write(text)
 
 
 def log_numpy(arr, path):
@@ -49,13 +49,13 @@ def log_numpy(arr, path):
         np.save(tmp_path, arr)
 
 
-def log_confusion_matrix(cm, path="confusion_matrix.png"):
+def log_confusion_matrix(cm, path=None):
+    path = "confusion_matrix.png" if path is None else path
     fig = mplt.corr_matrix(cm)
     log_figure(fig, path)
 
 
-def log_feature_importance(
-    feature, importances, importance_type, path="feature_importance.png", **kwargs
-):
+def log_feature_importance(feature, importances, importance_type, path=None, **kwargs):
+    path = "feature_importance.png" if path is None else path
     fig = mplt.feature_importance(feature, importances, importance_type, **kwargs)
     log_figure(fig, path)
