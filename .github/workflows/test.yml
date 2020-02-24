@@ -45,6 +45,9 @@ jobs:
       - name: Run Tests
         run: ./dev/test.sh
 
+      - name: Try Installation
+        run: pip install -e .
+
       - name: Build Documentation
         working-directory: docs
         run: make html
