@@ -1,5 +1,7 @@
 # MLflow Extend
 
+![Test](https://github.com/harupy/mlflow-extend/workflows/Test/badge.svg?event=push)
+
 Extend MLflow API.
 
 ## Lint
@@ -12,4 +14,7 @@ Extend MLflow API.
 
 ```bash
 ./dev/test.sh
+
+# Save figures in .pytest_basetemp.
+./dev/test.sh --savefig
 ```
