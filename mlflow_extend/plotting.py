@@ -26,6 +26,7 @@ def corr_matrix(corr):
 
 
 def confusion_matrix(cm, labels=None, normalize=True):
+    cm = np.array(cm)
     cm_norm = cm / cm.sum(axis=1, keepdims=True)
     fig, ax = plt.subplots()
     sns.heatmap(
@@ -34,7 +35,7 @@ def confusion_matrix(cm, labels=None, normalize=True):
         vmin=0,
         vmax=1,
         fmt="s",
-        annot=cm_norm,
+        annot=cm_norm.astype(str),
         annot_kws={"fontsize": "large"},
         linewidths=0.2,
         cbar=True,
