@@ -9,7 +9,7 @@ on:
       - master
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 3
@@ -39,3 +39,6 @@ jobs:
         run: ./dev/lint.sh
       - name: Run Tests
         run: ./dev/test.sh
+      - name: Build Documentation
+        working-directory: docs
+        run: make html
