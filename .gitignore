@@ -8,7 +8,8 @@ mlruns/
 .vscode/
 
 # pytest
-htmlcov
+htmlcov/
+.pytest_basetemp/
 
 # https://github.com/github/gitignore/blob/master/Python.gitignore
 
