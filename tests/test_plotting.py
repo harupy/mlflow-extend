@@ -11,7 +11,7 @@ def assert_is_figure(obj):
 
 @pytest.mark.parametrize("cm", [[[1, 2], [3, 4]], np.array([[1, 2], [3, 4]])])
 def test_confusion_matrix(tmpdir, cm):
-    fig = mplt.corr_matrix(cm)
+    fig = mplt.confusion_matrix(cm)
     assert_is_figure(fig)
 
 
@@ -46,3 +46,18 @@ def test_feature_importance_with_normalize(tmpdir):
         features, importances, importance_type, normalize=True
     )
     assert_is_figure(fig)
+
+
+def test_roc_curve(tmpdir):
+    fig = mplt.roc_curve([1, 2, 3], [1, 2, 3])
+    assert_is_figure(fig)
+
+    fig = mplt.roc_curve([1, 2, 3], [1, 2, 3], 0.5)
+    assert_is_figure(fig)
+
+
+def test_pr_curve(tmpdir):
+    fig = mplt.pr_curve([1, 2, 3], [1, 2, 3])
+    assert_is_figure(fig)
+
+    fig = mplt.pr_curve([1, 2, 3], [1, 2, 3], 0.5)
