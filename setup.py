@@ -1,10 +1,12 @@
 import os
 from setuptools import setup, find_packages
 
+import mlflow_extend
+
 ROOT = os.path.abspath(os.path.dirname(__file__))
 
 
-# use README.md as a long description
+# Use README.md as a long description.
 def get_long_description():
     with open(os.path.join(ROOT, "README.md"), encoding="utf-8") as f:
         return f.read()
@@ -21,7 +23,7 @@ def get_install_requires():
 
 setup(
     name="mlflow-extend",
-    version="0.1.0",
+    version=mlflow_extend.__version__,
     packages=find_packages(),
     python_requires=">=3.6",
     install_requires=get_install_requires(),
