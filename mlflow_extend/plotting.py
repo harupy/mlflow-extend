@@ -49,15 +49,20 @@ def confusion_matrix(cm, labels=None, normalize=True):
     return fig
 
 
-def feature_importance(features, importances, importance_type, limit=None):
+def feature_importance(
+    features, importances, importance_type, limit=None, normalize=False
+):
     features = np.array(features)
     importances = np.array(importances)
     indices = np.argsort(importances)
-    y = np.arange(len(importances))
 
     if limit is not None:
         indices = indices[-limit:]
 
+    if normalize:
+        importances = importances / importances.sum()
+
+    y = np.arange(len(features[indices]))
     fig, ax = plt.subplots()
     ax.barh(y, importances[indices], align="center", height=0.5)
     ax.set_yticks(y)
