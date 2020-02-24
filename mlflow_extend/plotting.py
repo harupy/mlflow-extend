@@ -6,6 +6,20 @@ sns.set()
 
 
 def corr_matrix(corr):
+    """
+    Plot correlation matrix.
+
+    Parameters
+    ----------
+    corr : array-like
+        Correlation matrix.
+
+    Returns
+    -------
+    matplotlib.pyplot.Figure
+        Matplotlib figure instance.
+
+    """
     fig, ax = plt.subplots()
     mask = np.zeros_like(corr, dtype=np.bool)
     mask[np.triu_indices_from(mask, k=1)] = True
@@ -26,6 +40,24 @@ def corr_matrix(corr):
 
 
 def confusion_matrix(cm, labels=None, normalize=True):
+    """
+    Plot correlation matrix.
+
+    Parameters
+    ----------
+    cm : array-like
+        Correlation matrix.
+    labels : list of str, default None
+        Label names.
+    normalize : bool, default True
+        Divide each row by its sum.
+
+    Returns
+    -------
+    matplotlib.pyplot.Figure
+        Matplotlib figure instance.
+
+    """
     cm = np.array(cm)
     cm_norm = cm / cm.sum(axis=1, keepdims=True)
     fig, ax = plt.subplots()
@@ -53,6 +85,28 @@ def confusion_matrix(cm, labels=None, normalize=True):
 def feature_importance(
     features, importances, importance_type, limit=None, normalize=False
 ):
+    """
+    Plot feature importance.
+
+    Parameters
+    ----------
+    features : list of str
+        Feature names.
+    importances : array-like
+        Importance of each feature.
+    importance_type : str
+        Feature importance type (e.g. "gain").
+    limit : int, default None
+        Number of features to plot. If ``None``, all features will be plotted.
+    normalize : bool, default False
+        Divide importance by the sum.
+
+    Returns
+    -------
+    matplotlib.pyplot.Figure
+        Matplotlib figure instance.
+
+    """
     features = np.array(features)
     importances = np.array(importances)
     indices = np.argsort(importances)
@@ -76,6 +130,24 @@ def feature_importance(
 
 
 def roc_curve(fpr, tpr, auc=None):
+    """
+    Plot ROC curve.
+
+    Parameters
+    ----------
+    fpr : array-like
+        False positive rate.
+    tpr : array-like
+        True positive rate.
+    auc : float, default None
+        Area under the curve.
+
+    Returns
+    -------
+    matplotlib.pyplot.Figure
+        Matplotlib figure instance.
+
+    """
     fig, ax = plt.subplots()
     ax.plot(fpr, tpr)
     ax.plot([0, 1], [0, 1], "k:")
@@ -88,6 +160,24 @@ def roc_curve(fpr, tpr, auc=None):
 
 
 def pr_curve(pre, rec, auc=None):
+    """
+    Plot precision-recall importance.
+
+    Parameters
+    ----------
+    pre : array-like
+        Precision.
+    rec : array-like
+        Recall.
+    auc : float, default None
+        Area under the curve.
+
+    Returns
+    -------
+    matplotlib.pyplot.Figure
+        Matplotlib figure instance.
+
+    """
     fig, ax = plt.subplots()
     ax.plot(pre, rec)
     ax.set_xlabel("Recall")
