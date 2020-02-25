@@ -2,10 +2,10 @@
 
 exit_code=0
 
-black --check .
-[[ ! $? = 0 ]] && exit_code=$?
+black --check tests mlflow_extend
+[[ $? = 1 ]] && exit_code=1
 
-flake8 .
-[[ ! $? = 0 ]] && exit_code=$?
+flake8 tests mlflow_extend
+[[ $? = 1 ]] && exit_code=1
 
 exit $exit_code
