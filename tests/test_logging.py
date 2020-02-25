@@ -8,7 +8,7 @@ import mlflow_extend.logging as lg
 from tests.utils import assert_file_exists_in_artifacts
 
 
-def test_new_apis_do_not_conflict():
+def test_new_apis_do_not_conflict_native_apis():
     assert all(new_api not in mlflow.__all__ for new_api in lg.__all__)
 
 
