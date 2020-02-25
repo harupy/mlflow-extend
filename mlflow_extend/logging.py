@@ -8,6 +8,16 @@ import mlflow
 
 import mlflow_extend.plotting as mplt
 
+__all__ = [
+    "log_figure",
+    "log_dict",
+    "log_df",
+    "log_text",
+    "log_numpy",
+    "log_confusion_matrix",
+    "log_feature_importance",
+]
+
 
 @contextmanager
 def _artifact_context(path):
