@@ -1,5 +1,3 @@
-.. module:: mlflow_extend
-
 Logging
 =======
 
