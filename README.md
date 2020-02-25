@@ -5,19 +5,45 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 ![GitHub](https://img.shields.io/github/license/harupy/mlflow-extend?color=green)
 
-Extend MLflow API.
+Extend MLflow's functionality.
+
+## Examples
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from mlflow_extend import mlflow
+
+with mlflow.start_run():
+    # dict
+    mlflow.log_dict({'a', 0}, 'dict.json')
+
+    # numpy array
+    mlflow.log_numpy(np.array([0]), 'array.npy')
+
+    # pandas dataframe
+    mlflow.log_df(pd.DataFrame({'a': [0]}), 'df.csv')
+
+    # matplotlib figure
+    fig, ax = plt.subplots()
+    ax.plot([0, 1], [0, 1])
+    mlflow.log_figure(fig, 'figure.png')
+```
 
 ## Lint
 
 ```bash
+# Run lint checking with black and flake8.
 ./dev/lint.sh
 ```
 
 ## Test
 
 ```bash
+# Run all the tests.
 ./dev/test.sh
 
-# Save figures in .pytest_basetemp.
+# Save figures generated during the tests to .pytest_basetemp.
 ./dev/test.sh --savefig
 ```
