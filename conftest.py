@@ -4,7 +4,10 @@ when running the tests.
 """
 
 import pytest
+import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
+import mlflow_extend.mlflow
 
 
 def pytest_addoption(parser):
@@ -14,6 +17,14 @@ def pytest_addoption(parser):
         default=False,
         help="Save figures when testing the plot functions.",
     )
+
+
+@pytest.fixture(autouse=True)
+def inject_items_into_doctest_namespace(doctest_namespace):
+    doctest_namespace["np"] = np
+    doctest_namespace["pd"] = pd
+    doctest_namespace["plt"] = plt
+    doctest_namespace["mlflow"] = mlflow_extend.mlflow
 
 
 @pytest.fixture(scope="function", autouse=True)
