@@ -17,7 +17,7 @@ from mlflow_extend import mlflow
 
 with mlflow.start_run():
     # dict
-    mlflow.log_dict({'a', 0}, 'dict.json')
+    mlflow.log_dict({'a': 0}, 'dict.json')
 
     # numpy array
     mlflow.log_numpy(np.array([0]), 'array.npy')
