@@ -31,8 +31,9 @@ setup(
     maintainer_email="hkawamura0130@gmail.com",
     url="https://github.com/harupy/mlflow-extend",
     project_urls={
-        "Bug Tracker": "https://github.com/harupy/mlflow-extend/issues",
+        "Documentation": "https://mlflow-extend.readthedocs.io/en/latest/index.html",
         "Source Code": "https://github.com/harupy/mlflow-extend",
+        "Bug Tracker": "https://github.com/harupy/mlflow-extend/issues",
     },
     description="Extend MLflow API",
     long_description=get_long_description(),
