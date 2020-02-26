@@ -1,6 +1,6 @@
 # Lint & Formatting
 flake8
-black
+black; python_version >= '3.6'
 
 # Test
 pytest
