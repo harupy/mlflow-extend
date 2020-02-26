@@ -3,7 +3,8 @@
 [![Test](https://github.com/harupy/mlflow-extend/workflows/Test/badge.svg?event=push)](https://github.com/harupy/mlflow-extend/actions?query=workflow%3ATest)
 [![Documentation Status](https://readthedocs.org/projects/mlflow-extend/badge/?version=latest)](https://mlflow-extend.readthedocs.io/en/latest/?badge=latest)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-![GitHub](https://img.shields.io/github/license/harupy/mlflow-extend?color=green)
+![GitHub](https://img.shields.io/github/license/harupy/mlflow-extend?color=brightgreen)
+[![version](https://img.shields.io/pypi/v/mlflow-extend?color=brightgreen)](https://pypi.org/project/mlflow-extend/)
 
 Extend MLflow's functionality.
 
