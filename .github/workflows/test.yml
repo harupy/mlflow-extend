@@ -48,7 +48,7 @@ jobs:
       - name: Try Installation
         run: pip install -e .
 
-      - name: Build package
+      - name: Build Package
         run: python setup.py bdist_wheel
 
       - name: Build Documentation
