@@ -45,11 +45,10 @@ jobs:
       - name: Run Tests
         run: ./dev/test.sh
 
-      - name: Test Installation
-        run: pip install -e .
-
       - name: Run Example
-        run: python examples/quickstart.py
+        run: |
+          pip install -e .
+          python examples/quickstart.py
 
       - name: Build Package
         run: python setup.py bdist_wheel
