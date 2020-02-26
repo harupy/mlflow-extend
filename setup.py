@@ -38,4 +38,10 @@ setup(
     description="Extend MLflow API",
     long_description=get_long_description(),
     long_description_content_type="text/markdown",
+    classifiers=[
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+    ],
 )
