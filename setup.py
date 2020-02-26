@@ -25,7 +25,7 @@ setup(
     name="mlflow-extend",
     version=mlflow_extend.__version__,
     packages=find_packages(),
-    python_requires=">=3.6",
+    python_requires=">=3.5",
     install_requires=get_install_requires(),
     maintainer="harupy",
     maintainer_email="hkawamura0130@gmail.com",
