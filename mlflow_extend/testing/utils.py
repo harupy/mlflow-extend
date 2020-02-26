@@ -20,10 +20,6 @@ def run_python_script(path):
     return child.returncode
 
 
-def assert_file_exists(path):
-    assert os.path.exists(path)
-
-
 def _list_artifacts(run_id, root=""):
     client = mlflow.tracking.MlflowClient()
     artifacts = []
@@ -34,6 +30,10 @@ def _list_artifacts(run_id, root=""):
         else:
             artifacts += [artifact.path]
     return artifacts
+
+
+def assert_file_exists(path):
+    assert os.path.exists(path)
 
 
 def assert_file_exists_in_artifacts(run, path):
