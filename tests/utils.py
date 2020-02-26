@@ -1,4 +1,5 @@
 import os
+import subprocess
 import inspect
 import mlflow
 
@@ -9,6 +10,12 @@ def get_default_args(func):
         for k, v in inspect.signature(func).parameters.items()
         if v.default is not inspect.Parameter.empty
     }
+
+
+def run_python_script(path):
+    child = subprocess.Popen(["python", path])
+    child.communicate()
+    return child.returncode
 
 
 def assert_file_exists(path):
