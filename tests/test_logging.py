@@ -5,7 +5,10 @@ import matplotlib.pyplot as plt
 import mlflow
 import mlflow_extend.logging as lg
 
-from tests.utils import get_default_args, assert_file_exists_in_artifacts
+from mlflow_extend.testing.utils import (
+    get_default_args,
+    assert_file_exists_in_artifacts,
+)
 
 
 def test_new_apis_do_not_conflict_native_apis():

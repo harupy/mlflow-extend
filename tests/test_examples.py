@@ -1,6 +1,6 @@
 import pytest
 
-from tests.utils import run_python_script
+from mlflow_extend.testing.utils import run_python_script
 
 
 @pytest.mark.parametrize("path", ["examples/quickstart.py"])
