@@ -46,8 +46,7 @@ jobs:
         run: ./dev/test.sh
 
       - name: Test Installation
-        run: |
-          pip install -e .
+        run: pip install -e .
 
       - name: Run Example
         run: python examples/quickstart.py
