@@ -203,7 +203,7 @@ def log_confusion_matrix(cm, path="confusion_matrix.png"):
     ...     mlflow.log_confusion_matrix([[1, 2], [3, 4]])
 
     """
-    fig = mplt.corr_matrix(cm)
+    fig = mplt.confusion_matrix(cm)
     log_figure(fig, path)
 
 
