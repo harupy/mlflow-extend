@@ -22,7 +22,7 @@ with mlflow.start_run():
     mlflow.log_param('param', 0)
     mlflow.log_metric('metric', 1.0)
 
-    ##### new APIs mlflow_extend provides ####
+    ##### new APIs mlflow_extend provides #####
 
     # dict
     mlflow.log_dict({'a': 0}, 'dict.json')

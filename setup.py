@@ -35,7 +35,7 @@ setup(
         "Source Code": "https://github.com/harupy/mlflow-extend",
         "Bug Tracker": "https://github.com/harupy/mlflow-extend/issues",
     },
-    description="Extend MLflow API",
+    description="Extend MLflow's functionality",
     long_description=get_long_description(),
     long_description_content_type="text/markdown",
     classifiers=[
