@@ -16,6 +16,8 @@ __all__ = [
     "log_numpy",
     "log_confusion_matrix",
     "log_feature_importance",
+    "log_roc_curve",
+    "log_pr_curve",
 ]
 
 
@@ -240,6 +242,11 @@ def log_roc_curve(fpr, tpr, auc=None, path=None):
     -------
     None
 
+    Examples
+    --------
+    >>> with mlflow.start_run():
+    ...     mlflow.log_roc_curve([0, 1], [0, 1])
+
     """
     path = "roc_curve.png" if path is None else path
     fig = mplt.roc_curve(fpr, tpr, auc)
@@ -264,6 +271,11 @@ def log_pr_curve(pre, rec, auc=None, path=None):
     Returns
     -------
     None
+
+    Examples
+    --------
+    >>> with mlflow.start_run():
+    ...     mlflow.log_pr_curve([1, 0], [1, 0])
 
     """
     path = "pr_curve.png" if path is None else path
