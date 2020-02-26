@@ -6,6 +6,9 @@ black; python_version >= '3.6'
 pytest
 pytest-cov
 
-# Documentation
+# Documentation build
 sphinx>=2.4.3
 sphinx-rtd-theme
+
+# Package build
+wheel
