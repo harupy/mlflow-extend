@@ -13,7 +13,7 @@ def get_default_args(func):
 
 
 def run_python_script(path):
-    child = subprocess.Popen(["export PYTHONPATH=$(pwd) && python", path])
+    child = subprocess.Popen(["export PYTHONPATH=$(pwd) && python {}".format(path)])
     child.communicate()
     return child.returncode
 
