@@ -49,26 +49,39 @@ with mlflow.start_run():
     mlflow.log_confusion_matrix([[1, 2], [3, 4]])
 ```
 
-## Run Lint
+## Creating Environment
+
+```bash
+conda create -n mlflow-extend python=3.6
+conda activate mlflow-extend
+pip install -r requirements.txt -r requirements-dev.txt
+```
+
+## Running Lint
 
 ```bash
 # Run lint checking with black and flake8.
 ./dev/lint.sh
 ```
 
-## Run Test
+## Running Test
 
 ```bash
 # Run all the tests.
 ./dev/test.sh
 
-# Save figures generated during the tests to ".pytest_basetemp".
+# Save figures generated during the tests in '.pytest_basetemp'.
 ./dev/test.sh --savefig
 ```
 
-## Build Documentation
+## Building Documentation
+
+The generated files will be in `docs/build/html`.
 
 ```bash
 cd docs
-make html  # or make clean html
+make html
+
+# Build docs after removing everything under 'build'.
+make clean html
 ```
