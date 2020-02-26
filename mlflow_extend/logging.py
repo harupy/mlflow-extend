@@ -73,7 +73,7 @@ def log_dict(d, path, fmt=None):
     path : str
         Path in the artifact store.
     fmt : str, default None
-        File format to save dict in. If None, format is inferred from `path`.
+        File format to save dict in. If None, format file is inferred from `path`.
 
     Returns
     -------
