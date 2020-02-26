@@ -161,7 +161,7 @@ def roc_curve(fpr, tpr, auc=None):
 
 def pr_curve(pre, rec, auc=None):
     """
-    Plot Precision-Recall curve.
+    Plot precision-recall curve.
 
     Parameters
     ----------
