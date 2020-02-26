@@ -87,7 +87,7 @@ def log_dict(d, path):
             json.dump(d, f, indent=2)
 
 
-def log_df(df, path):
+def log_df(df, path, fmt="csv"):
     """
     Log a dataframe as an artifact.
 
@@ -97,6 +97,8 @@ def log_df(df, path):
         Dataframe to log.
     path : str
         Path in the artifact store.
+    fmt : str, default "csv"
+        File format to save the dataframe in.
 
     Returns
     -------
@@ -109,7 +111,12 @@ def log_df(df, path):
 
     """
     with _artifact_context(path) as tmp_path:
-        df.to_csv(tmp_path, index=False)
+        if fmt == "csv":
+            df.to_csv(tmp_path, index=False)
+        elif fmt == "feather":
+            df.to_feather(tmp_path)
+        else:
+            raise ValueError("Invalid format: {}.".format(fmt))
 
 
 def log_text(text, path):
@@ -163,7 +170,7 @@ def log_numpy(arr, path):
         np.save(tmp_path, arr)
 
 
-def log_confusion_matrix(cm, path=None):
+def log_confusion_matrix(cm, path="confusion_matrix.png"):
     """
     Log a confusion matrix as an artifact.
 
@@ -171,7 +178,7 @@ def log_confusion_matrix(cm, path=None):
     ----------
     cm : array-like
         Confusion matrix to log.
-    path : str
+    path : str, default "confusion_matrix.png"
         Path in the artifact store.
 
     Returns
@@ -184,12 +191,13 @@ def log_confusion_matrix(cm, path=None):
     ...     mlflow.log_confusion_matrix([[1, 2], [3, 4]])
 
     """
-    path = "confusion_matrix.png" if path is None else path
     fig = mplt.corr_matrix(cm)
     log_figure(fig, path)
 
 
-def log_feature_importance(features, importances, importance_type, path=None, **kwargs):
+def log_feature_importance(
+    features, importances, importance_type, path="feature_importance.png", **kwargs
+):
     """
     Log feature importance as an artifact.
 
@@ -201,7 +209,7 @@ def log_feature_importance(features, importances, importance_type, path=None, **
         Importance of each feature.
     importance_type : str
         Importance type (e.g. "gain").
-    path : str, default None
+    path : str, default "feature_importance.png"
         Path in the artifact store.
     **kwargs : dict
         Keyword arguments passed to mlflow.plotting.feature_importance.
@@ -218,12 +226,11 @@ def log_feature_importance(features, importances, importance_type, path=None, **
     ...     mlflow.log_feature_importance(features, importances, 'gain')
 
     """
-    path = "feature_importance.png" if path is None else path
     fig = mplt.feature_importance(features, importances, importance_type, **kwargs)
     log_figure(fig, path)
 
 
-def log_roc_curve(fpr, tpr, auc=None, path=None):
+def log_roc_curve(fpr, tpr, auc=None, path="roc_curve.png"):
     """
     Log ROC curve as an artifact.
 
@@ -235,7 +242,7 @@ def log_roc_curve(fpr, tpr, auc=None, path=None):
         True positive rate.
     auc : float, default None
         Area under the curve.
-    path : str, default None
+    path : str, default "roc_curve.png"
         Path in the artifact store.
 
     Returns
@@ -248,12 +255,11 @@ def log_roc_curve(fpr, tpr, auc=None, path=None):
     ...     mlflow.log_roc_curve([0, 1], [0, 1])
 
     """
-    path = "roc_curve.png" if path is None else path
     fig = mplt.roc_curve(fpr, tpr, auc)
     log_figure(fig, path)
 
 
-def log_pr_curve(pre, rec, auc=None, path=None):
+def log_pr_curve(pre, rec, auc=None, path="pr_curve.png"):
     """
     Log precision-recall curve as an artifact.
 
@@ -265,7 +271,7 @@ def log_pr_curve(pre, rec, auc=None, path=None):
         Recall.
     auc : float, default None
         Area under the curve.
-    path : str, default None
+    path : str, default "pr_curve.png"
         Path in the artifact store.
 
     Returns
@@ -278,6 +284,5 @@ def log_pr_curve(pre, rec, auc=None, path=None):
     ...     mlflow.log_pr_curve([1, 0], [1, 0])
 
     """
-    path = "pr_curve.png" if path is None else path
     fig = mplt.pr_curve(pre, rec, auc)
     log_figure(fig, path)

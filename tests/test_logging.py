@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import mlflow
 import mlflow_extend.logging as lg
 
-from tests.utils import assert_file_exists_in_artifacts
+from tests.utils import get_default_args, assert_file_exists_in_artifacts
 
 
 def test_new_apis_do_not_conflict_native_apis():
@@ -36,10 +36,11 @@ def test_log_dict():
         assert_file_exists_in_artifacts(run, path)
 
 
-def test_log_df():
+@pytest.mark.parametrize("fmt", ["csv", "feather"])
+def test_log_df(fmt):
     path = "test.csv"
     with mlflow.start_run() as run:
-        lg.log_df(pd.DataFrame({"a": [0]}), path)
+        lg.log_df(pd.DataFrame({"a": [0]}), path, fmt)
         assert_file_exists_in_artifacts(run, path)
 
 
@@ -57,54 +58,69 @@ def test_log_numpy():
         assert_file_exists_in_artifacts(run, path)
 
 
-@pytest.mark.parametrize("path", [None, "cm.png"])
-def test_log_confusion_matrix(path):
+def test_log_confusion_matrix():
+    default_path = get_default_args(lg.log_confusion_matrix)["path"]
     with mlflow.start_run() as run:
+        lg.log_confusion_matrix([[1, 2], [3, 4]])
+        assert_file_exists_in_artifacts(run, default_path)
+
+    with mlflow.start_run() as run:
+        path = "cm.png"
         lg.log_confusion_matrix([[1, 2], [3, 4]], path)
-        assert_file_exists_in_artifacts(run, path or "confusion_matrix.png")
+        assert_file_exists_in_artifacts(run, path)
 
 
-@pytest.mark.parametrize("path", [None, "fi.png"])
-def test_log_feature_importance(path):
+def test_log_feature_importance():
+    default_path = get_default_args(lg.log_feature_importance)["path"]
     with mlflow.start_run() as run:
+        lg.log_feature_importance(["a", "b", "c"], [1, 2, 3], "gain")
+        assert_file_exists_in_artifacts(run, default_path)
+
+    with mlflow.start_run() as run:
+        lg.log_feature_importance(["a", "b", "c"], [1, 2, 3], "gain", normalize=True)
+        assert_file_exists_in_artifacts(run, default_path)
+
+    with mlflow.start_run() as run:
+        path = "feat_imp.png"
         lg.log_feature_importance(["a", "b", "c"], [1, 2, 3], "gain", path)
-        assert_file_exists_in_artifacts(run, path or "feature_importance.png")
+        assert_file_exists_in_artifacts(run, path)
 
 
 @pytest.mark.parametrize("limit", [2, 3, 4])
 def test_log_feature_importance_with_limit(limit):
+    default_path = get_default_args(lg.log_feature_importance)["path"]
     with mlflow.start_run() as run:
         lg.log_feature_importance(["a", "b", "c"], [1, 2, 3], "gain", limit=limit)
-        assert_file_exists_in_artifacts(run, "feature_importance.png")
+        assert_file_exists_in_artifacts(run, default_path)
 
 
-def test_log_feature_importance_with_normalize():
+def test_log_roc_curve():
+    default_path = get_default_args(lg.log_roc_curve)["path"]
     with mlflow.start_run() as run:
-        lg.log_feature_importance(["a", "b", "c"], [1, 2, 3], "gain", normalize=True)
-        assert_file_exists_in_artifacts(run, "feature_importance.png")
+        lg.log_roc_curve([0, 1], [0, 1])
+        assert_file_exists_in_artifacts(run, default_path)
 
-
-@pytest.mark.parametrize("path", [None, "roc.png"])
-def test_log_roc_curve(path):
-    with mlflow.start_run() as run:
-        lg.log_roc_curve([0, 1], [0, 1], path=path)
-        assert_file_exists_in_artifacts(run, path or "roc_curve.png")
-
-
-def test_log_roc_curve_with_auc():
     with mlflow.start_run() as run:
         lg.log_roc_curve([0, 1], [0, 1], 0.5)
-        assert_file_exists_in_artifacts(run, "roc_curve.png")
+        assert_file_exists_in_artifacts(run, default_path)
 
-
-@pytest.mark.parametrize("path", [None, "roc.png"])
-def test_log_pr_curve(path):
     with mlflow.start_run() as run:
-        lg.log_pr_curve([1, 0], [1, 0], path=path)
-        assert_file_exists_in_artifacts(run, path or "pr_curve.png")
+        path = "roc.png"
+        lg.log_roc_curve([0, 1], [0, 1], path=path)
+        assert_file_exists_in_artifacts(run, path)
 
 
-def test_log_pr_curve_with_auc():
+def test_log_pr_curve():
+    default_path = get_default_args(lg.log_pr_curve)["path"]
+    with mlflow.start_run() as run:
+        lg.log_pr_curve([1, 0], [1, 0])
+        assert_file_exists_in_artifacts(run, default_path)
+
     with mlflow.start_run() as run:
         lg.log_pr_curve([1, 0], [1, 0], 0.5)
-        assert_file_exists_in_artifacts(run, "pr_curve.png")
+        assert_file_exists_in_artifacts(run, default_path)
+
+    with mlflow.start_run() as run:
+        path = "pr.png"
+        lg.log_pr_curve([1, 0], [1, 0], path=path)
+        assert_file_exists_in_artifacts(run, path)
