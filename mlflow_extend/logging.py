@@ -87,7 +87,7 @@ def log_dict(d, path):
             json.dump(d, f, indent=2)
 
 
-def log_df(df, path):
+def log_df(df, path, fmt="csv"):
     """
     Log a dataframe as an artifact.
 
@@ -97,6 +97,8 @@ def log_df(df, path):
         Dataframe to log.
     path : str
         Path in the artifact store.
+    fmt : str, default "csv"
+        File format to save the dataframe in.
 
     Returns
     -------
@@ -109,7 +111,12 @@ def log_df(df, path):
 
     """
     with _artifact_context(path) as tmp_path:
-        df.to_csv(tmp_path, index=False)
+        if fmt == "csv":
+            df.to_csv(tmp_path, index=False)
+        elif fmt == "feather":
+            df.to_feather(tmp_path)
+        else:
+            raise ValueError("Invalid format: {}.".format(fmt))
 
 
 def log_text(text, path):

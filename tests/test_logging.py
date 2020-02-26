@@ -36,10 +36,11 @@ def test_log_dict():
         assert_file_exists_in_artifacts(run, path)
 
 
-def test_log_df():
+@pytest.mark.parametrize("fmt", ["csv", "feather"])
+def test_log_df(fmt):
     path = "test.csv"
     with mlflow.start_run() as run:
-        lg.log_df(pd.DataFrame({"a": [0]}), path)
+        lg.log_df(pd.DataFrame({"a": [0]}), path, fmt)
         assert_file_exists_in_artifacts(run, path)
 
 
