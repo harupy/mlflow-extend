@@ -62,13 +62,13 @@ def log_figure(fig, path):
         plt.close(fig)
 
 
-def log_dict(d, path, fmt=None):
+def log_dict(dct, path, fmt=None):
     """
     Log a dictionary as an artifact.
 
     Parameters
     ----------
-    d : dict
+    dct : dict
         Dictionary to log.
     path : str
         Path in the artifact store.
@@ -93,10 +93,10 @@ def log_dict(d, path, fmt=None):
     with _artifact_context(path) as tmp_path:
         with open(tmp_path, "w") as f:
             if fmt == "json":
-                json.dump(d, f, indent=2)
+                json.dump(dct, f, indent=2)
 
             if fmt in ["yaml", "yml"]:
-                yaml.dump(d, f, default_flow_style=False)
+                yaml.dump(dct, f, default_flow_style=False)
 
 
 def log_df(df, path, fmt="csv"):
