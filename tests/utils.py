@@ -1,5 +1,14 @@
 import os
+import inspect
 import mlflow
+
+
+def get_default_args(func):
+    return {
+        k: v.default
+        for k, v in inspect.signature(func).parameters.items()
+        if v.default is not inspect.Parameter.empty
+    }
 
 
 def assert_file_exists(path):
