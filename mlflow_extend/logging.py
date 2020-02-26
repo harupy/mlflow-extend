@@ -1,5 +1,6 @@
 import os
 import json
+import yaml
 import tempfile
 from contextlib import contextmanager
 import numpy as np
@@ -61,16 +62,18 @@ def log_figure(fig, path):
         plt.close(fig)
 
 
-def log_dict(d, path):
+def log_dict(dct, path, fmt=None):
     """
     Log a dictionary as an artifact.
 
     Parameters
     ----------
-    d : dict
+    dct : dict
         Dictionary to log.
     path : str
         Path in the artifact store.
+    fmt : str, default None
+        File format to save dict in. If None, file format is inferred from `path`.
 
     Returns
     -------
@@ -79,12 +82,21 @@ def log_dict(d, path):
     Examples
     --------
     >>> with mlflow.start_run():
-    ...     mlflow.log_dict({'a': 0}, 'dict.json')
+    ...     d = {'a': 0}
+    ...     mlflow.log_dict(d, 'dict.json')
+    ...     mlflow.log_dict(d, 'dict.yaml')
+    ...     mlflow.log_dict(d, 'dict.yml')
 
     """
+    fmt = os.path.splitext(path)[1:] if fmt is None else fmt
+
     with _artifact_context(path) as tmp_path:
         with open(tmp_path, "w") as f:
-            json.dump(d, f, indent=2)
+            if fmt == "json":
+                json.dump(dct, f, indent=2)
+
+            if fmt in ["yaml", "yml"]:
+                yaml.dump(dct, f, default_flow_style=False)
 
 
 def log_df(df, path, fmt="csv"):

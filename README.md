@@ -15,7 +15,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from mlflow_jextend import mlflow
+from mlflow_extend import mlflow
 
 with mlflow.start_run():
     # mlflow native APIs

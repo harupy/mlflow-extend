@@ -29,10 +29,18 @@ def test_log_figure():
         assert_file_exists_in_artifacts(run, path)
 
 
-def test_log_dict():
-    path = "test.json"
+@pytest.mark.parametrize("path", ["test.json", "test.yaml", "test.yml"])
+def test_log_dict(path):
     with mlflow.start_run() as run:
         lg.log_dict({"a": 0}, path)
+        assert_file_exists_in_artifacts(run, path)
+
+
+@pytest.mark.parametrize("fmt", ["json", "yaml", "yml"])
+def test_log_dict_with_fmt(fmt):
+    with mlflow.start_run() as run:
+        path = "test.{}".format(fmt)
+        lg.log_dict({"a": 0}, path, fmt)
         assert_file_exists_in_artifacts(run, path)
 
 
