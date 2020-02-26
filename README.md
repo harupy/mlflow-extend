@@ -9,6 +9,12 @@
 
 Extend MLflow's functionality.
 
+## Installation
+
+```bash
+pip install mlflow-extend
+```
+
 ## Examples
 
 ```python
@@ -43,14 +49,14 @@ with mlflow.start_run():
     mlflow.log_confusion_matrix([[1, 2], [3, 4]])
 ```
 
-## Lint
+## Run Lint
 
 ```bash
 # Run lint checking with black and flake8.
 ./dev/lint.sh
 ```
 
-## Test
+## Run Test
 
 ```bash
 # Run all the tests.
