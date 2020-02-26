@@ -76,12 +76,12 @@ pip install -r requirements.txt -r requirements-dev.txt
 
 ## Building Documentation
 
-The generated files will be in `docs/build/html`.
-
 ```bash
 cd docs
 make html
 
-# Build docs after removing everything under 'build'.
+# Remove everything under 'docs/build' and run 'make html'.
 make clean html
 ```
+
+The generated files will be stored in `docs/build/html`. Open `docs/build/html/index.html` on the browser to check if the documentation is built properly.
