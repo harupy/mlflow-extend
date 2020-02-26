@@ -13,9 +13,16 @@ Extend MLflow's functionality.
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from mlflow_extend import mlflow
+
+from mlflow_jextend import mlflow
 
 with mlflow.start_run():
+    # mlflow native APIs
+    mlflow.log_param('param', 0)
+    mlflow.log_metric('metric', 1.0)
+
+    ##### new APIs mlflow_extend provides ####
+
     # dict
     mlflow.log_dict({'a': 0}, 'dict.json')
 
@@ -29,6 +36,9 @@ with mlflow.start_run():
     fig, ax = plt.subplots()
     ax.plot([0, 1], [0, 1])
     mlflow.log_figure(fig, 'figure.png')
+
+    # confusion matrix
+    mlflow.log_confusion_matrix([[1, 2], [3, 4]])
 ```
 
 ## Lint
@@ -44,6 +54,13 @@ with mlflow.start_run():
 # Run all the tests.
 ./dev/test.sh
 
-# Save figures generated during the tests to .pytest_basetemp.
+# Save figures generated during the tests to ".pytest_basetemp".
 ./dev/test.sh --savefig
+```
+
+## Build Documentation
+
+```bash
+cd docs
+make html  # or make clean html
 ```
