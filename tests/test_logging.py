@@ -82,3 +82,29 @@ def test_log_feature_importance_with_normalize():
     with mlflow.start_run() as run:
         lg.log_feature_importance(["a", "b", "c"], [1, 2, 3], "gain", normalize=True)
         assert_file_exists_in_artifacts(run, "feature_importance.png")
+
+
+@pytest.mark.parametrize("path", [None, "roc.png"])
+def test_log_roc_curve(path):
+    with mlflow.start_run() as run:
+        lg.log_roc_curve([1, 2, 3], [1, 2, 3], path=path)
+        assert_file_exists_in_artifacts(run, path or "roc_curve.png")
+
+
+def test_log_roc_curve_with_auc():
+    with mlflow.start_run() as run:
+        lg.log_roc_curve([1, 2, 3], [1, 2, 3], 0.5)
+        assert_file_exists_in_artifacts(run, "roc_curve.png")
+
+
+@pytest.mark.parametrize("path", [None, "roc.png"])
+def test_log_pr_curve(path):
+    with mlflow.start_run() as run:
+        lg.log_pr_curve([1, 2, 3], [1, 2, 3], path=path)
+        assert_file_exists_in_artifacts(run, path or "pr_curve.png")
+
+
+def test_log_pr_curve_with_auc():
+    with mlflow.start_run() as run:
+        lg.log_pr_curve([1, 2, 3], [1, 2, 3], 0.5)
+        assert_file_exists_in_artifacts(run, "pr_curve.png")

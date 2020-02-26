@@ -219,3 +219,53 @@ def log_feature_importance(features, importances, importance_type, path=None, **
     path = "feature_importance.png" if path is None else path
     fig = mplt.feature_importance(features, importances, importance_type, **kwargs)
     log_figure(fig, path)
+
+
+def log_roc_curve(fpr, tpr, auc=None, path=None):
+    """
+    Log ROC curve as an artifact.
+
+    Parameters
+    ----------
+    fpr : array-like
+        False positive rate.
+    tpr : array-like
+        True positive rate.
+    auc : float, default None
+        Area under the curve.
+    path : str, default None
+        Path in the artifact store.
+
+    Returns
+    -------
+    None
+
+    """
+    path = "roc_curve.png" if path is None else path
+    fig = mplt.roc_curve(fpr, tpr, auc)
+    log_figure(fig, path)
+
+
+def log_pr_curve(pre, rec, auc=None, path=None):
+    """
+    Log precision-recall curve as an artifact.
+
+    Parameters
+    ----------
+    pre : array-like
+        Precision.
+    rec : array-like
+        Recall.
+    auc : float, default None
+        Area under the curve.
+    path : str, default None
+        Path in the artifact store.
+
+    Returns
+    -------
+    None
+
+    """
+    path = "pr_curve.png" if path is None else path
+    fig = mplt.pr_curve(pre, rec, auc)
+    log_figure(fig, path)
