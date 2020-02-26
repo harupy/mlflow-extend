@@ -41,12 +41,12 @@ def corr_matrix(corr):
 
 def confusion_matrix(cm, labels=None, normalize=True):
     """
-    Plot correlation matrix.
+    Plot confusion matrix.
 
     Parameters
     ----------
     cm : array-like
-        Correlation matrix.
+        Confusion matrix.
     labels : list of str, default None
         Label names.
     normalize : bool, default True
