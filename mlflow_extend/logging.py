@@ -1,8 +1,10 @@
 import os
 import json
 import yaml
+import pickle
 import tempfile
 from contextlib import contextmanager
+
 import numpy as np
 import matplotlib.pyplot as plt
 import mlflow
@@ -97,6 +99,23 @@ def log_dict(dct, path, fmt=None):
 
             if fmt in ["yaml", "yml"]:
                 yaml.dump(dct, f, default_flow_style=False)
+
+
+def log_pickle(obj, path):
+    """
+    Log a pickled object as an artifact.
+
+    Parameters
+    ----------
+    obj : object
+        Picklable object.
+    path : str
+        Path in the artifact store.
+
+    """
+    with _artifact_context(path) as tmp_path:
+        with open(tmp_path, mode="wb") as f:
+            pickle.dump(obj, f)
 
 
 def log_df(df, path, fmt="csv"):
