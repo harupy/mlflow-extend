@@ -24,10 +24,10 @@ def test_artifact_context(path):
 
 
 def test_log_figure():
-    path = "test.png"
     fig, ax = plt.subplots()
     ax.plot([0, 1], [0, 1])
     with mlflow.start_run() as run:
+        path = "test.png"
         lg.log_figure(fig, path)
         assert_file_exists_in_artifacts(run, path)
 
@@ -56,29 +56,29 @@ def test_log_dict_with_fmt(fmt):
 
 @pytest.mark.parametrize("fmt", ["csv", "feather"])
 def test_log_df(fmt):
-    path = "test.csv"
     with mlflow.start_run() as run:
+        path = "test.csv"
         lg.log_df(pd.DataFrame({"a": [0]}), path, fmt)
         assert_file_exists_in_artifacts(run, path)
 
 
 def test_log_text():
-    path = "test.txt"
     with mlflow.start_run() as run:
+        path = "test.txt"
         lg.log_text("test", path)
         assert_file_exists_in_artifacts(run, path)
 
 
 def test_log_numpy():
-    path = "test.npy"
     with mlflow.start_run() as run:
+        path = "test.npy"
         lg.log_numpy(np.array([0]), path)
         assert_file_exists_in_artifacts(run, path)
 
 
 def test_log_confusion_matrix():
-    default_path = get_default_args(lg.log_confusion_matrix)["path"]
     with mlflow.start_run() as run:
+        default_path = get_default_args(lg.log_confusion_matrix)["path"]
         lg.log_confusion_matrix([[1, 2], [3, 4]])
         assert_file_exists_in_artifacts(run, default_path)
 
@@ -106,8 +106,8 @@ def test_log_feature_importance():
 
 @pytest.mark.parametrize("limit", [2, 3, 4])
 def test_log_feature_importance_with_limit(limit):
-    default_path = get_default_args(lg.log_feature_importance)["path"]
     with mlflow.start_run() as run:
+        default_path = get_default_args(lg.log_feature_importance)["path"]
         lg.log_feature_importance(["a", "b", "c"], [1, 2, 3], "gain", limit=limit)
         assert_file_exists_in_artifacts(run, default_path)
 
