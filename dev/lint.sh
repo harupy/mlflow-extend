@@ -10,6 +10,9 @@ if [ ! "$python_ver" == "3.5" ]; then
   exit_code=$(( $? | $exit_code ))
 fi
 
+isort --check-only
+exit_code=$(( $? | $exit_code ))
+
 flake8 tests mlflow_extend
 exit_code=$(( $? | $exit_code ))
 
