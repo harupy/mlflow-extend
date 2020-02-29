@@ -6,3 +6,4 @@ Welcome to mlflow-extend's documentation!
    :caption: Contents:
 
    reference/index.rst
+   examples/index.rst
