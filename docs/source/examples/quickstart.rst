@@ -10,4 +10,4 @@ How to run:
 Source code:
 
 .. literalinclude:: /../../examples/quickstart.py
-   :language: python
+    :language: python
