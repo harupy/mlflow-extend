@@ -1,11 +1,15 @@
+from typing import Optional
+
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+from mlflow_extend.typing import ArrayLike
+
 sns.set()
 
 
-def corr_matrix(corr):
+def corr_matrix(corr: ArrayLike) -> plt.Figure:
     """
     Plot correlation matrix.
 
@@ -39,7 +43,9 @@ def corr_matrix(corr):
     return fig
 
 
-def confusion_matrix(cm, labels=None, normalize=True):
+def confusion_matrix(
+    cm: ArrayLike, labels: Optional[ArrayLike] = None, normalize: bool = True
+) -> plt.Figure:
     """
     Plot confusion matrix.
 
@@ -83,8 +89,12 @@ def confusion_matrix(cm, labels=None, normalize=True):
 
 
 def feature_importance(
-    features, importances, importance_type, limit=None, normalize=False
-):
+    features: ArrayLike,
+    importances: ArrayLike,
+    importance_type: str,
+    limit: Optional[int] = None,
+    normalize: bool = False,
+) -> plt.Figure:
     """
     Plot feature importance.
 
@@ -129,7 +139,9 @@ def feature_importance(
     return fig
 
 
-def roc_curve(fpr, tpr, auc=None):
+def roc_curve(
+    fpr: ArrayLike, tpr: ArrayLike, auc: Optional[float] = None
+) -> plt.Figure:
     """
     Plot ROC curve.
 
@@ -159,7 +171,7 @@ def roc_curve(fpr, tpr, auc=None):
     return fig
 
 
-def pr_curve(pre, rec, auc=None):
+def pr_curve(pre: ArrayLike, rec: ArrayLike, auc: Optional[float] = None) -> plt.Figure:
     """
     Plot precision-recall curve.
 

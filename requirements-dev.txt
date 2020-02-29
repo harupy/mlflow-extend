@@ -2,6 +2,9 @@
 flake8
 black; python_version >= '3.6'
 
+# Type checking
+mypy
+
 # Test
 pytest
 pytest-cov

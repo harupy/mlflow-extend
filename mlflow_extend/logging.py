@@ -4,12 +4,16 @@ import yaml
 import pickle
 import tempfile
 from contextlib import contextmanager
+from typing import Optional, Any, Generator
 
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 import mlflow
 
 import mlflow_extend.plotting as mplt
+from mlflow_extend.typing import ArrayLike
+
 
 __all__ = [
     "log_figure",
@@ -25,7 +29,7 @@ __all__ = [
 
 
 @contextmanager
-def _artifact_context(path):
+def _artifact_context(path: str) -> Generator[str, None, None]:
     with tempfile.TemporaryDirectory() as tmpdir:
         path = os.path.normpath(path)
         dirname = os.path.dirname(path)
@@ -36,7 +40,7 @@ def _artifact_context(path):
         mlflow.log_artifact(path, artifact_path)
 
 
-def log_figure(fig, path):
+def log_figure(fig: plt.Figure, path: str) -> None:
     """
     Log a matplotlib figure as an artifact.
 
@@ -64,7 +68,7 @@ def log_figure(fig, path):
         plt.close(fig)
 
 
-def log_dict(dct, path, fmt=None):
+def log_dict(dct: dict, path: str, fmt: Optional[str] = None) -> None:
     """
     Log a dictionary as an artifact.
 
@@ -90,7 +94,7 @@ def log_dict(dct, path, fmt=None):
     ...     mlflow.log_dict(d, 'dict.yml')
 
     """
-    fmt = os.path.splitext(path)[1:] if fmt is None else fmt
+    fmt = os.path.splitext(path)[-1] if fmt is None else fmt
 
     with _artifact_context(path) as tmp_path:
         with open(tmp_path, "w") as f:
@@ -101,7 +105,7 @@ def log_dict(dct, path, fmt=None):
                 yaml.dump(dct, f, default_flow_style=False)
 
 
-def log_pickle(obj, path):
+def log_pickle(obj: Any, path: str) -> None:
     """
     Log a pickled object as an artifact.
 
@@ -118,7 +122,7 @@ def log_pickle(obj, path):
             pickle.dump(obj, f)
 
 
-def log_df(df, path, fmt="csv"):
+def log_df(df: pd.DataFrame, path: str, fmt: str = "csv") -> None:
     """
     Log a dataframe as an artifact.
 
@@ -150,7 +154,7 @@ def log_df(df, path, fmt="csv"):
             raise ValueError("Invalid format: {}.".format(fmt))
 
 
-def log_text(text, path):
+def log_text(text: str, path: str) -> None:
     """
     Log a text as an artifact.
 
@@ -176,7 +180,7 @@ def log_text(text, path):
             f.write(text)
 
 
-def log_numpy(arr, path):
+def log_numpy(arr: np.ndarray, path: str) -> None:
     """
     Log a numpy array as an artifact.
 
@@ -201,7 +205,7 @@ def log_numpy(arr, path):
         np.save(tmp_path, arr)
 
 
-def log_confusion_matrix(cm, path="confusion_matrix.png"):
+def log_confusion_matrix(cm: ArrayLike, path: str = "confusion_matrix.png") -> None:
     """
     Log a confusion matrix as an artifact.
 
@@ -227,8 +231,13 @@ def log_confusion_matrix(cm, path="confusion_matrix.png"):
 
 
 def log_feature_importance(
-    features, importances, importance_type, path="feature_importance.png", **kwargs
-):
+    features: ArrayLike,
+    importances: ArrayLike,
+    importance_type: str,
+    limit: Optional[int] = None,
+    normalize: bool = False,
+    path: str = "feature_importance.png",
+) -> None:
     """
     Log feature importance as an artifact.
 
@@ -257,11 +266,18 @@ def log_feature_importance(
     ...     mlflow.log_feature_importance(features, importances, 'gain')
 
     """
-    fig = mplt.feature_importance(features, importances, importance_type, **kwargs)
+    fig = mplt.feature_importance(
+        features, importances, importance_type, limit, normalize
+    )
     log_figure(fig, path)
 
 
-def log_roc_curve(fpr, tpr, auc=None, path="roc_curve.png"):
+def log_roc_curve(
+    fpr: ArrayLike,
+    tpr: ArrayLike,
+    auc: Optional[float] = None,
+    path: str = "roc_curve.png",
+) -> None:
     """
     Log ROC curve as an artifact.
 
@@ -290,7 +306,12 @@ def log_roc_curve(fpr, tpr, auc=None, path="roc_curve.png"):
     log_figure(fig, path)
 
 
-def log_pr_curve(pre, rec, auc=None, path="pr_curve.png"):
+def log_pr_curve(
+    pre: ArrayLike,
+    rec: ArrayLike,
+    auc: Optional[float] = None,
+    path: str = "pr_curve.png",
+) -> None:
     """
     Log precision-recall curve as an artifact.
 

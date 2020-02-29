@@ -100,7 +100,7 @@ def test_log_feature_importance():
 
     with mlflow.start_run() as run:
         path = "feat_imp.png"
-        lg.log_feature_importance(["a", "b", "c"], [1, 2, 3], "gain", path)
+        lg.log_feature_importance(["a", "b", "c"], [1, 2, 3], "gain", path=path)
         assert_file_exists_in_artifacts(run, path)
 
 
