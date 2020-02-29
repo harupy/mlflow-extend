@@ -21,7 +21,7 @@ def corr_matrix(corr: ArrayLike) -> plt.Figure:
     Returns
     -------
     matplotlib.pyplot.Figure
-        Matplotlib figure instance.
+        Figure object.
 
 
     Examples
@@ -72,7 +72,7 @@ def confusion_matrix(
     Returns
     -------
     matplotlib.pyplot.Figure
-        Matplotlib figure instance.
+        Figure object.
 
     Examples
     --------
@@ -136,7 +136,7 @@ def feature_importance(
     Returns
     -------
     matplotlib.pyplot.Figure
-        Matplotlib figure instance.
+        Figure object.
 
     Examples
     --------
@@ -190,7 +190,7 @@ def roc_curve(
     Returns
     -------
     matplotlib.pyplot.Figure
-        Matplotlib figure instance.
+        Figure object.
 
     Examples
     --------
@@ -230,7 +230,7 @@ def pr_curve(pre: ArrayLike, rec: ArrayLike, auc: Optional[float] = None) -> plt
     Returns
     -------
     matplotlib.pyplot.Figure
-        Matplotlib figure instance.
+        Figure object.
 
     Examples
     --------
