@@ -1,6 +1,7 @@
 import os
-from setuptools import setup, find_packages
 from typing import List
+
+from setuptools import find_packages, setup
 
 import mlflow_extend
 

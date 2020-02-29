@@ -1,7 +1,7 @@
 from typing import Optional
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 import seaborn as sns
 
 from mlflow_extend.typing import ArrayLike
