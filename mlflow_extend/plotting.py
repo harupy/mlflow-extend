@@ -92,7 +92,7 @@ def feature_importance(
     features: ArrayLike,
     importances: ArrayLike,
     importance_type: str,
-    limit: Optional[int],
+    limit: Optional[int] = None,
     normalize: bool = False,
 ) -> plt.Figure:
     """

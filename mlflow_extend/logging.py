@@ -122,7 +122,7 @@ def log_pickle(obj: Any, path: str) -> None:
             pickle.dump(obj, f)
 
 
-def log_df(df: pd.DataFrame, path: str, fmt: Optional[str] = "csv") -> None:
+def log_df(df: pd.DataFrame, path: str, fmt: str = "csv") -> None:
     """
     Log a dataframe as an artifact.
 
