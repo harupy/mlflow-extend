@@ -23,7 +23,6 @@ def corr_matrix(corr: ArrayLike) -> plt.Figure:
     matplotlib.pyplot.Figure
         Figure object.
 
-
     Examples
     --------
     .. plot::
