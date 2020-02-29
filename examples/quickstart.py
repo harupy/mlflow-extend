@@ -11,6 +11,10 @@ def main():
         mlflow.log_param("param", 0)
         mlflow.log_metric("metric", 1.0)
 
+        # flatten
+        mlflow.log_params_flatten({"a": {"b": 0}})
+        mlflow.log_metrics_flatten({"a": {"b": 0.0}})
+
         # dict
         mlflow.log_dict({"a": 0}, "dict.json")
 
