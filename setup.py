@@ -1,5 +1,6 @@
 import os
 from setuptools import setup, find_packages
+from typing import List
 
 import mlflow_extend
 
@@ -7,12 +8,12 @@ ROOT = os.path.abspath(os.path.dirname(__file__))
 
 
 # Use README.md as a long description.
-def get_long_description():
+def get_long_description() -> str:
     with open(os.path.join(ROOT, "README.md"), encoding="utf-8") as f:
         return f.read()
 
 
-def get_install_requires():
+def get_install_requires() -> List[str]:
     with open(os.path.join(ROOT, "requirements.txt"), encoding="utf-8") as f:
         return [
             l.strip()

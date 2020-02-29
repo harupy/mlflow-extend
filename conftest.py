@@ -3,14 +3,18 @@ Make sure this file is in the project root so that pytest adds the root to PYTHO
 when running the tests.
 """
 
+import py
 import pytest
+import _pytest
+from typing import Generator
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import mlflow_extend.mlflow
 
 
-def pytest_addoption(parser):
+def pytest_addoption(parser: _pytest.config.argparsing.Parser) -> None:
     parser.addoption(
         "--savefig",
         action="store_true",
@@ -20,7 +24,7 @@ def pytest_addoption(parser):
 
 
 @pytest.fixture(autouse=True)
-def inject_items_into_doctest_namespace(doctest_namespace):
+def inject_items_into_doctest_namespace(doctest_namespace: dict) -> None:
     doctest_namespace["np"] = np
     doctest_namespace["pd"] = pd
     doctest_namespace["plt"] = plt
@@ -28,7 +32,9 @@ def inject_items_into_doctest_namespace(doctest_namespace):
 
 
 @pytest.fixture(scope="function", autouse=True)
-def save_figure(request, tmpdir):
+def save_figure(
+    request: _pytest.fixtures.FixtureRequest, tmpdir: py._path.local.LocalPath
+) -> Generator[None, None, None]:
     """
     Save a matplotlib figure when "--savefig" is enabled.
     """
@@ -38,7 +44,7 @@ def save_figure(request, tmpdir):
 
 
 @pytest.fixture(scope="function", autouse=True)
-def close_figures():
+def close_figures() -> Generator[None, None, None]:
     """
     Close all matplotlib figures.
     """
