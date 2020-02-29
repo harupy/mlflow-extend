@@ -122,7 +122,7 @@ git push origin v1.2.3
 
 3. Open [the release page](https://github.com/harupy/mlflow-extend/releases) and create a new release.
 
-4) Upload distribution archives to PyPI using [twine](https://github.com/pypa/twine#using-twine).
+4. Upload distribution archives to PyPI using [twine](https://github.com/pypa/twine#using-twine).
 
 ```bash
 # Remove old distribution archives.
