@@ -61,14 +61,14 @@ conda activate mlflow-extend
 pip install -r requirements.txt -r requirements-dev.txt
 ```
 
-## Running Lint
+## Running Lint Check
 
 ```bash
-# Run lint checking with black and flake8.
+# Run lint checking with black, isort, and flake8.
 ./dev/lint.sh
 ```
 
-## Running type check
+## Running Type Check
 
 ```bash
 mypy .

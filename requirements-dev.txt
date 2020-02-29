@@ -1,6 +1,7 @@
 # Lint & Formatting
 flake8
 black; python_version >= '3.6'
+isort
 
 # Type checking
 mypy

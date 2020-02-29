@@ -1,20 +1,19 @@
-import os
 import json
-import yaml
+import os
 import pickle
 import tempfile
 from contextlib import contextmanager
-from typing import Optional, Any, Generator
+from typing import Any, Generator, Optional
 
-import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 import mlflow
+import numpy as np
+import pandas as pd
+import yaml
 
 import mlflow_extend.plotting as mplt
-from mlflow_extend.utils import flatten_dict
 from mlflow_extend.typing import ArrayLike
-
+from mlflow_extend.utils import flatten_dict
 
 __all__ = [
     "log_params_flatten",

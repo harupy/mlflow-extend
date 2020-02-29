@@ -18,7 +18,8 @@
 # -- Project information -----------------------------------------------------
 
 from datetime import datetime
-import sphinx_rtd_theme
+
+import sphinx_rtd_theme  # noqa
 
 project = "mlflow-extend"
 copyright = "{}, harupy".format(datetime.utcnow().year)

@@ -1,6 +1,7 @@
+import inspect
 import os
 import subprocess
-import inspect
+
 import mlflow
 
 

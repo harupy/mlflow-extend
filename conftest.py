@@ -3,14 +3,15 @@ Make sure this file is in the project root so that pytest adds the root to PYTHO
 when running the tests.
 """
 
-import py
-import pytest
-import _pytest
 from typing import Generator
 
+import _pytest
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
+import py
+import pytest
+
 import mlflow_extend.mlflow
 
 
