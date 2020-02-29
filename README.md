@@ -64,6 +64,12 @@ pip install -r requirements.txt -r requirements-dev.txt
 ./dev/lint.sh
 ```
 
+## Type Checking
+
+```bash
+mypy .
+```
+
 ## Running Test
 
 ```bash
