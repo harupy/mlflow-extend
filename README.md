@@ -64,7 +64,7 @@ pip install -r requirements.txt -r requirements-dev.txt
 ## Running Lint
 
 ```bash
-# Run lint checking with black and flake8.
+# Run lint checking with black, isort, and flake8.
 ./dev/lint.sh
 ```
 
