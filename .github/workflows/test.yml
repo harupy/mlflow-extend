@@ -40,10 +40,12 @@ jobs:
           pip install -r requirements.txt -r requirements-dev.txt
 
       - name: Run lint
+        # Variable annotation syntax is not supported in Python 3.5.
         if: matrix.python-version != 3.5
         run: ./dev/lint.sh
 
       - name: Run type check
+        if: matrix.python-version != 3.5
         run: mypy .
 
       - name: Run tests
