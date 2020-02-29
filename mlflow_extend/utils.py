@@ -12,7 +12,7 @@ def flatten_dict(dct: dict, parent_key: str = "", sep: str = ".") -> dict:
     parent_key : str, default ""
         Parent key.
     sep : str, default "."
-        String to join keys with.
+        Key separator.
 
     Examples
     --------
