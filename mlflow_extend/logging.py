@@ -64,8 +64,8 @@ def log_params_flatten(params: dict, parent_key: str = "", sep: str = ".") -> No
     ...     mlflow.log_params_flatten(params, parent_key="d")
     ...     mlflow.log_params_flatten(params, sep="_")
     >>> r = mlflow.get_run(run.info.run_id)
-    >>> r.data.params
-    {'d.a.b': '0', 'a.b': '0', 'a_b': '0'}
+    >>> sorted(r.data.params.items())
+    [('a.b', '0'), ('a_b', '0'), ('d.a.b', '0')]
 
     """
     mlflow.log_params(flatten_dict(params, parent_key, sep))
@@ -96,8 +96,8 @@ def log_metrics_flatten(
     ...     mlflow.log_metrics_flatten(metrics, parent_key="d")
     ...     mlflow.log_metrics_flatten(metrics, sep="_")
     >>> r = mlflow.get_run(run.info.run_id)
-    >>> r.data.metrics
-    {'d.a.b': 0.0, 'a.b': 0.0, 'a_b': 0.0}
+    >>> sorted(r.data.metrics.items())
+    [('a.b', 0.0), ('a_b', 0.0), ('d.a.b', 0.0)]
 
     """
     mlflow.log_metrics(flatten_dict(metrics, parent_key, sep), step)
