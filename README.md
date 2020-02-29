@@ -109,8 +109,8 @@ The generated files will be stored in `docs/build/html`. Open `docs/build/html/i
 1. Make a pull request to update `__version__` in `mlflow-extend/version.py` to the next version.
 
 ```diff
-- __version__ = "1.2.2"
-+ __version__ = "1.2.3"
+- __version__ = "1.2.2"  # current version
++ __version__ = "1.2.3"  # new version
 ```
 
 2. After the pull request is merged, create a new tag and push it to the remote.
