@@ -1,4 +1,3 @@
-
 def flatten_dict(dct: dict, parent_key: str = "", sep: str = ".") -> dict:
     """
     Flatten a nested dictionary.
