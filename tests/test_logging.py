@@ -25,18 +25,24 @@ def test_artifact_context(path):
 
 def test_log_params_flatten():
     with mlflow.start_run() as run:
-        lg.log_params_flatten({"a": {"b": 0}})
+        params = {"a": {"b": 0}}
+        lg.log_params_flatten(params)
+        lg.log_params_flatten(params, parent_key="d")
+        lg.log_params_flatten(params, sep="_")
 
     loaded_run = mlflow.get_run(run.info.run_id)
-    assert loaded_run.data.params == {"a.b": "0"}
+    assert loaded_run.data.params == {"a.b": "0", "a_b": "0", "d.a.b": "0"}
 
 
 def test_log_metrics_flatten():
     with mlflow.start_run() as run:
-        lg.log_metrics_flatten({"a": {"b": 0.0}})
+        metrics = {"a": {"b": 0.0}}
+        lg.log_metrics_flatten(metrics)
+        lg.log_metrics_flatten(metrics, parent_key="d")
+        lg.log_metrics_flatten(metrics, sep="_")
 
     loaded_run = mlflow.get_run(run.info.run_id)
-    assert loaded_run.data.metrics == {"a.b": 0.0}
+    assert loaded_run.data.metrics == {"a.b": 0.0, "a_b": 0.0, "d.a.b": 0.0}
 
 
 def test_log_figure():
