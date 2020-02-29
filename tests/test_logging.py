@@ -23,6 +23,22 @@ def test_artifact_context(path):
         assert_file_exists_in_artifacts(run, path)
 
 
+def test_log_params_flatten():
+    with mlflow.start_run() as run:
+        lg.log_params_flatten({"a": {"b": 0}})
+
+    loaded_run = mlflow.get_run(run.info.run_id)
+    assert loaded_run.data.params == {"a.b": "0"}
+
+
+def test_log_metrics_flatten():
+    with mlflow.start_run() as run:
+        lg.log_metrics_flatten({"a": {"b": 0.0}})
+
+    loaded_run = mlflow.get_run(run.info.run_id)
+    assert loaded_run.data.metrics == {"a.b": 0.0}
+
+
 def test_log_figure():
     fig, ax = plt.subplots()
     ax.plot([0, 1], [0, 1])
