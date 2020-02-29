@@ -61,11 +61,13 @@ plot_html_show_source_link = False
 
 # Code that should be executed before each plot.
 plot_pre_code = """
-from mlflow_extend.plotting import *
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+
+from mlflow_extend.plotting import *
+
 sns.set()
 """
 
