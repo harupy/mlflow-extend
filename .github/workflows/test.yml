@@ -42,7 +42,7 @@ jobs:
       - name: Run lint
         run: ./dev/lint.sh
 
-      - name: Type checking
+      - name: Run type check
         run: mypy .
 
       - name: Run tests
