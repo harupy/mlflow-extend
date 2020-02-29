@@ -26,7 +26,6 @@ def flatten_dict(dct: dict, parent_key: str = "", sep: str = ".") -> dict:
     {'a_b': 'c'}
 
     """
-
     items: List[Tuple[str, Any]] = []
     for k, v in dct.items():
         new_key = parent_key + sep + k if parent_key else k
