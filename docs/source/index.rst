@@ -5,5 +5,6 @@ Welcome to mlflow-extend's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   reference/index.rst
-   examples/index.rst
+   installation
+   reference/index
+   examples/index
