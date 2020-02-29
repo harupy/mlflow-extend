@@ -11,8 +11,16 @@ Extend MLflow's functionality.
 
 ## Installation
 
+From PyPI
+
 ```bash
 pip install mlflow-extend
+```
+
+From GitHub (development version)
+
+```
+pip install git+https://github.com/harupy/mlflow-extend.git
 ```
 
 ## Examples
