@@ -110,7 +110,7 @@ The generated files will be stored in `docs/build/html`. Open `docs/build/html/i
 
 ```diff
 - __version__ = "1.2.2"  # current version
-+ __version__ = "1.2.3"  # new version
++ __version__ = "1.2.3"  # next version
 ```
 
 2. After the pull request is merged, create a new tag and push it to the remote.
