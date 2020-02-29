@@ -12,10 +12,13 @@ import matplotlib.pyplot as plt
 import mlflow
 
 import mlflow_extend.plotting as mplt
+from mlflow_extend.utils import flatten_dict
 from mlflow_extend.typing import ArrayLike
 
 
 __all__ = [
+    "log_params_flatten",
+    "log_metrics_flatten",
     "log_figure",
     "log_dict",
     "log_df",
@@ -38,6 +41,66 @@ def _artifact_context(path: str) -> Generator[str, None, None]:
         path = os.path.join(tmpdir, filename)
         yield path
         mlflow.log_artifact(path, artifact_path)
+
+
+def log_params_flatten(params: dict, parent_key: str = "", sep: str = ".") -> None:
+    """
+    Log a batch of params after flattening.
+
+    Parameters
+    ----------
+    params : dict
+        Dictionary of parameters to log.
+    parent_key : str, default ""
+        Parent key.
+    sep : str, default "."
+        Key separator.
+
+    Examples
+    --------
+    >>> with mlflow.start_run() as run:
+    ...     params = {"a": {"b": 0}}
+    ...     mlflow.log_params_flatten(params)
+    ...     mlflow.log_params_flatten(params, parent_key="d")
+    ...     mlflow.log_params_flatten(params, sep="_")
+    >>> r = mlflow.get_run(run.info.run_id)
+    >>> sorted(r.data.params.items())
+    [('a.b', '0'), ('a_b', '0'), ('d.a.b', '0')]
+
+    """
+    mlflow.log_params(flatten_dict(params, parent_key, sep))
+
+
+def log_metrics_flatten(
+    metrics: dict, step: Optional[int] = None, parent_key: str = "", sep: str = ".",
+) -> None:
+    """
+    Log a batch of params after flattening.
+
+    Parameters
+    ----------
+    metrics : dict
+        Dictionary of metrics to log.
+    step : int, default None
+        Metric step. Defaults to zero if unspecified.
+    parent_key : str, default ""
+        Parent key.
+    sep : str, default "."
+        Key separator.
+
+    Examples
+    --------
+    >>> with mlflow.start_run() as run:
+    ...     metrics = {"a": {"b": 0.0}}
+    ...     mlflow.log_metrics_flatten(metrics)
+    ...     mlflow.log_metrics_flatten(metrics, parent_key="d")
+    ...     mlflow.log_metrics_flatten(metrics, sep="_")
+    >>> r = mlflow.get_run(run.info.run_id)
+    >>> sorted(r.data.metrics.items())
+    [('a.b', 0.0), ('a_b', 0.0), ('d.a.b', 0.0)]
+
+    """
+    mlflow.log_metrics(flatten_dict(metrics, parent_key, sep), step)
 
 
 def log_figure(fig: plt.Figure, path: str) -> None:

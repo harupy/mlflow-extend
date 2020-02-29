@@ -31,6 +31,10 @@ with mlflow.start_run():
 
     ##### new APIs mlflow_extend provides #####
 
+    # flatten dict
+    mlflow.log_params_flatten({"a": {"b": 0}})
+    mlflow.log_metrics_flatten({"a": {"b": 0.0}})
+
     # dict
     mlflow.log_dict({'a': 0}, 'dict.json')
 
