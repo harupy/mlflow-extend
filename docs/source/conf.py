@@ -42,6 +42,9 @@ extensions = [
     "matplotlib.sphinxext.plot_directive",
 ]
 
+# Hide type hints.
+autodoc_typehints = "none"
+
 # Options for plot directive.
 
 # Default value for the include-source option.
