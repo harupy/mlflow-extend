@@ -23,6 +23,17 @@ def corr_matrix(corr: ArrayLike) -> plt.Figure:
     matplotlib.pyplot.Figure
         Matplotlib figure instance.
 
+
+    Examples
+    --------
+    .. plot::
+        :context: close-figs
+
+        >>> df = pd.DataFrame([(0.2, 0.3), (0.0, 0.6), (0.6, 0.0), (0.2, 0.1)],
+        ...                   columns=['dogs', 'cats'])
+        >>> corr_matrix(df.corr())  # doctest: +ELLIPSIS
+        <Figure ... with 2 Axes>
+
     """
     fig, ax = plt.subplots()
     mask = np.zeros_like(corr, dtype=np.bool)
@@ -62,6 +73,17 @@ def confusion_matrix(
     -------
     matplotlib.pyplot.Figure
         Matplotlib figure instance.
+
+    Examples
+    --------
+    .. plot::
+        :context: close-figs
+
+        >>> cm = [[2, 0, 0],
+        ...       [0, 0, 1],
+        ...       [1, 0, 2]]
+        >>> confusion_matrix(cm)  # doctest: +ELLIPSIS
+        <Figure ... with 2 Axes>
 
     """
     cm = np.array(cm)
@@ -116,6 +138,17 @@ def feature_importance(
     matplotlib.pyplot.Figure
         Matplotlib figure instance.
 
+    Examples
+    --------
+    .. plot::
+        :context: close-figs
+
+        >>> features = ["a", "b", "c"]
+        >>> importances = [1, 2, 3]
+        >>> importance_type = "gain"
+        >>> feature_importance(features, importances, importance_type)  # doctest: +ELLIPSIS
+        <Figure ... with 1 Axes>
+
     """
     features = np.array(features)
     importances = np.array(importances)
@@ -159,6 +192,16 @@ def roc_curve(
     matplotlib.pyplot.Figure
         Matplotlib figure instance.
 
+    Examples
+    --------
+    .. plot::
+        :context: close-figs
+
+        >>> fpr = np.linspace(0, 1, 11)
+        >>> tpr = -((fpr - 1) ** 2) + 1
+        >>> roc_curve(fpr, tpr)  # doctest: +ELLIPSIS
+        <Figure ... with 1 Axes>
+
     """
     fig, ax = plt.subplots()
     ax.plot(fpr, tpr)
@@ -189,7 +232,18 @@ def pr_curve(pre: ArrayLike, rec: ArrayLike, auc: Optional[float] = None) -> plt
     matplotlib.pyplot.Figure
         Matplotlib figure instance.
 
+    Examples
+    --------
+    .. plot::
+        :context: close-figs
+
+        >>> rec = np.linspace(0, 1, 11)
+        >>> pre = -(rec ** 2) + 1
+        >>> pr_curve(pre, rec)  # doctest: +ELLIPSIS
+        <Figure ... with 1 Axes>
+
     """
+
     fig, ax = plt.subplots()
     ax.plot(rec, pre)
     ax.set_xlabel("Recall")

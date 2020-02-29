@@ -39,7 +39,32 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx.ext.napoleon",
     "sphinx_rtd_theme",
+    "matplotlib.sphinxext.plot_directive",
 ]
+
+# Options for plot directive.
+
+# Default value for the include-source option.
+plot_include_source = True
+
+# File formats to generate. List of tuples or strings:
+plot_formats = [("png", 90)]
+
+# Whether to show links to the files in HTML.
+plot_html_show_formats = False
+
+# Whether to show a link to the source in HTML.
+plot_html_show_source_link = False
+
+# Code that should be executed before each plot.
+plot_pre_code = """
+from mlflow_extend.plotting import *
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+sns.set()
+"""
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
