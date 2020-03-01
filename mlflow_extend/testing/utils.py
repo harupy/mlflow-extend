@@ -55,3 +55,10 @@ def assert_file_exists_in_artifacts(run, path):
     """
     artifacts = _list_artifacts(run.info.run_id)
     assert path in artifacts
+
+
+def assert_new_apis_do_not_conflict_native_apis(module):
+    """
+    Assert new APIs mlflow_extend provides don't conflict the MLflow native APIs.
+    """
+    assert all(new_api not in mlflow.__all__ for new_api in module.__all__)

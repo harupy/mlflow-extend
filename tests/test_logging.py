@@ -7,12 +7,13 @@ from matplotlib import pyplot as plt
 from mlflow_extend import logging as lg
 from mlflow_extend.testing.utils import (
     assert_file_exists_in_artifacts,
+    assert_new_apis_do_not_conflict_native_apis,
     get_default_args,
 )
 
 
 def test_new_apis_do_not_conflict_native_apis():
-    assert all(new_api not in mlflow.__all__ for new_api in lg.__all__)
+    assert_new_apis_do_not_conflict_native_apis(lg)
 
 
 @pytest.mark.parametrize("path", ["test.txt", "dir/test.txt", "dir/dir/test.txt"])

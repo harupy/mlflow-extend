@@ -1,10 +1,11 @@
 import mlflow
 
 from mlflow_extend import experiment as exp
+from mlflow_extend.testing.utils import assert_new_apis_do_not_conflict_native_apis
 
 
 def test_new_apis_do_not_conflict_native_apis():
-    assert all((new_api not in mlflow.__all__) for new_api in exp.__all__)
+    assert_new_apis_do_not_conflict_native_apis(exp)
 
 
 def test_get_or_create_experiment():
