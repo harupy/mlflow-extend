@@ -10,7 +10,7 @@ if [ ! "$python_ver" == "3.5" ]; then
   exit_code=$(( $? | $exit_code ))
 fi
 
-isort --check-only
+isort --check-only .
 exit_code=$(( $? | $exit_code ))
 
 flake8 .
