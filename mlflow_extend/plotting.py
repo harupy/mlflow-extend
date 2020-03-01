@@ -8,6 +8,14 @@ from mlflow_extend.typing import ArrayLike
 
 sns.set()
 
+__all__ = [
+    "corr_matrix",
+    "confusion_matrix",
+    "feature_importance",
+    "roc_curve",
+    "pr_curve",
+]
+
 
 def corr_matrix(corr: ArrayLike) -> plt.Figure:
     """
