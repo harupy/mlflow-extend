@@ -157,14 +157,17 @@ def log_dict(dct: dict, path: str, fmt: Optional[str] = None) -> None:
 
     """
     fmt = os.path.splitext(path)[-1] if fmt is None else fmt
+    fmt = fmt.lstrip(".")
 
     with _artifact_context(path) as tmp_path:
         with open(tmp_path, "w") as f:
             if fmt == "json":
                 json.dump(dct, f, indent=2)
 
-            if fmt in ["yaml", "yml"]:
+            elif fmt in ["yaml", "yml"]:
                 yaml.dump(dct, f, default_flow_style=False)
+            else:
+                raise Exception("Invalid file format: {}.".format(fmt))
 
 
 def log_pickle(obj: Any, path: str) -> None:

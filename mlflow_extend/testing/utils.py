@@ -1,11 +1,13 @@
 import inspect
+import json
 import os
 import subprocess
 
 import mlflow
+import yaml
 
 
-def get_default_args(func):
+def _get_default_args(func):
     """
     Get default arguments of the given function.
     """
@@ -16,7 +18,7 @@ def get_default_args(func):
     }
 
 
-def run_python_script(path):
+def _run_python_script(path):
     """
     Run a python script and return exit code.
     """
@@ -40,6 +42,18 @@ def _list_artifacts(run_id, root=""):
         else:
             artifacts += [artifact.path]
     return artifacts
+
+
+def _read_data(path):
+    """
+    Read data from JSON and YAML files.
+    """
+    with open(path, "r") as f:
+        ext = os.path.splitext(path)[:-1]
+        if ext == ".json":
+            return json.load(f)
+        elif ext in [".yaml", ".yml"]:
+            return yaml.load(f)
 
 
 def assert_file_exists(path):
