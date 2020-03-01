@@ -1,5 +1,7 @@
 """
-The lines that use mlflow_extend APIs are marked with "EX".
+An example script to train a LightGBM classifier on the breast cancer dataset.
+
+The lines that call mlflow_extend APIs are marked with "EX".
 """
 import lightgbm as lgb
 import pandas as pd
