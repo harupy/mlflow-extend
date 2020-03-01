@@ -1,3 +1,6 @@
+# Requirements to run examples.
+lightgbm
+
 # Lint & Formatting
 flake8
 black; python_version >= '3.6'
