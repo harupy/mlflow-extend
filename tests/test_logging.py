@@ -80,8 +80,9 @@ def test_log_pickle():
 @pytest.mark.parametrize("fmt", ["json", ".json", "yaml", ".yaml", "yml", ".yml"])
 def test_log_dict_with_fmt(fmt):
     data = {"a": 0}
+    path = "test.{}".format(fmt.lstrip("."))
+
     with mlflow.start_run() as run:
-        path = "test.{}".format(fmt)
         lg.log_dict(data, path, fmt)
         assert_file_exists_in_artifacts(run, path)
 
@@ -92,10 +93,17 @@ def test_log_dict_with_fmt(fmt):
 
 @pytest.mark.parametrize("fmt", ["csv", "feather"])
 def test_log_df(fmt):
+    path = "test.{}".format(fmt)
+    df = pd.DataFrame({"a": [0]})
+
     with mlflow.start_run() as run:
-        path = "test.csv"
-        lg.log_df(pd.DataFrame({"a": [0]}), path, fmt)
+        lg.log_df(df, path, fmt)
         assert_file_exists_in_artifacts(run, path)
+
+    artifacts_dir = run.info.artifact_uri.replace("file://", "")
+    readers = {"csv": pd.read_csv, "feather": pd.read_feather}
+    loaded_df = readers[fmt](os.path.join(artifacts_dir, path))
+    pd.testing.assert_frame_equal(loaded_df, df)
 
 
 def test_log_text():
