@@ -20,7 +20,7 @@ def get_or_create_experiment(name: str, artifact_location: Optional[str] = None)
     Returns
     -------
     str
-        ID of the created experiment.
+        ID of the experiment.
 
     Examples
     --------
