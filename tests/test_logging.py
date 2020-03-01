@@ -67,7 +67,7 @@ def test_log_dict(path):
 
     artifacts_dir = run.info.artifact_uri.replace("file://", "")
     loaded_data = _read_data(os.path.join(artifacts_dir, path))
-    data = loaded_data
+    assert loaded_data == data
 
 
 def test_log_pickle():

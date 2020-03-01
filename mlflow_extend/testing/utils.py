@@ -49,7 +49,7 @@ def _read_data(path):
     Read data from JSON and YAML files.
     """
     with open(path, "r") as f:
-        ext = os.path.splitext(path)[:-1]
+        ext = os.path.splitext(path)[-1]
         if ext == ".json":
             return json.load(f)
         elif ext in [".yaml", ".yml"]:
