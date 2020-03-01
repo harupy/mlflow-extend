@@ -93,8 +93,8 @@ def test_log_dict_with_fmt(fmt):
 
 @pytest.mark.parametrize("fmt", ["csv", "feather"])
 def test_log_df(fmt):
-    path = "test.{}".format(fmt)
     df = pd.DataFrame({"a": [0]})
+    path = "test.{}".format(fmt)
 
     with mlflow.start_run() as run:
         lg.log_df(df, path, fmt)
@@ -106,16 +106,23 @@ def test_log_df(fmt):
     pd.testing.assert_frame_equal(loaded_df, df)
 
 
-def test_log_text():
+@pytest.mark.parametrize("text", ["test", ""])
+def test_log_text(text):
+    path = "test.txt"
+
     with mlflow.start_run() as run:
-        path = "test.txt"
-        lg.log_text("test", path)
+        lg.log_text(text, path)
         assert_file_exists_in_artifacts(run, path)
+
+    artifacts_dir = run.info.artifact_uri.replace("file://", "")
+    with open(os.path.join(artifacts_dir, path), "r") as f:
+        assert text == f.read()
 
 
 def test_log_numpy():
-    path = "test.npy"
     array = np.array([0])
+    path = "test.npy"
+
     with mlflow.start_run() as run:
         lg.log_numpy(array, path)
         assert_file_exists_in_artifacts(run, path)
