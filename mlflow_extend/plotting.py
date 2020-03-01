@@ -167,11 +167,19 @@ def feature_importance(
     if normalize:
         importances = importances / importances.sum()
 
-    y = np.arange(len(features[indices]))
-    fig, ax = plt.subplots()
-    ax.barh(y, importances[indices], align="center", height=0.5)
-    ax.set_yticks(y)
-    ax.set_yticklabels(features[indices])
+    features = features[indices]
+    importances = importances[indices]
+    num_features = len(features)
+    bar_pos = np.arange(num_features)
+
+    # Adjust the figure height to prevent the plot from becoming too dense.
+    w, h = plt.rcParams["figure.figsize"]
+    h += 0.1 * num_features if num_features > 10 else 0
+
+    fig, ax = plt.subplots(figsize=(w, h))
+    ax.barh(bar_pos, importances, align="center", height=0.5)
+    ax.set_yticks(bar_pos)
+    ax.set_yticklabels(features)
     ax.set_xlabel("Importance")
     ax.set_ylabel("Feature")
     ax.set_title("Feature Importance ({})".format(importance_type))
