@@ -1,10 +1,10 @@
-import matplotlib.pyplot as plt
 import mlflow
 import numpy as np
 import pandas as pd
 import pytest
+from matplotlib import pyplot as plt
 
-import mlflow_extend.logging as lg
+from mlflow_extend import logging as lg
 from mlflow_extend.testing.utils import (
     assert_file_exists_in_artifacts,
     get_default_args,

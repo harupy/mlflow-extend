@@ -1,8 +1,8 @@
-import matplotlib.pyplot as plt
 import numpy as np
 import pytest
+from matplotlib import pyplot as plt
 
-import mlflow_extend.plotting as mplt
+from mlflow_extend import plotting as mplt
 
 
 def assert_is_figure(obj):
