@@ -1,4 +1,4 @@
-from mlflow import *  # noqa; noqa: F401
+from mlflow import *  # noqa;
 
 # Some fluent APIs are not included in mlflow.__all__:
 # https://github.com/mlflow/mlflow/pull/2511
@@ -10,3 +10,4 @@ from mlflow import (  # noqa
 )
 
 from mlflow_extend.logging import *  # noqa
+from mlflow_extend.experiment import *  # noqa
