@@ -5,13 +5,13 @@ import tempfile
 from contextlib import contextmanager
 from typing import Any, Generator, Optional
 
-import matplotlib.pyplot as plt
 import mlflow
 import numpy as np
 import pandas as pd
 import yaml
+from matplotlib import pyplot as plt
 
-import mlflow_extend.plotting as mplt
+from mlflow_extend import plotting as mplt
 from mlflow_extend.typing import ArrayLike
 from mlflow_extend.utils import flatten_dict
 

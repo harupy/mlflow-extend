@@ -2,15 +2,14 @@
 Make sure this file is in the project root so that pytest adds the root to PYTHONPATH
 when running the tests.
 """
-
 from typing import Generator
 
 import _pytest
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import py
 import pytest
+from matplotlib import pyplot as plt
 
 import mlflow_extend.mlflow
 
