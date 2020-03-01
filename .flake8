@@ -3,5 +3,6 @@ max-line-length=100
 exclude=
     # Default values
     .svn,CVS,.bzr,.hg,.git,__pycache__,.tox,
+    # Additional values
     mlflow_extend/mlflow.py
     docs/build
