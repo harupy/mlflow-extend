@@ -80,7 +80,7 @@ def test_log_pickle():
 @pytest.mark.parametrize("fmt", ["json", ".json", "yaml", ".yaml", "yml", ".yml"])
 def test_log_dict_with_fmt(fmt):
     data = {"a": 0}
-    path = "test.{}".format(fmt)
+    path = "test.{}".format(fmt.lstrip("."))
 
     with mlflow.start_run() as run:
         lg.log_dict(data, path, fmt)
