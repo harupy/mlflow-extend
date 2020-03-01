@@ -80,8 +80,9 @@ def test_log_pickle():
 @pytest.mark.parametrize("fmt", ["json", ".json", "yaml", ".yaml", "yml", ".yml"])
 def test_log_dict_with_fmt(fmt):
     data = {"a": 0}
+    path = "test.{}".format(fmt)
+
     with mlflow.start_run() as run:
-        path = "test.{}".format(fmt)
         lg.log_dict(data, path, fmt)
         assert_file_exists_in_artifacts(run, path)
 
