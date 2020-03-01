@@ -23,7 +23,7 @@ From GitHub (development version)
 pip install git+https://github.com/harupy/mlflow-extend.git
 ```
 
-## Examples
+## Example
 
 ```python
 import numpy as np
@@ -61,7 +61,7 @@ with mlflow.start_run():
     mlflow.log_confusion_matrix([[1, 2], [3, 4]])
 ```
 
-## Creating Environment
+## Creating a Development Environment
 
 ```bash
 conda create -n mlflow-extend python=3.6
@@ -69,10 +69,17 @@ conda activate mlflow-extend
 pip install -r requirements.txt -r requirements-dev.txt
 ```
 
-## Running Lint Check
+## Formatting Code
+
+| Command    | Description  | Ref.                                             |
+| :--------- | :----------- | :----------------------------------------------- |
+| `black .`  | Format code  | [Black](https://github.com/psf/black)            |
+| `isort .`  | Sort imports | [isort](https://github.com/timothycrosley/isort) |
+| `flake8 .` | Check PEP8   | [flake8](https://github.com/PyCQA/flake8)        |
+
+After formatting, verify all the checks pass by running:
 
 ```bash
-# Run lint checking with black, isort, and flake8.
 ./dev/lint.sh
 ```
 
@@ -82,13 +89,13 @@ pip install -r requirements.txt -r requirements-dev.txt
 mypy .
 ```
 
-## Running Test
+## Running Unit Tests
 
 ```bash
-# Run all the tests.
+# Run all the unit tests.
 ./dev/test.sh
 
-# Save figures generated during the tests in '.pytest_basetemp'.
+# Save figures generated during the unit tests in '.pytest_basetemp'.
 ./dev/test.sh --savefig
 ```
 
@@ -120,7 +127,7 @@ git tag v1.2.3
 git push origin v1.2.3
 ```
 
-3. Open [the release page](https://github.com/harupy/mlflow-extend/releases) and create a new release.
+3. Open [the release page](https://github.com/harupy/mlflow-extend/releases) and publish a new release.
 
 4. Upload distribution archives to PyPI using [twine](https://github.com/pypa/twine#using-twine).
 
