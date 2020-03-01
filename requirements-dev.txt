@@ -1,7 +1,7 @@
 # Lint & Formatting
 flake8
 black; python_version >= '3.6'
-git+https://github.com/timothycrosley/isort
+git+https://github.com/timothycrosley/isort; python_version >= '3.6'
 
 # Type checking
 mypy
