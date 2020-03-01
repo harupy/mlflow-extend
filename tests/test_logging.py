@@ -79,10 +79,15 @@ def test_log_pickle():
 
 @pytest.mark.parametrize("fmt", ["json", ".json", "yaml", ".yaml", "yml", ".yml"])
 def test_log_dict_with_fmt(fmt):
+    data = {"a": 0}
     with mlflow.start_run() as run:
         path = "test.{}".format(fmt)
-        lg.log_dict({"a": 0}, path, fmt)
+        lg.log_dict(data, path, fmt)
         assert_file_exists_in_artifacts(run, path)
+
+    artifacts_dir = run.info.artifact_uri.replace("file://", "")
+    loaded_data = _read_data(os.path.join(artifacts_dir, path))
+    assert loaded_data == data
 
 
 @pytest.mark.parametrize("fmt", ["csv", "feather"])
