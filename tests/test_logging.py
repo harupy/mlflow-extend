@@ -1,3 +1,5 @@
+import os
+
 import mlflow
 import numpy as np
 import pandas as pd
@@ -6,9 +8,10 @@ from matplotlib import pyplot as plt
 
 from mlflow_extend import logging as lg
 from mlflow_extend.testing.utils import (
+    _get_default_args,
+    _read_data,
     assert_file_exists_in_artifacts,
     assert_new_apis_do_not_conflict_native_apis,
-    get_default_args,
 )
 
 
@@ -57,9 +60,14 @@ def test_log_figure():
 
 @pytest.mark.parametrize("path", ["test.json", "test.yaml", "test.yml"])
 def test_log_dict(path):
+    data = {"a": 0}
     with mlflow.start_run() as run:
-        lg.log_dict({"a": 0}, path)
+        lg.log_dict(data, path)
         assert_file_exists_in_artifacts(run, path)
+
+    artifacts_dir = run.info.artifact_uri.replace("file://", "")
+    loaded_data = _read_data(os.path.join(artifacts_dir, path))
+    assert loaded_data == data
 
 
 def test_log_pickle():
@@ -69,39 +77,64 @@ def test_log_pickle():
         assert_file_exists_in_artifacts(run, path)
 
 
-@pytest.mark.parametrize("fmt", ["json", "yaml", "yml"])
+@pytest.mark.parametrize("fmt", ["json", ".json", "yaml", ".yaml", "yml", ".yml"])
 def test_log_dict_with_fmt(fmt):
+    data = {"a": 0}
+    path = "test.{}".format(fmt.lstrip("."))
+
     with mlflow.start_run() as run:
-        path = "test.{}".format(fmt)
-        lg.log_dict({"a": 0}, path, fmt)
+        lg.log_dict(data, path, fmt)
         assert_file_exists_in_artifacts(run, path)
+
+    artifacts_dir = run.info.artifact_uri.replace("file://", "")
+    loaded_data = _read_data(os.path.join(artifacts_dir, path))
+    assert loaded_data == data
 
 
 @pytest.mark.parametrize("fmt", ["csv", "feather"])
 def test_log_df(fmt):
+    df = pd.DataFrame({"a": [0]})
+    path = "test.{}".format(fmt)
+
     with mlflow.start_run() as run:
-        path = "test.csv"
-        lg.log_df(pd.DataFrame({"a": [0]}), path, fmt)
+        lg.log_df(df, path, fmt)
         assert_file_exists_in_artifacts(run, path)
 
+    artifacts_dir = run.info.artifact_uri.replace("file://", "")
+    readers = {"csv": pd.read_csv, "feather": pd.read_feather}
+    loaded_df = readers[fmt](os.path.join(artifacts_dir, path))
+    pd.testing.assert_frame_equal(loaded_df, df)
 
-def test_log_text():
+
+@pytest.mark.parametrize("text", ["test", ""])
+def test_log_text(text):
+    path = "test.txt"
+
     with mlflow.start_run() as run:
-        path = "test.txt"
-        lg.log_text("test", path)
+        lg.log_text(text, path)
         assert_file_exists_in_artifacts(run, path)
+
+    artifacts_dir = run.info.artifact_uri.replace("file://", "")
+    with open(os.path.join(artifacts_dir, path), "r") as f:
+        assert text == f.read()
 
 
 def test_log_numpy():
+    array = np.array([0])
+    path = "test.npy"
+
     with mlflow.start_run() as run:
-        path = "test.npy"
-        lg.log_numpy(np.array([0]), path)
+        lg.log_numpy(array, path)
         assert_file_exists_in_artifacts(run, path)
+
+    artifacts_dir = run.info.artifact_uri.replace("file://", "")
+    loaded_array = np.load(os.path.join(artifacts_dir, path))
+    np.testing.assert_array_equal(loaded_array, array)
 
 
 def test_log_confusion_matrix():
     with mlflow.start_run() as run:
-        default_path = get_default_args(lg.log_confusion_matrix)["path"]
+        default_path = _get_default_args(lg.log_confusion_matrix)["path"]
         lg.log_confusion_matrix([[1, 2], [3, 4]])
         assert_file_exists_in_artifacts(run, default_path)
 
@@ -112,7 +145,7 @@ def test_log_confusion_matrix():
 
 
 def test_log_feature_importance():
-    default_path = get_default_args(lg.log_feature_importance)["path"]
+    default_path = _get_default_args(lg.log_feature_importance)["path"]
     with mlflow.start_run() as run:
         lg.log_feature_importance(["a", "b", "c"], [1, 2, 3], "gain")
         assert_file_exists_in_artifacts(run, default_path)
@@ -130,13 +163,13 @@ def test_log_feature_importance():
 @pytest.mark.parametrize("limit", [2, 3, 4])
 def test_log_feature_importance_with_limit(limit):
     with mlflow.start_run() as run:
-        default_path = get_default_args(lg.log_feature_importance)["path"]
+        default_path = _get_default_args(lg.log_feature_importance)["path"]
         lg.log_feature_importance(["a", "b", "c"], [1, 2, 3], "gain", limit=limit)
         assert_file_exists_in_artifacts(run, default_path)
 
 
 def test_log_roc_curve():
-    default_path = get_default_args(lg.log_roc_curve)["path"]
+    default_path = _get_default_args(lg.log_roc_curve)["path"]
     with mlflow.start_run() as run:
         lg.log_roc_curve([0, 1], [0, 1])
         assert_file_exists_in_artifacts(run, default_path)
@@ -152,7 +185,7 @@ def test_log_roc_curve():
 
 
 def test_log_pr_curve():
-    default_path = get_default_args(lg.log_pr_curve)["path"]
+    default_path = _get_default_args(lg.log_pr_curve)["path"]
     with mlflow.start_run() as run:
         lg.log_pr_curve([1, 0], [1, 0])
         assert_file_exists_in_artifacts(run, default_path)
