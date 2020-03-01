@@ -114,10 +114,15 @@ def test_log_text():
 
 
 def test_log_numpy():
+    path = "test.npy"
+    array = np.array([0])
     with mlflow.start_run() as run:
-        path = "test.npy"
-        lg.log_numpy(np.array([0]), path)
+        lg.log_numpy(array, path)
         assert_file_exists_in_artifacts(run, path)
+
+    artifacts_dir = run.info.artifact_uri.replace("file://", "")
+    loaded_array = np.load(os.path.join(artifacts_dir, path))
+    np.testing.assert_array_equal(loaded_array, array)
 
 
 def test_log_confusion_matrix():
