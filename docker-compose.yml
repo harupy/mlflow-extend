@@ -1,0 +1,11 @@
+version: "3"
+services:
+  mlflow-extend:
+    build:
+      context: .
+      args:
+        WORKDIR: /mlflow-extend
+    volumes:
+      - .:/mlflow-extend
+    image: mlflow-extend-image
+    container_name: mlflow-extend-container
