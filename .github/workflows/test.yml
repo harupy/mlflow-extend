@@ -52,6 +52,7 @@ jobs:
         uses: codecov/codecov-action@v1
         with:
           file: ./coverage.xml
+          name: ${{ runner.os }}
           fail_ci_if_error: true
 
       - name: Verify package can be installed
