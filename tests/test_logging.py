@@ -91,6 +91,16 @@ def test_log_dict_with_fmt(fmt):
     assert loaded_data == data
 
 
+def test_log_dict_with_invalid_format():
+    data = {"a": 0}
+    fmt = "abc"
+    path = "test.{}".format(fmt)
+
+    with mlflow.start_run():
+        with pytest.raises(ValueError, match="Invalid file format: {}.".format(fmt)):
+            lg.log_dict(data, path, fmt)
+
+
 @pytest.mark.parametrize("fmt", ["csv", "feather"])
 def test_log_df(fmt):
     df = pd.DataFrame({"a": [0]})
@@ -104,6 +114,16 @@ def test_log_df(fmt):
     readers = {"csv": pd.read_csv, "feather": pd.read_feather}
     loaded_df = readers[fmt](os.path.join(artifacts_dir, path))
     pd.testing.assert_frame_equal(loaded_df, df)
+
+
+def test_log_df_with_invalid_format():
+    df = pd.DataFrame({"a": [0]})
+    fmt = "abc"
+    path = "test.{}".format(fmt)
+
+    with mlflow.start_run():
+        with pytest.raises(ValueError, match="Invalid file format: {}.".format(fmt)):
+            lg.log_df(df, path, fmt)
 
 
 @pytest.mark.parametrize("text", ["test", ""])

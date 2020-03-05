@@ -166,7 +166,7 @@ def log_dict(dct: dict, path: str, fmt: Optional[str] = None) -> None:
             elif fmt in ["yaml", "yml"]:
                 yaml.dump(dct, f, default_flow_style=False)
             else:
-                raise Exception("Invalid file format: {}.".format(fmt))
+                raise ValueError("Invalid file format: {}.".format(fmt))
 
 
 def log_pickle(obj: Any, path: str) -> None:
@@ -215,7 +215,7 @@ def log_df(df: pd.DataFrame, path: str, fmt: str = "csv") -> None:
         elif fmt == "feather":
             df.to_feather(tmp_path)
         else:
-            raise ValueError("Invalid format: {}.".format(fmt))
+            raise ValueError("Invalid file format: {}.".format(fmt))
 
 
 def log_text(text: str, path: str) -> None:
