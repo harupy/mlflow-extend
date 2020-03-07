@@ -102,7 +102,7 @@ def confusion_matrix(
         vmin=0,
         vmax=1,
         fmt="s",
-        annot=cm_norm.round(2).astype(str),
+        annot=cm.astype(str),
         annot_kws={"fontsize": "large"},
         linewidths=0.2,
         cbar=True,
