@@ -3,6 +3,7 @@ import os
 import mlflow
 import numpy as np
 import pandas as pd
+import plotly.graph_objects as go
 import pytest
 from matplotlib import pyplot as plt
 
@@ -56,6 +57,19 @@ def test_log_figure():
         path = "test.png"
         lg.log_figure(fig, path)
         assert_file_exists_in_artifacts(run, path)
+
+
+def test_log_figure_plotly():
+    fig = go.Figure(data=[go.Bar(x=[1, 2, 3], y=[1, 3, 2])])
+    with mlflow.start_run() as run:
+        path = "test.html"
+        lg.log_figure(fig, path)
+        assert_file_exists_in_artifacts(run, path)
+
+        path = "test.png"
+        msg = '"{}" is not an HTML file.'.format(path)
+        with pytest.raises(ValueError, match=msg):
+            lg.log_figure(fig, path)
 
 
 @pytest.mark.parametrize("path", ["test.json", "test.yaml", "test.yml"])
