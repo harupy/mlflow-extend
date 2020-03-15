@@ -1,6 +1,7 @@
 # MLflow Extend
 
 [![CI](https://github.com/harupy/mlflow-extend/workflows/CI/badge.svg?event=push)](https://github.com/harupy/mlflow-extend/actions?query=workflow%3ACI)
+[![codecov](https://codecov.io/gh/harupy/mlflow-extend/branch/master/graph/badge.svg)](https://codecov.io/gh/harupy/mlflow-extend)
 [![Documentation Status](https://readthedocs.org/projects/mlflow-extend/badge/?version=latest)](https://mlflow-extend.readthedocs.io/en/latest/?badge=latest)
 [![version](https://img.shields.io/pypi/v/mlflow-extend?color=brightgreen)](https://pypi.org/project/mlflow-extend/)
 ![pyversions](https://img.shields.io/pypi/pyversions/mlflow-extend?color=brightgreen)
