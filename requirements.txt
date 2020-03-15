@@ -3,5 +3,5 @@ pyarrow
 numpy
 matplotlib
 seaborn
-mlflow
+mlflow>=1.7.0
 plotly
