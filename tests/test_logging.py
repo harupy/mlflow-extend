@@ -3,9 +3,9 @@ import os
 import mlflow
 import numpy as np
 import pandas as pd
-import plotly.graph_objects as go
 import pytest
 from matplotlib import pyplot as plt
+from plotly import graph_objects as go
 
 from mlflow_extend import logging as lg
 from mlflow_extend.testing.utils import (

@@ -9,9 +9,9 @@ import mlflow
 import numpy as np
 import pandas as pd
 import plotly
-import plotly.graph_objects as go
 import yaml
 from matplotlib import pyplot as plt
+from plotly import graph_objects as go
 
 from mlflow_extend import plotting as mplt
 from mlflow_extend.typing import ArrayLike
