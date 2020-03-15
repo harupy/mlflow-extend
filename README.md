@@ -29,6 +29,7 @@ pip install git+https://github.com/harupy/mlflow-extend.git
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from plotly import graph_objects as go
 
 from mlflow_extend import mlflow
 
@@ -57,8 +58,14 @@ with mlflow.start_run():
     ax.plot([0, 1], [0, 1])
     mlflow.log_figure(fig, 'figure.png')
 
+    # plotly figure
+    fig = go.Figure(data=[go.Bar(x=[1, 2, 3], y=[1, 3, 2])])
+    mlflow.log_figure(fig, 'figure.html')
+
     # confusion matrix
     mlflow.log_confusion_matrix([[1, 2], [3, 4]])
+
+    # run "mlflow ui" and see the result.
 ```
 
 ## Creating a Development Environment
