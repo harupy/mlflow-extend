@@ -3,13 +3,15 @@ import os
 import pickle
 import tempfile
 from contextlib import contextmanager
-from typing import Any, Generator, Optional
+from typing import Any, Generator, Optional, Union
 
 import mlflow
 import numpy as np
 import pandas as pd
+import plotly
 import yaml
 from matplotlib import pyplot as plt
+from plotly import graph_objects as go
 
 from mlflow_extend import plotting as mplt
 from mlflow_extend.typing import ArrayLike
@@ -102,13 +104,13 @@ def log_metrics_flatten(
     mlflow.log_metrics(flatten_dict(metrics, parent_key, sep), step)
 
 
-def log_figure(fig: plt.Figure, path: str) -> None:
+def log_figure(fig: Union[plt.Figure, go.Figure], path: str) -> None:
     """
     Log a matplotlib figure as an artifact.
 
     Parameters
     ----------
-    fig : matplotlib.pyplot.Figure
+    fig : matplotlib.pyplot.Figure or plotly.graph_objects.Figure
         Figure to log.
     path : str
         Path in the artifact store.
@@ -119,15 +121,34 @@ def log_figure(fig: plt.Figure, path: str) -> None:
 
     Examples
     --------
+    Matplotlib
+
     >>> with mlflow.start_run():
     ...     fig, ax = plt.subplots()
     ...     _ = ax.plot([0, 1], [0, 1])
     ...     mlflow.log_figure(fig, 'figure.png')
 
+    Plotly
+
+    >>> with mlflow.start_run():
+    ...     fig = go.Figure(data=[go.Bar(x=[1, 2, 3], y=[1, 3, 2])])
+    ...     mlflow.log_figure(fig, 'figure.html')  # Must be an HTML file.
+
     """
     with _artifact_context(path) as tmp_path:
-        fig.savefig(tmp_path)
-        plt.close(fig)
+        if isinstance(fig, plt.Figure):
+            fig.savefig(tmp_path)
+            plt.close(fig)
+        elif isinstance(fig, go.Figure):
+            if not tmp_path.endswith("html"):
+                raise ValueError(
+                    '"{}" is not an HTML file.'.format(os.path.basename(tmp_path))
+                )
+            plotly.offline.plot(
+                fig, filename=tmp_path, include_plotlyjs="cdn", auto_open=False
+            )
+        else:
+            raise TypeError('Invalid figure type "{}".'.format(type(fig)))
 
 
 def log_dict(dct: dict, path: str, fmt: Optional[str] = None) -> None:
