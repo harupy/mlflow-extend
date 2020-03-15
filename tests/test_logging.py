@@ -50,7 +50,7 @@ def test_log_metrics_flatten():
     assert loaded_run.data.metrics == {"a.b": 0.0, "a_b": 0.0, "d.a.b": 0.0}
 
 
-def test_log_figure():
+def test_log_figure_matplotlib():
     fig, ax = plt.subplots()
     ax.plot([0, 1], [0, 1])
     with mlflow.start_run() as run:
@@ -69,6 +69,15 @@ def test_log_figure_plotly():
         path = "test.png"
         msg = '"{}" is not an HTML file.'.format(path)
         with pytest.raises(ValueError, match=msg):
+            lg.log_figure(fig, path)
+
+
+def test_log_figure_invalid_fig_type():
+    with mlflow.start_run():
+        fig = "figure"
+        path = "test.png"
+        msg = 'Invalid figure type "{}".'.format(type(fig))
+        with pytest.raises(TypeError, match=msg):
             lg.log_figure(fig, path)
 
 

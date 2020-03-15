@@ -148,7 +148,7 @@ def log_figure(fig: Union[plt.Figure, go.Figure], path: str) -> None:
                 fig, filename=tmp_path, include_plotlyjs="cdn", auto_open=False
             )
         else:
-            raise TypeError("Invalid figure type {}.".format(type(fig)))
+            raise TypeError('Invalid figure type "{}".'.format(type(fig)))
 
 
 def log_dict(dct: dict, path: str, fmt: Optional[str] = None) -> None:
