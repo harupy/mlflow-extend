@@ -21,4 +21,4 @@ jobs:
 workflows:
   main:
     jobs:
-      - documentation:
+      - documentation
