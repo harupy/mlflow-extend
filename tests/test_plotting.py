@@ -15,7 +15,9 @@ def test_confusion_matrix(tmpdir, cm):
     assert_is_figure(fig)
 
 
-@pytest.mark.parametrize("corr", [[[1, 2], [3, 4]], np.array([[1, 2], [3, 4]])])
+@pytest.mark.parametrize(
+    "corr", [[[1.0, 2.0], [3.0, 4.0]], np.array([[1.0, 2.0], [3.0, 4.0]])]
+)
 def test_corr_matrix(tmpdir, corr):
     fig = mplt.corr_matrix(corr)
     assert_is_figure(fig)
