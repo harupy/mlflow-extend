@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  documentation:
+  document:
     docker:
       - image: circleci/python:3.7
 
@@ -21,4 +21,4 @@ jobs:
 workflows:
   main:
     jobs:
-      - documentation
+      - document
