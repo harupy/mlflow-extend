@@ -17,9 +17,9 @@ def get_long_description() -> str:
 def get_install_requires() -> List[str]:
     with open(os.path.join(ROOT, "requirements.txt"), encoding="utf-8") as f:
         return [
-            l.strip()
-            for l in f.readlines()
-            if not (l.startswith("#") or (l.strip() == ""))
+            line.strip()
+            for line in f.readlines()
+            if not (line.startswith("#") or (line.strip() == ""))
         ]
 
 
