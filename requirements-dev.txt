@@ -14,7 +14,7 @@ pytest
 pytest-cov
 
 # Documentation build
-sphinx>=2.4.3
+sphinx==2.4.3
 sphinx-rtd-theme
 
 # Package build
