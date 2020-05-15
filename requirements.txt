@@ -2,6 +2,6 @@ pandas
 pyarrow
 numpy
 matplotlib
-seaborn==0.10.0
+seaborn
 mlflow>=1.7.0
 plotly
