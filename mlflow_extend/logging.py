@@ -76,7 +76,7 @@ def log_metrics_flatten(
     metrics: dict, step: Optional[int] = None, parent_key: str = "", sep: str = ".",
 ) -> None:
     """
-    Log a batch of params after flattening.
+    Log a batch of metrics after flattening.
 
     Parameters
     ----------
