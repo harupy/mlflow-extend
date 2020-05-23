@@ -12,12 +12,12 @@ from mlflow_extend.testing.utils import (
     _get_default_args,
     _read_data,
     assert_file_exists_in_artifacts,
-    assert_new_apis_do_not_conflict_native_apis,
+    assert_not_conflict_with_fluent_apis,
 )
 
 
 def test_new_apis_do_not_conflict_native_apis():
-    assert_new_apis_do_not_conflict_native_apis(lg)
+    assert_not_conflict_with_fluent_apis(lg.__all__)
 
 
 @pytest.mark.parametrize("path", ["test.txt", "dir/test.txt", "dir/dir/test.txt"])

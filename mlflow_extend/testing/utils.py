@@ -2,12 +2,14 @@ import inspect
 import json
 import os
 import subprocess
+from typing import Any, Callable, Dict, List
 
 import mlflow
 import yaml
+from mlflow.entities.run import Run
 
 
-def _get_default_args(func):
+def _get_default_args(func: Callable[..., Any]) -> Dict[str, Any]:
     """
     Get default arguments of the given function.
     """
@@ -18,7 +20,7 @@ def _get_default_args(func):
     }
 
 
-def _run_python_script(path):
+def _run_python_script(path: str) -> int:
     """
     Run a python script and return exit code.
     """
@@ -29,7 +31,7 @@ def _run_python_script(path):
     return child.returncode
 
 
-def _list_artifacts(run_id, root=""):
+def _list_artifacts(run_id: str, root: str = "") -> List[str]:
     """
     List all artifacts in the specified run.
     """
@@ -44,7 +46,7 @@ def _list_artifacts(run_id, root=""):
     return artifacts
 
 
-def _read_data(path):
+def _read_data(path: str) -> Dict[str, Any]:
     """
     Read data from JSON and YAML files.
     """
@@ -54,16 +56,18 @@ def _read_data(path):
             return json.load(f)
         elif ext in [".yaml", ".yml"]:
             return yaml.load(f)
+        else:
+            raise ValueError("Invalid file type: `{}`".format(ext))
 
 
-def assert_file_exists(path):
+def assert_file_exists(path: str) -> None:
     """
     Assert the specified file exists.
     """
     assert os.path.exists(path)
 
 
-def assert_file_exists_in_artifacts(run, path):
+def assert_file_exists_in_artifacts(run: Run, path: str) -> None:
     """
     Assert the specified file exists in the artifact store of the given run.
     """
@@ -71,8 +75,8 @@ def assert_file_exists_in_artifacts(run, path):
     assert path in artifacts
 
 
-def assert_new_apis_do_not_conflict_native_apis(module):
+def assert_not_conflict_with_fluent_apis(new_apis: List[str]) -> None:
     """
     Assert new APIs mlflow_extend provides don't conflict the MLflow native APIs.
     """
-    assert all(new_api not in mlflow.__all__ for new_api in module.__all__)
+    assert all(new_api not in mlflow.__all__ for new_api in new_apis)
