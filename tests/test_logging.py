@@ -16,19 +16,19 @@ from mlflow_extend.testing.utils import (
 )
 
 
-def test_new_apis_do_not_conflict_native_apis():
+def test_new_apis_do_not_conflict_native_apis() -> None:
     assert_not_conflict_with_fluent_apis(lg.__all__)
 
 
 @pytest.mark.parametrize("path", ["test.txt", "dir/test.txt", "dir/dir/test.txt"])
-def test_artifact_context(path):
+def test_artifact_context(path: str) -> None:
     with mlflow.start_run() as run:
         with lg._artifact_context(path) as tmp_path:
             open(tmp_path, "w").close()
         assert_file_exists_in_artifacts(run, path)
 
 
-def test_log_params_flatten():
+def test_log_params_flatten() -> None:
     with mlflow.start_run() as run:
         params = {"a": {"b": 0}}
         lg.log_params_flatten(params)
@@ -39,7 +39,7 @@ def test_log_params_flatten():
     assert loaded_run.data.params == {"a.b": "0", "a_b": "0", "d.a.b": "0"}
 
 
-def test_log_metrics_flatten():
+def test_log_metrics_flatten() -> None:
     with mlflow.start_run() as run:
         metrics = {"a": {"b": 0.0}}
         lg.log_metrics_flatten(metrics)
@@ -50,7 +50,7 @@ def test_log_metrics_flatten():
     assert loaded_run.data.metrics == {"a.b": 0.0, "a_b": 0.0, "d.a.b": 0.0}
 
 
-def test_log_figure_matplotlib():
+def test_log_figure_matplotlib() -> None:
     fig, ax = plt.subplots()
     ax.plot([0, 1], [0, 1])
     with mlflow.start_run() as run:
@@ -59,7 +59,7 @@ def test_log_figure_matplotlib():
         assert_file_exists_in_artifacts(run, path)
 
 
-def test_log_figure_plotly():
+def test_log_figure_plotly() -> None:
     fig = go.Figure(data=[go.Bar(x=[1, 2, 3], y=[1, 3, 2])])
     with mlflow.start_run() as run:
         path = "test.html"
@@ -72,7 +72,7 @@ def test_log_figure_plotly():
             lg.log_figure(fig, path)
 
 
-def test_log_figure_invalid_fig_type():
+def test_log_figure_invalid_fig_type() -> None:
     with mlflow.start_run():
         fig = "figure"
         path = "test.png"
@@ -82,7 +82,7 @@ def test_log_figure_invalid_fig_type():
 
 
 @pytest.mark.parametrize("path", ["test.json", "test.yaml", "test.yml"])
-def test_log_dict(path):
+def test_log_dict(path: str) -> None:
     data = {"a": 0}
     with mlflow.start_run() as run:
         lg.log_dict(data, path)
@@ -93,7 +93,7 @@ def test_log_dict(path):
     assert loaded_data == data
 
 
-def test_log_pickle():
+def test_log_pickle() -> None:
     with mlflow.start_run() as run:
         path = "test.pkl"
         lg.log_pickle({"a": 0}, path)
@@ -101,7 +101,7 @@ def test_log_pickle():
 
 
 @pytest.mark.parametrize("fmt", ["json", ".json", "yaml", ".yaml", "yml", ".yml"])
-def test_log_dict_with_fmt(fmt):
+def test_log_dict_with_fmt(fmt: str) -> None:
     data = {"a": 0}
     path = "test.{}".format(fmt.lstrip("."))
 
@@ -114,7 +114,7 @@ def test_log_dict_with_fmt(fmt):
     assert loaded_data == data
 
 
-def test_log_dict_with_invalid_format():
+def test_log_dict_with_invalid_format() -> None:
     data = {"a": 0}
     fmt = "abc"
     path = "test.{}".format(fmt)
@@ -125,7 +125,7 @@ def test_log_dict_with_invalid_format():
 
 
 @pytest.mark.parametrize("fmt", ["csv", "feather"])
-def test_log_df(fmt):
+def test_log_df(fmt: str) -> None:
     df = pd.DataFrame({"a": [0]})
     path = "test.{}".format(fmt)
 
@@ -139,7 +139,7 @@ def test_log_df(fmt):
     pd.testing.assert_frame_equal(loaded_df, df)
 
 
-def test_log_df_with_invalid_format():
+def test_log_df_with_invalid_format() -> None:
     df = pd.DataFrame({"a": [0]})
     fmt = "abc"
     path = "test.{}".format(fmt)
@@ -150,7 +150,7 @@ def test_log_df_with_invalid_format():
 
 
 @pytest.mark.parametrize("text", ["test", ""])
-def test_log_text(text):
+def test_log_text(text: str) -> None:
     path = "test.txt"
 
     with mlflow.start_run() as run:
@@ -162,7 +162,7 @@ def test_log_text(text):
         assert text == f.read()
 
 
-def test_log_numpy():
+def test_log_numpy() -> None:
     array = np.array([0])
     path = "test.npy"
 
@@ -175,7 +175,7 @@ def test_log_numpy():
     np.testing.assert_array_equal(loaded_array, array)
 
 
-def test_log_confusion_matrix():
+def test_log_confusion_matrix() -> None:
     with mlflow.start_run() as run:
         default_path = _get_default_args(lg.log_confusion_matrix)["path"]
         lg.log_confusion_matrix([[1, 2], [3, 4]])
@@ -187,7 +187,7 @@ def test_log_confusion_matrix():
         assert_file_exists_in_artifacts(run, path)
 
 
-def test_log_feature_importance():
+def test_log_feature_importance() -> None:
     default_path = _get_default_args(lg.log_feature_importance)["path"]
     with mlflow.start_run() as run:
         lg.log_feature_importance(["a", "b", "c"], [1, 2, 3], "gain")
@@ -204,14 +204,14 @@ def test_log_feature_importance():
 
 
 @pytest.mark.parametrize("limit", [2, 3, 4])
-def test_log_feature_importance_with_limit(limit):
+def test_log_feature_importance_with_limit(limit: int) -> None:
     with mlflow.start_run() as run:
         default_path = _get_default_args(lg.log_feature_importance)["path"]
         lg.log_feature_importance(["a", "b", "c"], [1, 2, 3], "gain", limit=limit)
         assert_file_exists_in_artifacts(run, default_path)
 
 
-def test_log_roc_curve():
+def test_log_roc_curve() -> None:
     default_path = _get_default_args(lg.log_roc_curve)["path"]
     with mlflow.start_run() as run:
         lg.log_roc_curve([0, 1], [0, 1])
@@ -227,7 +227,7 @@ def test_log_roc_curve():
         assert_file_exists_in_artifacts(run, path)
 
 
-def test_log_pr_curve():
+def test_log_pr_curve() -> None:
     default_path = _get_default_args(lg.log_pr_curve)["path"]
     with mlflow.start_run() as run:
         lg.log_pr_curve([1, 0], [1, 0])
