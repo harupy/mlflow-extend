@@ -57,6 +57,11 @@ def log_params_flatten(params: dict, parent_key: str = "", sep: str = ".") -> No
     sep : str, default "."
         Key separator.
 
+    Returns
+    -------
+    None
+        None
+
     Examples
     --------
     >>> with mlflow.start_run() as run:
@@ -89,6 +94,11 @@ def log_metrics_flatten(
     sep : str, default "."
         Key separator.
 
+    Returns
+    -------
+    None
+        None
+
     Examples
     --------
     >>> with mlflow.start_run() as run:
@@ -118,6 +128,7 @@ def log_figure(fig: Union[plt.Figure, go.Figure], path: str) -> None:
     Returns
     -------
     None
+        None
 
     Examples
     --------
@@ -171,6 +182,7 @@ def log_dict(dct: dict, path: str, fmt: Optional[str] = None) -> None:
     Returns
     -------
     None
+        None
 
     Examples
     --------
@@ -207,6 +219,11 @@ def log_pickle(obj: Any, path: str) -> None:
     path : str
         Path in the artifact store.
 
+    Returns
+    -------
+    None
+        None
+
     """
     with _artifact_context(path) as tmp_path:
         with open(tmp_path, mode="wb") as f:
@@ -229,6 +246,7 @@ def log_df(df: pd.DataFrame, path: str, fmt: str = "csv") -> None:
     Returns
     -------
     None
+        None
 
     Examples
     --------
@@ -261,6 +279,7 @@ def log_text(text: str, path: str) -> None:
     Returns
     -------
     None
+        None
 
     Examples
     --------
@@ -289,6 +308,7 @@ def log_numpy(arr: np.ndarray, path: str) -> None:
     Returns
     -------
     None
+        None
 
     Examples
     --------
@@ -314,6 +334,7 @@ def log_confusion_matrix(cm: ArrayLike, path: str = "confusion_matrix.png") -> N
     Returns
     -------
     None
+        None
 
     Examples
     --------
@@ -354,6 +375,7 @@ def log_feature_importance(
     Returns
     -------
     None
+        None
 
     Examples
     --------
@@ -394,6 +416,7 @@ def log_roc_curve(
     Returns
     -------
     None
+        None
 
     Examples
     --------
@@ -430,6 +453,7 @@ def log_pr_curve(
     Returns
     -------
     None
+        None
 
     Examples
     --------
