@@ -29,6 +29,7 @@ def inject_items_into_doctest_namespace(doctest_namespace: dict) -> None:
     doctest_namespace["pd"] = pd
     doctest_namespace["plt"] = plt
     doctest_namespace["mlflow"] = mlflow_extend.mlflow
+    doctest_namespace["list_artifacts"] = mlflow_extend.testing.utils._list_artifacts
 
 
 @pytest.fixture(scope="function", autouse=True)
