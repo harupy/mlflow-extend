@@ -63,13 +63,3 @@ jobs:
 
       - name: Build package
         run: python setup.py bdist_wheel
-
-      - name: Build documentation
-        working-directory: docs
-        run: make html
-
-      - name: Upload documentation
-        uses: actions/upload-artifact@v1
-        with:
-          name: documentation
-          path: docs/build/html
