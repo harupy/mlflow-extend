@@ -1,8 +1,10 @@
 # MLflow Extend
 
+[![Documentation Status](https://readthedocs.org/projects/mlflow-extend/badge/?version=latest)](https://mlflow-extend.readthedocs.io/en/latest/?badge=latest)
 [![CI](https://github.com/harupy/mlflow-extend/workflows/CI/badge.svg?event=push)](https://github.com/harupy/mlflow-extend/actions?query=workflow%3ACI)
 [![codecov](https://codecov.io/gh/harupy/mlflow-extend/branch/master/graph/badge.svg)](https://codecov.io/gh/harupy/mlflow-extend)
-[![Documentation Status](https://readthedocs.org/projects/mlflow-extend/badge/?version=latest)](https://mlflow-extend.readthedocs.io/en/latest/?badge=latest)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/harupy/mlflow-extend.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/harupy/mlflow-extend/alerts/)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/harupy/mlflow-extend.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/harupy/mlflow-extend/context:python)
 [![version](https://img.shields.io/pypi/v/mlflow-extend?color=brightgreen)](https://pypi.org/project/mlflow-extend/)
 ![pyversions](https://img.shields.io/pypi/pyversions/mlflow-extend?color=brightgreen)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
