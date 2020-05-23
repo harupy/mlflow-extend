@@ -3,7 +3,7 @@ import os
 import pytest
 
 
-@pytest.mark.parametrize("top", ["mlflow_extend", "tests"])
+@pytest.mark.parametrize("top_dir", ["mlflow_extend", "tests"])
 def test_init_exists(top_dir: str) -> None:
     #  mypy skips direcotries that do not contain `__init__.py`.
     # To prevent that, ensure that `__init__.py` exists in all the directories.
