@@ -123,16 +123,20 @@ def log_figure(fig: Union[plt.Figure, go.Figure], path: str) -> None:
     --------
     Matplotlib
 
-    >>> with mlflow.start_run():
+    >>> with mlflow.start_run() as run:
     ...     fig, ax = plt.subplots()
     ...     _ = ax.plot([0, 1], [0, 1])
-    ...     mlflow.log_figure(fig, 'figure.png')
+    ...     mlflow.log_figure(fig, 'plt_figure.png')
+    >>> list_artifacts(run.info.run_id)
+    ['plt_figure.png']
 
     Plotly
 
-    >>> with mlflow.start_run():
+    >>> with mlflow.start_run() as run:
     ...     fig = go.Figure(data=[go.Bar(x=[1, 2, 3], y=[1, 3, 2])])
-    ...     mlflow.log_figure(fig, 'figure.html')  # Must be an HTML file.
+    ...     mlflow.log_figure(fig, 'plotly_figure.html')  # Must be an HTML file.
+    >>> list_artifacts(run.info.run_id)
+    ['plotly_figure.html']
 
     """
     with _artifact_context(path) as tmp_path:
@@ -170,11 +174,13 @@ def log_dict(dct: dict, path: str, fmt: Optional[str] = None) -> None:
 
     Examples
     --------
-    >>> with mlflow.start_run():
+    >>> with mlflow.start_run() as run:
     ...     d = {'a': 0}
     ...     mlflow.log_dict(d, 'dict.json')
     ...     mlflow.log_dict(d, 'dict.yaml')
     ...     mlflow.log_dict(d, 'dict.yml')
+    >>> list_artifacts(run.info.run_id)
+    ['dict.json', 'dict.yaml', 'dict.yml']
 
     """
     fmt = os.path.splitext(path)[-1] if fmt is None else fmt
@@ -226,8 +232,10 @@ def log_df(df: pd.DataFrame, path: str, fmt: str = "csv") -> None:
 
     Examples
     --------
-    >>> with mlflow.start_run():
+    >>> with mlflow.start_run() as run:
     ...     mlflow.log_df(pd.DataFrame({'a': [0]}), 'df.csv')
+    >>> list_artifacts(run.info.run_id)
+    ['df.csv']
 
     """
     with _artifact_context(path) as tmp_path:
@@ -256,8 +264,10 @@ def log_text(text: str, path: str) -> None:
 
     Examples
     --------
-    >>> with mlflow.start_run():
+    >>> with mlflow.start_run() as run:
     ...     mlflow.log_text('text', 'text.txt')
+    >>> list_artifacts(run.info.run_id)
+    ['text.txt']
 
     """
     with _artifact_context(path) as tmp_path:
@@ -307,8 +317,10 @@ def log_confusion_matrix(cm: ArrayLike, path: str = "confusion_matrix.png") -> N
 
     Examples
     --------
-    >>> with mlflow.start_run():
+    >>> with mlflow.start_run() as run:
     ...     mlflow.log_confusion_matrix([[1, 2], [3, 4]])
+    >>> list_artifacts(run.info.run_id)
+    ['confusion_matrix.png']
 
     """
     fig = mplt.confusion_matrix(cm)
@@ -345,10 +357,12 @@ def log_feature_importance(
 
     Examples
     --------
-    >>> with mlflow.start_run():
+    >>> with mlflow.start_run() as run:
     ...     features = ['a', 'b', 'c']
     ...     importances = [1, 2, 3]
     ...     mlflow.log_feature_importance(features, importances, 'gain')
+    >>> list_artifacts(run.info.run_id)
+    ['feature_importance.png']
 
     """
     fig = mplt.feature_importance(
@@ -383,8 +397,10 @@ def log_roc_curve(
 
     Examples
     --------
-    >>> with mlflow.start_run():
+    >>> with mlflow.start_run() as run:
     ...     mlflow.log_roc_curve([0, 1], [0, 1])
+    >>> list_artifacts(run.info.run_id)
+    ['roc_curve.png']
 
     """
     fig = mplt.roc_curve(fpr, tpr, auc)
@@ -417,8 +433,10 @@ def log_pr_curve(
 
     Examples
     --------
-    >>> with mlflow.start_run():
+    >>> with mlflow.start_run() as run:
     ...     mlflow.log_pr_curve([1, 0], [1, 0])
+    >>> list_artifacts(run.info.run_id)
+    ['pr_curve.png']
 
     """
     fig = mplt.pr_curve(pre, rec, auc)
