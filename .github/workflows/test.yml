@@ -37,9 +37,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt -r requirements-dev.txt
 
-      - name: Run type check
-        run: mypy .
-
       - name: Run tests
         run: ./dev/test.sh
 
@@ -91,3 +88,30 @@ jobs:
 
       - name: black
         run: black --check .
+
+  mypy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+
+      - uses: actions/cache@v1
+        with:
+          path: ~/.cache/pip
+          key: >
+            ${{ runner.os }}-pip-
+            ${{ hashFiles('**/requirements.txt') }}-
+            ${{ hashFiles('**/requirements-dev.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt -r requirements-dev.txt
+
+      - name: mypy
+        run: mypy .
