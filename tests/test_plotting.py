@@ -1,7 +1,7 @@
 from typing import Any
-import py
 
 import numpy as np
+import py
 import pytest
 from matplotlib import pyplot as plt
 
