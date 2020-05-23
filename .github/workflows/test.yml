@@ -12,7 +12,6 @@ jobs:
   main:
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 3
       matrix:
         python-version: [3.6, 3.7, 3.8]
 
@@ -63,13 +62,3 @@ jobs:
 
       - name: Build package
         run: python setup.py bdist_wheel
-
-      - name: Build documentation
-        working-directory: docs
-        run: make html
-
-      - name: Upload documentation
-        uses: actions/upload-artifact@v1
-        with:
-          name: documentation
-          path: docs/build/html
