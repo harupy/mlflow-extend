@@ -23,12 +23,13 @@ function copyTextToClipboard(text) {
 }
 
 function removePromptsAndOutput(doctest) {
+  var prompt = /^(>>> |\.\.\. )/;
   function isCode(line) {
-    return line.startsWith(">>> ") || line.startsWith("... ");
+    return prompt.test(line);
   }
 
   function stripPrompt(line) {
-    return line.replace(">>> ", "").replace("... ", "");
+    return line.replace(prompt, "");
   }
 
   return doctest.split(/\r|\n/).filter(isCode).map(stripPrompt).join("\n");
