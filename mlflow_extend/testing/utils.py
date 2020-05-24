@@ -66,7 +66,7 @@ def assert_is_figure(obj: Any) -> None:
     """
     Assert the given object is one of:
       - matplotlib.pyplot.Figure
-      - plotly.graph_objects.Figure    
+      - plotly.graph_objects.Figure
     """
     assert isinstance(obj, (plt.Figure, go.Figure))
 
