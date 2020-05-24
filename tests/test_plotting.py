@@ -1,16 +1,10 @@
-from typing import Any
-
 import numpy as np
 import py
 import pytest
-from matplotlib import pyplot as plt
 
 from mlflow_extend import plotting as mplt
 from mlflow_extend.typing import ArrayLike
-
-
-def assert_is_figure(obj: Any) -> None:
-    assert isinstance(obj, plt.Figure)
+from mlflow_extend.testing.utils import assert_is_figure
 
 
 @pytest.mark.parametrize("cm", [[[1, 2], [3, 4]], np.array([[1, 2], [3, 4]])])
