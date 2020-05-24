@@ -50,7 +50,7 @@ def test_log_metrics_flatten() -> None:
     assert loaded_run.data.metrics == {"a.b": 0.0, "a_b": 0.0, "d.a.b": 0.0}
 
 
-def test_log_figure_matplotlib() -> None:
+def test_log_plt_figure() -> None:
     fig, ax = plt.subplots()
     ax.plot([0, 1], [0, 1])
     with mlflow.start_run() as run:
@@ -59,7 +59,27 @@ def test_log_figure_matplotlib() -> None:
         assert_file_exists_in_artifacts(run, path)
 
 
-def test_log_figure_plotly() -> None:
+def test_log_plotly_figure() -> None:
+    fig = go.Figure(data=[go.Bar(x=[1, 2, 3], y=[1, 3, 2])])
+    with mlflow.start_run() as run:
+        path = "test.html"
+        lg.log_figure(fig, path)
+        assert_file_exists_in_artifacts(run, path)
+
+        path = "test.png"
+        msg = '"{}" is not an HTML file.'.format(path)
+        with pytest.raises(ValueError, match=msg):
+            lg.log_figure(fig, path)
+
+
+def test_log_figure() -> None:
+    fig, ax = plt.subplots()
+    ax.plot([0, 1], [0, 1])
+    with mlflow.start_run() as run:
+        path = "test.png"
+        lg.log_figure(fig, path)
+        assert_file_exists_in_artifacts(run, path)
+
     fig = go.Figure(data=[go.Bar(x=[1, 2, 3], y=[1, 3, 2])])
     with mlflow.start_run() as run:
         path = "test.html"
@@ -74,11 +94,8 @@ def test_log_figure_plotly() -> None:
 
 def test_log_figure_invalid_fig_type() -> None:
     with mlflow.start_run():
-        fig = "figure"
-        path = "test.png"
-        msg = 'Invalid figure type "{}".'.format(type(fig))
-        with pytest.raises(TypeError, match=msg):
-            lg.log_figure(fig, path)
+        with pytest.raises(TypeError, match="Invalid figure type"):
+            lg.log_figure("figure", "test.png")
 
 
 @pytest.mark.parametrize("path", ["test.json", "test.yaml", "test.yml"])

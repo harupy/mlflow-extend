@@ -20,6 +20,8 @@ from mlflow_extend.utils import flatten_dict
 __all__ = [
     "log_params_flatten",
     "log_metrics_flatten",
+    "log_plt_figure",
+    "log_plotly_figure",
     "log_figure",
     "log_dict",
     "log_df",
@@ -114,6 +116,71 @@ def log_metrics_flatten(
     mlflow.log_metrics(flatten_dict(metrics, parent_key, sep), step)
 
 
+def log_plt_figure(fig: plt.Figure, path: str) -> None:
+    """
+    Log a matplotlib figure as an artifact.
+
+    Parameters
+    ----------
+    fig : matplotlib.pyplot.Figure
+        Figure to log.
+    path : str
+        Path in the artifact store.
+
+    Returns
+    -------
+    None
+        None
+
+    Examples
+    --------
+    >>> with mlflow.start_run() as run:
+    ...     fig, ax = plt.subplots()
+    ...     _ = ax.plot([0, 1], [0, 1])
+    ...     mlflow.log_figure(fig, 'plt_figure.png')
+    >>> list_artifacts(run.info.run_id)
+    ['plt_figure.png']
+
+    """
+    with _artifact_context(path) as tmp_path:
+        fig.savefig(tmp_path)
+        plt.close(fig)
+
+
+def log_plotly_figure(fig: go.Figure, path: str) -> None:
+    """
+    Log a plotly figure as an artifact.
+
+    Parameters
+    ----------
+    fig : go.Figure
+        Figure to log.
+    path : str
+        Path in the artifact store.
+
+    Returns
+    -------
+    None
+        None
+
+    Examples
+    --------
+    >>> with mlflow.start_run() as run:
+    ...     fig = go.Figure(data=[go.Bar(x=[1, 2, 3], y=[1, 3, 2])])
+    ...     mlflow.log_figure(fig, 'plotly_figure.html')  # Must be an HTML file.
+    >>> list_artifacts(run.info.run_id)
+    ['plotly_figure.html']
+
+    """
+    if not path.endswith("html"):
+        raise ValueError('"{}" is not an HTML file.'.format(os.path.basename(path)))
+
+    with _artifact_context(path) as tmp_path:
+        plotly.offline.plot(
+            fig, filename=tmp_path, include_plotlyjs="cdn", auto_open=False
+        )
+
+
 def log_figure(fig: Union[plt.Figure, go.Figure], path: str) -> None:
     """
     Log a matplotlib figure as an artifact.
@@ -150,20 +217,12 @@ def log_figure(fig: Union[plt.Figure, go.Figure], path: str) -> None:
     ['plotly_figure.html']
 
     """
-    with _artifact_context(path) as tmp_path:
-        if isinstance(fig, plt.Figure):
-            fig.savefig(tmp_path)
-            plt.close(fig)
-        elif isinstance(fig, go.Figure):
-            if not tmp_path.endswith("html"):
-                raise ValueError(
-                    '"{}" is not an HTML file.'.format(os.path.basename(tmp_path))
-                )
-            plotly.offline.plot(
-                fig, filename=tmp_path, include_plotlyjs="cdn", auto_open=False
-            )
-        else:
-            raise TypeError('Invalid figure type "{}".'.format(type(fig)))
+    if isinstance(fig, plt.Figure):
+        log_plt_figure(fig, path)
+    elif isinstance(fig, go.Figure):
+        log_plotly_figure(fig, path)
+    else:
+        raise TypeError('Invalid figure type: "{}"'.format(type(fig)))
 
 
 def log_dict(dct: dict, path: str, fmt: Optional[str] = None) -> None:
