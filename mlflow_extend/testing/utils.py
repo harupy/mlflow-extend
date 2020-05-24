@@ -6,7 +6,9 @@ from typing import Any, Callable, Dict, List
 
 import mlflow
 import yaml
+from matplotlib import pyplot as plt
 from mlflow.entities.run import Run
+from plotly import graph_objects as go
 
 
 def _get_default_args(func: Callable[..., Any]) -> Dict[str, Any]:
@@ -58,6 +60,15 @@ def _read_data(path: str) -> Dict[str, Any]:
             return yaml.load(f)
         else:
             raise ValueError("Invalid file type: `{}`".format(ext))
+
+
+def assert_is_figure(obj: Any) -> None:
+    """
+    Assert the given object is one of:
+      - matplotlib.pyplot.Figure
+      - plotly.graph_objects.Figure
+    """
+    assert isinstance(obj, (plt.Figure, go.Figure))
 
 
 def assert_file_exists(path: str) -> None:
