@@ -57,7 +57,7 @@ def _read_data(path: str) -> Dict[str, Any]:
         if ext == ".json":
             return json.load(f)
         elif ext in [".yaml", ".yml"]:
-            return yaml.load(f)
+            return yaml.load(f, Loader=yaml.SafeLoader)
         else:
             raise ValueError("Invalid file type: `{}`".format(ext))
 
