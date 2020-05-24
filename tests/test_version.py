@@ -1,5 +1,6 @@
-import mlflow_extend
 import re
+
+import mlflow_extend
 
 
 def test_version_exists():
