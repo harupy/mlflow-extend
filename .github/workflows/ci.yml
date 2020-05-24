@@ -95,13 +95,6 @@ jobs:
       - name: Run tests
         run: ./dev/test.sh
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          file: ./coverage.xml
-          name: ${{ runner.os }}-${{ matrix.python-version }}
-          fail_ci_if_error: true
-
   codecov:
     runs-on: ubuntu-latest
     steps:
