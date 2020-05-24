@@ -6,9 +6,9 @@ from typing import Any, Callable, Dict, List
 
 import mlflow
 import yaml
-import matplotlib.pyplot as plt
-from plotly import graph_objects as go
+from matplotlib import pyplot as plt
 from mlflow.entities.run import Run
+from plotly import graph_objects as go
 
 
 def _get_default_args(func: Callable[..., Any]) -> Dict[str, Any]:

@@ -3,8 +3,8 @@ import py
 import pytest
 
 from mlflow_extend import plotting as mplt
-from mlflow_extend.typing import ArrayLike
 from mlflow_extend.testing.utils import assert_is_figure
+from mlflow_extend.typing import ArrayLike
 
 
 @pytest.mark.parametrize("cm", [[[1, 2], [3, 4]], np.array([[1, 2], [3, 4]])])
