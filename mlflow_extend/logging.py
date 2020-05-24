@@ -236,7 +236,7 @@ def log_df(df: pd.DataFrame, path: str, fmt: str = "csv") -> None:
 
     Parameters
     ----------
-    df : dict
+    df : pandas.DataFrame
         Dataframe to log.
     path : str
         Path in the artifact store.
