@@ -1,0 +1,4 @@
+div.highlight {
+  /* Remove the gap between div.highlight and div.navbar. */
+  margin-top: -1px !important;
+}
