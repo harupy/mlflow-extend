@@ -72,7 +72,7 @@ def test_log_plotly_figure() -> None:
             lg.log_figure(fig, path)
 
 
-def test_log_figure():
+def test_log_figure() -> None:
     fig, ax = plt.subplots()
     ax.plot([0, 1], [0, 1])
     with mlflow.start_run() as run:
