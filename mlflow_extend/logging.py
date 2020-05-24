@@ -312,8 +312,10 @@ def log_numpy(arr: np.ndarray, path: str) -> None:
 
     Examples
     --------
-    >>> with mlflow.start_run():
+    >>> with mlflow.start_run() as run:
     ...     mlflow.log_numpy(np.array([0]), 'array.npy')
+    >>> list_artifacts(run.info.run_id)
+    ['array.npy']
 
     """
     with _artifact_context(path) as tmp_path:
