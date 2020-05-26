@@ -7,7 +7,7 @@ WORKDIR ${WORKDIR}
 COPY ./requirements.txt /tmp/requirements.txt
 COPY ./requirements-dev.txt /tmp/requirements-dev.txt
 
-RUN pip install --upgrade pip && \
+RUN pip install --upgrade pip==20.1.1 && \
     pip install -r /tmp/requirements.txt -r /tmp/requirements-dev.txt
 
 CMD ["/bin/bash"]
