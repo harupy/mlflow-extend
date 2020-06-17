@@ -8,5 +8,4 @@ jobs:
   issue-comment:
     runs-on: ubuntu-latest
     steps:
-      - run:
-          echo "${{ github.event.issue.pull_request.url }}"
+      - run: echo "${{ toJson(github) }}"
