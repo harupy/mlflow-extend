@@ -1,0 +1,12 @@
+name: issue-comment
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  issue-comment:
+    runs-on: ubuntu-latest
+    steps:
+      - run:
+          echo "${{ github.event.issue.pull_request.url }}"
