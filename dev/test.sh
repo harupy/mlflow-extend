@@ -5,7 +5,7 @@ cov_report_type=$([ ! -z "$GITHUB_ACTION" ] && echo "xml" || echo "term")
 
 pytest tests \
   --doctest-modules mlflow_extend \
-  --cov mlflow_exten \
+  --cov mlflow_extends \
   --cov-report="$cov_report_type" \
   --verbose \
   --showlocals \
