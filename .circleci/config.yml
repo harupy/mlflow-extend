@@ -9,7 +9,7 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: pip install -r requirements.txt -r requirements-dev.txt
+          command: ./dev/install.sh
 
       - run:
           name: Build documentation
