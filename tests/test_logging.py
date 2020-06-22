@@ -68,7 +68,7 @@ def test_log_plotly_figure() -> None:
 
         path = "test.png"
         msg = '"{}" is not an HTML file.'.format(path)
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match=msg):
             lg.log_figure(fig, path)
 
 
