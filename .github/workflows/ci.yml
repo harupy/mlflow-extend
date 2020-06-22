@@ -54,10 +54,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt -r requirements-dev.txt
+      - run: ./install.sh
 
       - run: flake8 .
 
@@ -84,11 +81,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt -r requirements-dev.txt
-
+      - run: ./install.sh
       - run: mypy .
 
   test:
@@ -113,13 +106,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt -r requirements-dev.txt
+      - run: ./install.sh
 
-      - name: Run tests
-        run: ./dev/test.sh
+      - run: ./dev/test.sh
 
   codecov:
     runs-on: ubuntu-latest
@@ -140,13 +129,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt -r requirements-dev.txt
+      - run: ./install.sh
 
-      - name: Run tests
-        run: ./dev/test.sh
+      - run: ./dev/test.sh
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
@@ -165,7 +150,7 @@ jobs:
         with:
           python-version: 3.7
 
-      - run: pip install -e .
+      - run: pip install --progress-bar off -e .
 
   wheel:
     # Verify building wheel does not fail
@@ -177,9 +162,6 @@ jobs:
         with:
           python-version: 3.7
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements-dev.txt
+      - run: ./install.sh
 
       - run: python setup.py bdist_wheel
