@@ -9,7 +9,7 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: pip install -r requirements.txt -r requirements-dev.txt
+          command: pip install --progress-bar off -r requirements.txt -r requirements-dev.txt
 
       - run:
           name: Build documentation
