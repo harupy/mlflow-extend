@@ -1,7 +1,7 @@
 from setuptools import setup
 
-from version import __version__
 import bare_pytest_raises
+from version import __version__
 
 setup(
     name="flake8-extensions",

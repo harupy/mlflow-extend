@@ -1,5 +1,4 @@
 # mypy: ignore-errors
-
 import ast
 
 from version import __version__
