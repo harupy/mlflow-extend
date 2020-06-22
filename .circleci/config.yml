@@ -9,7 +9,7 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: ./install.sh
+          command: ./dev/install.sh
 
       - run:
           name: Build documentation

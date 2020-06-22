@@ -55,7 +55,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      - run: ./install.sh
+      - run: ./dev/install.sh
 
       - run: pip install --progress-bar off -e .flake8_extensions
 
@@ -84,7 +84,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      - run: ./install.sh
+      - run: ./dev/install.sh
       - run: mypy .
 
   test:
@@ -109,7 +109,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      - run: ./install.sh
+      - run: ./dev/install.sh
 
       - run: ./dev/test.sh
 
@@ -132,7 +132,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      - run: ./install.sh
+      - run: ./dev/install.sh
 
       - run: ./dev/test.sh
 
@@ -165,6 +165,6 @@ jobs:
         with:
           python-version: 3.7
 
-      - run: ./install.sh
+      - run: ./dev/install.sh
 
       - run: python setup.py bdist_wheel
