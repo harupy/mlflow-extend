@@ -72,6 +72,9 @@ class BarePytestRaises:
                 yield (
                     stmt.lineno,
                     stmt.col_offset,
-                    f"{ERROR_CODE_PREFIX}999: bare 'pytest.raises' is not allowed. specify 'match' argument",
+                    (
+                        f"{ERROR_CODE_PREFIX}999: bare 'pytest.raises' is not allowed. "
+                        "specify 'match' argument"
+                    ),
                     type(self),
                 )
