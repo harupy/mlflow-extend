@@ -57,6 +57,8 @@ jobs:
 
       - run: ./install.sh
 
+      - run: pip install --progress-bar off -e .flake8_extensions
+
       - run: flake8 .
 
       - run: isort --check-only .
