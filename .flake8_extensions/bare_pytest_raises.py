@@ -4,7 +4,7 @@ import ast
 
 from version import __version__
 
-ERROR_CODE_LETTER = "B"
+ERROR_CODE_PREFIX = "B"
 
 
 def _is_pytest_raises(context_expr):
@@ -72,6 +72,6 @@ class BarePytestRaises:
                 yield (
                     stmt.lineno,
                     stmt.col_offset,
-                    f"{ERROR_CODE_LETTER}999: bare 'pytest.raises' is not allowed. specify 'match' argument",
+                    f"{ERROR_CODE_PREFIX}999: bare 'pytest.raises' is not allowed. specify 'match' argument",
                     type(self),
                 )

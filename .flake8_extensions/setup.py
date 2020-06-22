@@ -12,7 +12,7 @@ setup(
     entry_points={
         "flake8.extension": [
             (
-                f"{bare_pytest_raises.ERROR_CODE_LETTER} "
+                f"{bare_pytest_raises.ERROR_CODE_PREFIX} "
                 "= bare_pytest_raises:BarePytestRaises"
             )
         ]
