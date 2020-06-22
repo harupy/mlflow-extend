@@ -11,7 +11,10 @@ setup(
     install_requires=["flake8"],
     entry_points={
         "flake8.extension": [
-            f"{bare_pytest_raises.ERROR_CODE_LETTER} = bare_pytest_raises:BarePytestRaises"
+            (
+                f"{bare_pytest_raises.ERROR_CODE_LETTER} "
+                "= bare_pytest_raises:BarePytestRaises"
+            )
         ]
     },
 )
