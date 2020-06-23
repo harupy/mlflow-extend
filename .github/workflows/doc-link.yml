@@ -5,8 +5,9 @@ on: status
 jobs:
   doc-link:
     runs-on: ubuntu-latest
-    if: "github.context.context == 'ci/circleci: document'"
+    # if: "github.context.context == 'ci/circleci: document'"
     steps:
+      - run: echo ${{ github.context.context }}
       - uses: larsoner/circleci-artifacts-redirector-action@master
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
