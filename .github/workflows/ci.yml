@@ -59,6 +59,8 @@ jobs:
 
       - run: pip install --progress-bar off -e .flake8_extensions
 
+      - run: pip install speedtest-cli && speedtest-cli
+
       - run: flake8 .
 
       - run: isort --check-only .
