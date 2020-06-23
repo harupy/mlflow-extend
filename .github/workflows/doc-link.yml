@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     # if: "github.context.context == 'ci/circleci: document'"
     steps:
-      - run: echo ${{ toJson(github) }}
+      - run: echo ${{ github.context }}
       - uses: larsoner/circleci-artifacts-redirector-action@master
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
