@@ -1,0 +1,11 @@
+name: 'Labeler'
+description: 'A bot to automate issue labeling'
+author: 'harupy'
+inputs:
+  github-token:
+    description: 'GITHUB_TOKEN'
+    required: true
+
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
