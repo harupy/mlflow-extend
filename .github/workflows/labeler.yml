@@ -32,10 +32,10 @@ jobs:
 
       - run: npm run pack
 
-      # If `dist.index.js` is not updated, exit with 1 and make the build fail
-      - run: |
+      - name: Verify dist/index.js is updated
+        run: |
           git_diff=$(git diff)
-          if [ ! -z "git_diff" ]; then
+          if [ ! -z "$git_diff" ]; then
             echo $git_diff
             exit 1
           fi
