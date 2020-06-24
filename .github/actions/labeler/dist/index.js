@@ -2515,7 +2515,6 @@ function main() {
                                 labels: labelsToAdd,
                             });
                         }
-                        console.log(page.url);
                         console.log(`issue_number: ${issue_number}`);
                     }
                 }

@@ -26,7 +26,6 @@ async function main(): Promise<void> {
     const octokit = github.getOctokit(token);
 
     const { repo, owner } = github.context.repo;
-
     const options = octokit.pulls.list.endpoint.merge({
       owner,
       repo,
@@ -89,7 +88,7 @@ async function main(): Promise<void> {
             labels: labelsToAdd,
           });
         }
-        console.log(page.url);
+
         console.log(`issue_number: ${issue_number}`);
       }
     }
