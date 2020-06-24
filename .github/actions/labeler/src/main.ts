@@ -11,8 +11,9 @@ async function run(): Promise<void> {
     const token = core.getInput('repo-token', { required: true });
     const octokit = github.getOctokit(token);
 
-    const { repo } = github.context.repo;
-    const { owner } = github.context.repo;
+    const { repo, owner } = github.context.repo;
+    console.log(repo);
+    console.log(owner);
 
     const { data: pullRequest } = await octokit.pulls.get({
       owner,
