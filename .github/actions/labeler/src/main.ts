@@ -11,10 +11,13 @@ async function run(): Promise<void> {
     const token = core.getInput('repo-token', { required: true });
     const octokit = github.getOctokit(token);
 
+    const { repo } = github.context.repo;
+    const { owner } = github.context.repo;
+
     const { data: pullRequest } = await octokit.pulls.get({
-      owner: 'octokit',
-      repo: 'rest.js',
-      pull_number: 123,
+      owner,
+      repo,
+      pull_number: 112,
       mediaType: {
         format: 'diff',
       },
