@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "description": "A bot to automate issue labeling",
+  "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
     "lint:fix": "eslint --fix src/**/*.ts",
