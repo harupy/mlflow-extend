@@ -2459,7 +2459,7 @@ function extractLabels(body) {
     return helper(/- \[([ xX]*)\] ?`(.+)`/gm);
 }
 exports.extractLabels = extractLabels;
-function run() {
+function main() {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -2531,7 +2531,7 @@ function run() {
         }
     });
 }
-run();
+main();
 
 
 /***/ }),
