@@ -20,7 +20,7 @@ export function extractLabels(body: string): Label[] {
   return helper(/- \[([ xX]*)\] ?`(.+)`/gm);
 }
 
-async function run(): Promise<void> {
+async function main(): Promise<void> {
   try {
     const token = core.getInput('repo-token', { required: true });
     const octokit = github.getOctokit(token);
@@ -97,4 +97,4 @@ async function run(): Promise<void> {
   }
 }
 
-run();
+main();
