@@ -1,0 +1,51 @@
+name: Labeler
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .github/actions/labeler
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+
+      - run: npm install
+
+      - run: npm run lint
+
+      - run: npm run test
+
+      - run: npm run build
+
+      - run: npm run pack
+
+      - name: Verify dist/index.js is updated
+        run: |
+          git_diff=$(git diff)
+          if [ ! -z "$git_diff" ]; then
+            echo $git_diff
+            exit 1
+          fi
+
+  test-run:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: ./.github/actions/labeler
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}

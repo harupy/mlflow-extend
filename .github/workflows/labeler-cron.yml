@@ -1,0 +1,13 @@
+name: Labeler Cron
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+
+jobs:
+  labeler:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/labeler
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
