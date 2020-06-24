@@ -2466,7 +2466,6 @@ function run() {
             const token = core.getInput('repo-token', { required: true });
             const octokit = github.getOctokit(token);
             const { repo, owner } = github.context.repo;
-            const { number: issue_number } = github.context.issue;
             const options = octokit.pulls.list.endpoint.merge({
                 owner,
                 repo,
@@ -2475,6 +2474,7 @@ function run() {
                 for (var _b = __asyncValues(octokit.paginate.iterator(options)), _c; _c = yield _b.next(), !_c.done;) {
                     const page = _c.value;
                     for (const pull of page.data) {
+                        const { body, number: issue_number, } = pull;
                         // Labels attached on the PR
                         const labelsOnIssueResp = yield octokit.issues.listLabelsOnIssue({
                             owner,
@@ -2489,8 +2489,9 @@ function run() {
                         });
                         const labelsForRepo = labelsForRepoResp.data.map(({ name }) => name);
                         // Labels in the PR description
-                        const { body } = pull;
-                        const labels = extractLabels(body).filter(({ name }) => labelsForRepo.includes(name));
+                        const labels = extractLabels(body).filter(({ name }) => 
+                        // Remove labels that are not registered in the repo.
+                        labelsForRepo.includes(name));
                         // Remove unchecked labels
                         const labelsToRemove = labels.filter(({ name, checked }) => !checked && labelsOnIssue.includes(name));
                         labelsToRemove.forEach(({ name }) => __awaiter(this, void 0, void 0, function* () {
