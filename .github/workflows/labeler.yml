@@ -9,7 +9,7 @@ on:
       - master
 
 jobs:
-  labeler:
+  test:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -41,6 +41,7 @@ jobs:
           fi
 
   test-run:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
