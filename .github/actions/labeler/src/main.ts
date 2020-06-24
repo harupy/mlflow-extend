@@ -89,7 +89,7 @@ async function main(): Promise<void> {
             labels: labelsToAdd,
           });
         }
-
+        console.log(page.url);
         console.log(`issue_number: ${issue_number}`);
       }
     }
