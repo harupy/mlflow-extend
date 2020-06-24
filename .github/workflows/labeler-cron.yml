@@ -2,7 +2,7 @@ name: Labeler Cron
 
 on:
   schedule:
-    - cron: "*/l0 * * * *"
+    - cron: "*/10 * * * *"
 
 jobs:
   test-run:
