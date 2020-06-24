@@ -2,7 +2,7 @@ name: 'Labeler'
 description: 'A bot to automate issue labeling'
 author: 'harupy'
 inputs:
-  github-token:
+  repo-token:
     description: 'GITHUB_TOKEN'
     required: true
 
