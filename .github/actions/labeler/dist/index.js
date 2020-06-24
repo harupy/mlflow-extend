@@ -2443,29 +2443,77 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
     function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sample = void 0;
+exports.extractLabels = void 0;
 const core = __importStar(__webpack_require__(470));
 const github = __importStar(__webpack_require__(469));
-function sample() {
-    return 'sample';
+function extractLabels(body) {
+    function helper(regex, labels = []) {
+        const res = regex.exec(body);
+        if (res) {
+            const checked = /[xX]/.test(res[1].trim());
+            const name = res[2].trim();
+            return helper(regex, [...labels, { name, checked }]);
+        }
+        return labels;
+    }
+    return helper(/- \[([ xX]*)\] ?`(.+)`/gm);
 }
-exports.sample = sample;
+exports.extractLabels = extractLabels;
 function run() {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            // const token: string = core.getInput('github-token');
             const token = core.getInput('repo-token', { required: true });
             const octokit = github.getOctokit(token);
+            const { repo, owner } = github.context.repo;
+            const { number: issue_number } = github.context.issue;
             const options = octokit.pulls.list.endpoint.merge({
-                owner: github.context.repo.owner,
-                repo: github.context.repo.repo,
+                owner,
+                repo,
             });
             try {
                 for (var _b = __asyncValues(octokit.paginate.iterator(options)), _c; _c = yield _b.next(), !_c.done;) {
-                    const pageResponse = _c.value;
-                    for (const pullResponse of pageResponse.data) {
-                        console.log(pullResponse);
+                    const page = _c.value;
+                    for (const pull of page.data) {
+                        // Labels attached on the PR
+                        const labelsOnIssueResp = yield octokit.issues.listLabelsOnIssue({
+                            owner,
+                            repo,
+                            issue_number,
+                        });
+                        const labelsOnIssue = labelsOnIssueResp.data.map(({ name }) => name);
+                        // Labels registered in the repository
+                        const labelsForRepoResp = yield octokit.issues.listLabelsForRepo({
+                            owner,
+                            repo,
+                        });
+                        const labelsForRepo = labelsForRepoResp.data.map(({ name }) => name);
+                        // Labels in the PR description
+                        const { body } = pull;
+                        const labels = extractLabels(body).filter(({ name }) => labelsForRepo.includes(name));
+                        // Remove unchecked labels
+                        const labelsToRemove = labels.filter(({ name, checked }) => !checked && labelsOnIssue.includes(name));
+                        labelsToRemove.forEach(({ name }) => __awaiter(this, void 0, void 0, function* () {
+                            yield octokit.issues.removeLabel({
+                                owner,
+                                repo,
+                                issue_number,
+                                name,
+                            });
+                        }));
+                        // Add checked labels
+                        const labelsToAdd = labels
+                            .filter(({ name, checked }) => checked && !labelsOnIssue.includes(name))
+                            .map(({ name }) => name);
+                        if (labelsToAdd.length > 0) {
+                            yield octokit.issues.addLabels({
+                                owner,
+                                repo,
+                                issue_number,
+                                labels: labelsToAdd,
+                            });
+                        }
+                        console.log(`issue_number: ${issue_number}`);
                     }
                 }
             }
