@@ -38,6 +38,6 @@ jobs:
   test-run:
     runs-on: ubuntu-latest
     steps:
-      - uses: ./github/action/labeler
+      - uses: ./github/actions/labeler
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
