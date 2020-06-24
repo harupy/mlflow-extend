@@ -8,6 +8,8 @@ jobs:
   labeler:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+
       - uses: ./.github/actions/labeler
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
