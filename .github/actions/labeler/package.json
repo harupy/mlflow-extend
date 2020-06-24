@@ -12,7 +12,8 @@
     "pack": "ncc build"
   },
   "dependencies": {
-    "@actions/core": "^1.2.0"
+    "@actions/core": "^1.2.0",
+    "@actions/github": "^3.0.0"
   },
   "devDependencies": {
     "@types/jest": "^24.0.23",
