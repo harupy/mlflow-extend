@@ -47,7 +47,6 @@ async function main(): Promise<void> {
           issue_number,
         });
         const labelsOnIssue = labelsOnIssueResp.data.map(({ name }) => name);
-        console.log(labelsOnIssue);
 
         // Labels registered in the repository
         const labelsForRepoResp = await octokit.issues.listLabelsForRepo({
@@ -55,14 +54,12 @@ async function main(): Promise<void> {
           repo,
         });
         const labelsForRepo = labelsForRepoResp.data.map(({ name }) => name);
-        console.log(labelsForRepo);
 
         // Labels in the PR description
         const labels = extractLabels(body).filter(({ name }) =>
           // Remove labels that are not registered in the repo.
           labelsForRepo.includes(name),
         );
-        console.log(labels);
 
         // Remove unchecked labels
         const labelsToRemove = labels.filter(
