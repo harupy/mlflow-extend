@@ -2435,6 +2435,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __asyncValues = (this && this.__asyncValues) || function (o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sample = void 0;
 const core = __importStar(__webpack_require__(470));
@@ -2444,23 +2451,31 @@ function sample() {
 }
 exports.sample = sample;
 function run() {
+    var e_1, _a;
     return __awaiter(this, void 0, void 0, function* () {
         try {
             // const token: string = core.getInput('github-token');
             const token = core.getInput('repo-token', { required: true });
             const octokit = github.getOctokit(token);
-            const { repo, owner } = github.context.repo;
-            console.log(repo);
-            console.log(owner);
-            const { data: pullRequest } = yield octokit.pulls.get({
-                owner,
-                repo,
-                pull_number: 112,
-                mediaType: {
-                    format: 'diff',
-                },
+            const options = octokit.pulls.list.endpoint.merge({
+                owner: github.context.repo.owner,
+                repo: github.context.repo.repo,
             });
-            console.log(pullRequest);
+            try {
+                for (var _b = __asyncValues(octokit.paginate.iterator(options)), _c; _c = yield _b.next(), !_c.done;) {
+                    const pageResponse = _c.value;
+                    for (const pullResponse of pageResponse.data) {
+                        console.log(pullResponse);
+                    }
+                }
+            }
+            catch (e_1_1) { e_1 = { error: e_1_1 }; }
+            finally {
+                try {
+                    if (_c && !_c.done && (_a = _b.return)) yield _a.call(_b);
+                }
+                finally { if (e_1) throw e_1.error; }
+            }
         }
         catch (error) {
             core.setFailed(error.message);

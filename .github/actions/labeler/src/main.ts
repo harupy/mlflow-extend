@@ -11,20 +11,16 @@ async function run(): Promise<void> {
     const token = core.getInput('repo-token', { required: true });
     const octokit = github.getOctokit(token);
 
-    const { repo, owner } = github.context.repo;
-    console.log(repo);
-    console.log(owner);
-
-    const { data: pullRequest } = await octokit.pulls.get({
-      owner,
-      repo,
-      pull_number: 112,
-      mediaType: {
-        format: 'diff',
-      },
+    const options = octokit.pulls.list.endpoint.merge({
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
     });
 
-    console.log(pullRequest);
+    for await (const pageResponse of octokit.paginate.iterator(options)) {
+      for (const pullResponse of pageResponse.data) {
+        console.log(pullResponse);
+      }
+    }
   } catch (error) {
     core.setFailed(error.message);
   }
