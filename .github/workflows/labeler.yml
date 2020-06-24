@@ -34,9 +34,9 @@ jobs:
 
       # If `dist.index.js` is not updated, exit with 1 and make the build fail
       - run: |
-          diff=$(git diff)
-          if [ ! -z "$(diff)" ]; then
-            echo $diff
+          git_diff=$(git diff)
+          if [ ! -z "$(git_diff)" ]; then
+            echo $git_diff
             exit 1
           fi
 
