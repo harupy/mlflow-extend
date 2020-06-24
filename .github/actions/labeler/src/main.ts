@@ -26,7 +26,6 @@ async function run(): Promise<void> {
     const octokit = github.getOctokit(token);
 
     const { repo, owner } = github.context.repo;
-    const { number: issue_number } = github.context.issue;
 
     const options = octokit.pulls.list.endpoint.merge({
       owner,
@@ -35,6 +34,11 @@ async function run(): Promise<void> {
 
     for await (const page of octokit.paginate.iterator(options)) {
       for (const pull of page.data) {
+        const {
+          body,
+          number: issue_number,
+        } = pull as types.PullsGetResponseData;
+
         // Labels attached on the PR
         const labelsOnIssueResp = await octokit.issues.listLabelsOnIssue({
           owner,
@@ -51,8 +55,8 @@ async function run(): Promise<void> {
         const labelsForRepo = labelsForRepoResp.data.map(({ name }) => name);
 
         // Labels in the PR description
-        const { body } = pull as types.PullsGetResponseData;
         const labels = extractLabels(body).filter(({ name }) =>
+          // Remove labels that are not registered in the repo.
           labelsForRepo.includes(name),
         );
 
