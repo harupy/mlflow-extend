@@ -2449,10 +2449,13 @@ function run() {
             // const token: string = core.getInput('github-token');
             const token = core.getInput('repo-token', { required: true });
             const octokit = github.getOctokit(token);
+            const { repo, owner } = github.context.repo;
+            console.log(repo);
+            console.log(owner);
             const { data: pullRequest } = yield octokit.pulls.get({
-                owner: 'octokit',
-                repo: 'rest.js',
-                pull_number: 123,
+                owner,
+                repo,
+                pull_number: 112,
                 mediaType: {
                     format: 'diff',
                 },
