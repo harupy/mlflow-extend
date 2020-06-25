@@ -37,6 +37,7 @@ async function main(): Promise<void> {
         const {
           body,
           number: issue_number,
+          html_url,
         } = pull as types.PullsGetResponseData;
 
         // Labels attached on the PR
@@ -64,14 +65,17 @@ async function main(): Promise<void> {
         const labelsToRemove = labels.filter(
           ({ name, checked }) => !checked && labelsOnIssue.includes(name),
         );
-        labelsToRemove.forEach(async ({ name }) => {
-          await octokit.issues.removeLabel({
-            owner,
-            repo,
-            issue_number,
-            name,
+
+        if (labelsToRemove.length > 0) {
+          labelsToRemove.forEach(async ({ name }) => {
+            await octokit.issues.removeLabel({
+              owner,
+              repo,
+              issue_number,
+              name,
+            });
           });
-        });
+        }
 
         // Add checked labels
         const labelsToAdd = labels
@@ -89,7 +93,9 @@ async function main(): Promise<void> {
           });
         }
 
-        console.log(`issue_number: ${issue_number}`);
+        if (labelsToRemove.length > 0 || labelsToAdd.length > 0) {
+          console.log(`Updated: ${html_url}`);
+        }
       }
     }
   } catch (error) {
