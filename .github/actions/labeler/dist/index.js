@@ -2475,7 +2475,7 @@ function main() {
                 for (var _b = __asyncValues(octokit.paginate.iterator(options)), _c; _c = yield _b.next(), !_c.done;) {
                     const page = _c.value;
                     for (const pull of page.data) {
-                        const { body, number: issue_number, } = pull;
+                        const { body, number: issue_number, html_url, } = pull;
                         // Labels attached on the PR
                         const labelsOnIssueResp = yield octokit.issues.listLabelsOnIssue({
                             owner,
@@ -2495,14 +2495,16 @@ function main() {
                         labelsForRepo.includes(name));
                         // Remove unchecked labels
                         const labelsToRemove = labels.filter(({ name, checked }) => !checked && labelsOnIssue.includes(name));
-                        labelsToRemove.forEach(({ name }) => __awaiter(this, void 0, void 0, function* () {
-                            yield octokit.issues.removeLabel({
-                                owner,
-                                repo,
-                                issue_number,
-                                name,
-                            });
-                        }));
+                        if (labelsToRemove.length > 0) {
+                            labelsToRemove.forEach(({ name }) => __awaiter(this, void 0, void 0, function* () {
+                                yield octokit.issues.removeLabel({
+                                    owner,
+                                    repo,
+                                    issue_number,
+                                    name,
+                                });
+                            }));
+                        }
                         // Add checked labels
                         const labelsToAdd = labels
                             .filter(({ name, checked }) => checked && !labelsOnIssue.includes(name))
@@ -2515,7 +2517,9 @@ function main() {
                                 labels: labelsToAdd,
                             });
                         }
-                        console.log(`issue_number: ${issue_number}`);
+                        if (labelsToRemove.length > 0 || labelsToAdd.length > 0) {
+                            console.log(`Updated: ${html_url}`);
+                        }
                     }
                 }
             }
