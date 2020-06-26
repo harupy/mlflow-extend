@@ -26,15 +26,15 @@ async function main(): Promise<void> {
     const octokit = github.getOctokit(token);
 
     const { repo, owner } = github.context.repo;
-    // const options = octokit.pulls.list.endpoint.merge({
-    //   owner,
-    //   repo,
-    // });
-
-    const options = octokit.issues.list.endpoint.merge({
+    const options = octokit.pulls.list.endpoint.merge({
       owner,
       repo,
     });
+
+    // const options = octokit.issues.list.endpoint.merge({
+    //   owner,
+    //   repo,
+    // });
 
     console.log(options);
 

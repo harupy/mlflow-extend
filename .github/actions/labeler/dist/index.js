@@ -2466,14 +2466,14 @@ function main() {
             const token = core.getInput('repo-token', { required: true });
             const octokit = github.getOctokit(token);
             const { repo, owner } = github.context.repo;
-            // const options = octokit.pulls.list.endpoint.merge({
-            //   owner,
-            //   repo,
-            // });
-            const options = octokit.issues.list.endpoint.merge({
+            const options = octokit.pulls.list.endpoint.merge({
                 owner,
                 repo,
             });
+            // const options = octokit.issues.list.endpoint.merge({
+            //   owner,
+            //   repo,
+            // });
             console.log(options);
             try {
                 // Iterate over all the open PRs
