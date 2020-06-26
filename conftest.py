@@ -34,7 +34,7 @@ def inject_items_into_doctest_namespace(doctest_namespace: dict) -> None:
 
 @pytest.fixture(scope="function", autouse=True)
 def save_figure(
-    request: _pytest.fixtures.FixtureRequest, tmpdir: py._path.local.LocalPath
+    request: _pytest.fixtures.FixtureRequest, tmpdir: py.path.local
 ) -> Generator[None, None, None]:
     """
     Save a matplotlib figure when "--savefig" is enabled.
