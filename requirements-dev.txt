@@ -7,7 +7,7 @@ black
 git+https://github.com/timothycrosley/isort.git@30296c75932ccfb17f9b9008eeb4423520884fcc
 
 # Type checking
-mypy<0.782
+mypy
 
 # Test
 pytest
