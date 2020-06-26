@@ -2466,16 +2466,12 @@ function main() {
             const token = core.getInput('repo-token', { required: true });
             const octokit = github.getOctokit(token);
             const { repo, owner } = github.context.repo;
-            const options = octokit.pulls.list.endpoint.merge({
-                owner,
-                repo,
-            });
             try {
                 // Iterate over all the open PRs
-                for (var _b = __asyncValues(octokit.paginate.iterator(options)), _c; _c = yield _b.next(), !_c.done;) {
+                for (var _b = __asyncValues(octokit.paginate.iterator(octokit.issues.listForRepo, { owner, repo })), _c; _c = yield _b.next(), !_c.done;) {
                     const page = _c.value;
-                    for (const pull of page.data) {
-                        const { body, number: issue_number, html_url, } = pull;
+                    for (const issue of page.data) {
+                        const { body, number: issue_number, html_url, } = issue;
                         // Labels attached on the PR
                         const labelsOnIssueResp = yield octokit.issues.listLabelsOnIssue({
                             owner,

@@ -24,21 +24,19 @@ async function main(): Promise<void> {
   try {
     const token = core.getInput('repo-token', { required: true });
     const octokit = github.getOctokit(token);
-
     const { repo, owner } = github.context.repo;
-    const options = octokit.pulls.list.endpoint.merge({
-      owner,
-      repo,
-    });
 
     // Iterate over all the open PRs
-    for await (const page of octokit.paginate.iterator(options)) {
-      for (const pull of page.data) {
+    for await (const page of octokit.paginate.iterator(
+      octokit.issues.listForRepo,
+      { owner, repo },
+    )) {
+      for (const issue of page.data) {
         const {
           body,
           number: issue_number,
           html_url,
-        } = pull as types.PullsGetResponseData;
+        } = issue as types.IssuesGetResponseData;
 
         // Labels attached on the PR
         const labelsOnIssueResp = await octokit.issues.listLabelsOnIssue({
