@@ -26,20 +26,23 @@ async function main(): Promise<void> {
     const octokit = github.getOctokit(token);
 
     const { repo, owner } = github.context.repo;
-    const options = octokit.pulls.list.endpoint.merge({
-      owner,
-      repo,
-    });
+    // const options = octokit.pulls.list.endpoint.merge({
+    //   owner,
+    //   repo,
+    // });
 
     // const options = octokit.issues.list.endpoint.merge({
     //   owner,
     //   repo,
     // });
 
-    console.log(options);
+    // console.log(options);
 
     // Iterate over all the open PRs
-    for await (const page of octokit.paginate.iterator(options)) {
+    for await (const page of octokit.paginate.iterator(
+      octokit.issues.listForRepo,
+      { owner, repo },
+    )) {
       for (const issue of page.data) {
         const {
           body,

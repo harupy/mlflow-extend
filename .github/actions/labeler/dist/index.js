@@ -2466,18 +2466,18 @@ function main() {
             const token = core.getInput('repo-token', { required: true });
             const octokit = github.getOctokit(token);
             const { repo, owner } = github.context.repo;
-            const options = octokit.pulls.list.endpoint.merge({
-                owner,
-                repo,
-            });
-            // const options = octokit.issues.list.endpoint.merge({
-            //   owner,
-            //   repo,
-            // });
-            console.log(options);
             try {
+                // const options = octokit.pulls.list.endpoint.merge({
+                //   owner,
+                //   repo,
+                // });
+                // const options = octokit.issues.list.endpoint.merge({
+                //   owner,
+                //   repo,
+                // });
+                // console.log(options);
                 // Iterate over all the open PRs
-                for (var _b = __asyncValues(octokit.paginate.iterator(options)), _c; _c = yield _b.next(), !_c.done;) {
+                for (var _b = __asyncValues(octokit.paginate.iterator(octokit.issues.listForRepo, { owner, repo })), _c; _c = yield _b.next(), !_c.done;) {
                     const page = _c.value;
                     for (const issue of page.data) {
                         const { body, number: issue_number, html_url, } = issue;
