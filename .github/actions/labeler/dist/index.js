@@ -2479,8 +2479,9 @@ function main() {
                 // Iterate over all the open PRs
                 for (var _b = __asyncValues(octokit.paginate.iterator(options)), _c; _c = yield _b.next(), !_c.done;) {
                     const page = _c.value;
-                    for (const pull of page.data) {
-                        const { body, number: issue_number, html_url, } = pull;
+                    for (const issue of page.data) {
+                        const { body, number: issue_number, html_url, } = issue;
+                        console.log(issue);
                         // Labels attached on the PR
                         const labelsOnIssueResp = yield octokit.issues.listLabelsOnIssue({
                             owner,

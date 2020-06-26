@@ -40,12 +40,14 @@ async function main(): Promise<void> {
 
     // Iterate over all the open PRs
     for await (const page of octokit.paginate.iterator(options)) {
-      for (const pull of page.data) {
+      for (const issue of page.data) {
         const {
           body,
           number: issue_number,
           html_url,
-        } = pull as types.IssuesGetResponseData;
+        } = issue as types.IssuesGetResponseData;
+
+        console.log(issue);
 
         // Labels attached on the PR
         const labelsOnIssueResp = await octokit.issues.listLabelsOnIssue({
