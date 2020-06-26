@@ -2467,21 +2467,11 @@ function main() {
             const octokit = github.getOctokit(token);
             const { repo, owner } = github.context.repo;
             try {
-                // const options = octokit.pulls.list.endpoint.merge({
-                //   owner,
-                //   repo,
-                // });
-                // const options = octokit.issues.list.endpoint.merge({
-                //   owner,
-                //   repo,
-                // });
-                // console.log(options);
                 // Iterate over all the open PRs
                 for (var _b = __asyncValues(octokit.paginate.iterator(octokit.issues.listForRepo, { owner, repo })), _c; _c = yield _b.next(), !_c.done;) {
                     const page = _c.value;
                     for (const issue of page.data) {
                         const { body, number: issue_number, html_url, } = issue;
-                        console.log(issue);
                         // Labels attached on the PR
                         const labelsOnIssueResp = yield octokit.issues.listLabelsOnIssue({
                             owner,
@@ -2499,7 +2489,6 @@ function main() {
                         const labels = extractLabels(body).filter(({ name }) => 
                         // Remove labels that are not registered in the repo.
                         labelsForRepo.includes(name));
-                        console.log(labels);
                         // Remove unchecked labels
                         const labelsToRemove = labels.filter(({ name, checked }) => !checked && labelsOnIssue.includes(name));
                         if (labelsToRemove.length > 0) {

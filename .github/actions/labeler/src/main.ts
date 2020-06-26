@@ -24,19 +24,7 @@ async function main(): Promise<void> {
   try {
     const token = core.getInput('repo-token', { required: true });
     const octokit = github.getOctokit(token);
-
     const { repo, owner } = github.context.repo;
-    // const options = octokit.pulls.list.endpoint.merge({
-    //   owner,
-    //   repo,
-    // });
-
-    // const options = octokit.issues.list.endpoint.merge({
-    //   owner,
-    //   repo,
-    // });
-
-    // console.log(options);
 
     // Iterate over all the open PRs
     for await (const page of octokit.paginate.iterator(
@@ -49,8 +37,6 @@ async function main(): Promise<void> {
           number: issue_number,
           html_url,
         } = issue as types.IssuesGetResponseData;
-
-        console.log(issue);
 
         // Labels attached on the PR
         const labelsOnIssueResp = await octokit.issues.listLabelsOnIssue({
@@ -72,8 +58,6 @@ async function main(): Promise<void> {
           // Remove labels that are not registered in the repo.
           labelsForRepo.includes(name),
         );
-
-        console.log(labels);
 
         // Remove unchecked labels
         const labelsToRemove = labels.filter(
