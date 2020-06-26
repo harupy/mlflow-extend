@@ -73,6 +73,8 @@ async function main(): Promise<void> {
           labelsForRepo.includes(name),
         );
 
+        console.log(labels);
+
         // Remove unchecked labels
         const labelsToRemove = labels.filter(
           ({ name, checked }) => !checked && labelsOnIssue.includes(name),

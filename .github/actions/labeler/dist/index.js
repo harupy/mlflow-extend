@@ -2499,6 +2499,7 @@ function main() {
                         const labels = extractLabels(body).filter(({ name }) => 
                         // Remove labels that are not registered in the repo.
                         labelsForRepo.includes(name));
+                        console.log(labels);
                         // Remove unchecked labels
                         const labelsToRemove = labels.filter(({ name, checked }) => !checked && labelsOnIssue.includes(name));
                         if (labelsToRemove.length > 0) {
