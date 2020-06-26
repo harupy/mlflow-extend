@@ -36,6 +36,8 @@ async function main(): Promise<void> {
       repo,
     });
 
+    console.log(options);
+
     // Iterate over all the open PRs
     for await (const page of octokit.paginate.iterator(options)) {
       for (const pull of page.data) {

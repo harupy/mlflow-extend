@@ -2474,6 +2474,7 @@ function main() {
                 owner,
                 repo,
             });
+            console.log(options);
             try {
                 // Iterate over all the open PRs
                 for (var _b = __asyncValues(octokit.paginate.iterator(options)), _c; _c = yield _b.next(), !_c.done;) {
