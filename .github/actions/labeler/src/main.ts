@@ -70,7 +70,7 @@ async function main(): Promise<void> {
         } = issue as types.IssuesGetResponseData;
 
         if (!quiet) {
-          console.log(`>>> Processing: ${html_url}`);
+          console.log(`<<< ${html_url} >>>`);
         }
 
         // Labels attached on the PR

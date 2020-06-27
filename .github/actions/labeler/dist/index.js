@@ -2497,7 +2497,7 @@ function main() {
                     for (const issue of page.data) {
                         const { body, number: issue_number, html_url, } = issue;
                         if (!quiet) {
-                            console.log(`>>> Processing: ${html_url}`);
+                            console.log(`<<< ${html_url} >>>`);
                         }
                         // Labels attached on the PR
                         const labelsOnIssueResp = yield octokit.issues.listLabelsOnIssue({
