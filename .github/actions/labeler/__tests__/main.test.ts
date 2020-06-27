@@ -1,4 +1,4 @@
-import { extractLabels } from '../src/main';
+import { extractLabels, getName } from '../src/main';
 
 describe('main', (): void => {
   it('extractLabels', (): void => {
@@ -20,4 +20,8 @@ describe('main', (): void => {
       { name: 'f', checked: true },
     ]);
   });
+
+  it('getName', (): void => {
+    expect(getName({name: 'a'})).toEqual('a')
+  })
 });
