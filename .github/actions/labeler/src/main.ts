@@ -51,7 +51,6 @@ async function main(): Promise<void> {
     const q = core.getInput('quiet', { required: true });
 
     validateEnums('quiet', q, ['true', 'false']);
-
     const quiet = q === 'true';
 
     const octokit = github.getOctokit(token);
