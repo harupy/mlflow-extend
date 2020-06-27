@@ -24,10 +24,33 @@ export function getName({ name }: { name: string }): string {
   return name;
 }
 
+export function getChecked({ checked }: { checked: boolean }): boolean {
+  return checked;
+}
+
+export function logAsList(strArray: string[]): void {
+  console.log(strArray.map(s => `- ${s}`).join('\n'));
+}
+
+export function validateEnums<T>(key: T, val: T, enums: T[]): never | void {
+  if (!enums.includes(val)) {
+    const wrap = (s: T): string => `"${s}"`;
+    const joined = enums.map(wrap).join(', ');
+    throw new Error(
+      `\`${key}\` must be one of [${joined}], but got ${wrap(val)}`,
+    );
+  }
+}
+
 async function main(): Promise<void> {
   try {
     const token = core.getInput('repo-token', { required: true });
     const labelPattern = core.getInput('label-pattern', { required: true });
+    const q = core.getInput('quiet', { required: true });
+
+    validateEnums('quiet', q, ['true', 'false']);
+
+    const quiet = q === 'true';
 
     const octokit = github.getOctokit(token);
     const { repo, owner } = github.context.repo;
@@ -43,6 +66,10 @@ async function main(): Promise<void> {
           number: issue_number,
           html_url,
         } = issue as types.IssuesGetResponseData;
+
+        if (!quiet) {
+          console.log(`Processing: ${html_url}`);
+        }
 
         // Labels attached on the PR
         const labelsOnIssueResp = await octokit.issues.listLabelsOnIssue({
@@ -65,13 +92,25 @@ async function main(): Promise<void> {
           labelsForRepo.includes(name),
         );
 
+        if (!quiet) {
+          console.log('Checked labels:');
+          logAsList(labels.filter(getChecked).map(getName));
+        }
+
         // Remove unchecked labels
-        const labelsToRemove = labels.filter(
-          ({ name, checked }) => !checked && labelsOnIssue.includes(name),
-        );
+        const labelsToRemove = labels
+          .filter(
+            ({ name, checked }) => !checked && labelsOnIssue.includes(name),
+          )
+          .map(getName);
+
+        if (!quiet) {
+          console.log('Labels to remove:');
+          logAsList(labelsToRemove);
+        }
 
         if (labelsToRemove.length > 0) {
-          labelsToRemove.forEach(async ({ name }) => {
+          labelsToRemove.forEach(async name => {
             await octokit.issues.removeLabel({
               owner,
               repo,
@@ -88,6 +127,11 @@ async function main(): Promise<void> {
           )
           .map(getName);
 
+        if (!quiet) {
+          console.log('Labels to add:');
+          logAsList(labelsToAdd);
+        }
+
         if (labelsToAdd.length > 0) {
           await octokit.issues.addLabels({
             owner,
@@ -95,10 +139,6 @@ async function main(): Promise<void> {
             issue_number,
             labels: labelsToAdd,
           });
-        }
-
-        if (labelsToRemove.length > 0 || labelsToAdd.length > 0) {
-          console.log(`Updated: ${html_url}`);
         }
       }
     }

@@ -8,6 +8,10 @@ inputs:
   label-pattern:
     description: "Pattern (regular expression) to extract labels (e.g. '- \\[([ xX]*)\\] ?`(.+?)`')"
     required: true
+  quiet:
+    description: "Suppress logging output. Must be either 'true' or 'false'"
+    required: false
+    default: 'false'
 
 runs:
   using: 'node12'
