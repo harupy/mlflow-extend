@@ -40,7 +40,7 @@ describe('main', (): void => {
     logAsList(['a', 'b', 'c']);
 
     expect(consoleLogSpy).toHaveBeenCalledTimes(1);
-    expect(consoleLogSpy).toHaveBeenCalledWith('- a\n- b\n- c');
+    expect(consoleLogSpy).toHaveBeenCalledWith('- a\n- b\n- c\n');
     consoleLogSpy.mockRestore();
   });
 
