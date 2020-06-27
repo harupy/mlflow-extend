@@ -10,8 +10,8 @@ describe('main', (): void => {
       '- [X] `e`: e]',
       '- [ X] `f`: f]',
     ].join('\n');
-
-    expect(extractLabels(body)).toEqual([
+    const labelPattern = '- \\[([ xX]*)\\] ?`(.+?)`';
+    expect(extractLabels(body, labelPattern)).toEqual([
       { name: 'a', checked: false },
       { name: 'b', checked: false },
       { name: 'c', checked: true },
