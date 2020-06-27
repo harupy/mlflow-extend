@@ -7,7 +7,7 @@ type Label = {
   checked: boolean;
 };
 
-export function extractLabels(body: string): Label[] {
+export function extractLabels(body: string, labelPattern: string): Label[] {
   function helper(regex: RegExp, labels: Label[] = []): Label[] {
     const res = regex.exec(body);
     if (res) {
@@ -17,12 +17,14 @@ export function extractLabels(body: string): Label[] {
     }
     return labels;
   }
-  return helper(/- \[([ xX]*)\] ?`(.+)`/gm);
+  return helper(new RegExp(labelPattern, 'gm'));
 }
 
 async function main(): Promise<void> {
   try {
     const token = core.getInput('repo-token', { required: true });
+    const labelPattern = core.getInput('regexp-str', { required: true });
+
     const octokit = github.getOctokit(token);
     const { repo, owner } = github.context.repo;
 
@@ -54,7 +56,7 @@ async function main(): Promise<void> {
         const labelsForRepo = labelsForRepoResp.data.map(({ name }) => name);
 
         // Labels in the PR description
-        const labels = extractLabels(body).filter(({ name }) =>
+        const labels = extractLabels(body, labelPattern).filter(({ name }) =>
           // Remove labels that are not registered in the repo.
           labelsForRepo.includes(name),
         );
