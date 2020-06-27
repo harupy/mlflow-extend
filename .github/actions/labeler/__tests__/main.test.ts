@@ -41,17 +41,17 @@ describe('main', (): void => {
   });
 
   it(validateEnum.name, () => {
-    enum E1 {
+    enum B {
       B = 'b',
     }
-    expect(validateEnum('a', 'b' as string, E1)).toBeUndefined();
+    expect(validateEnum('a', 'b' as string, B)).toBeUndefined();
 
-    enum E2 {
+    enum CD {
       C = 'c',
       D = 'd',
     }
     const f = (): void => {
-      validateEnum('a', 'b' as string, E2);
+      validateEnum('a', 'b' as string, CD);
     };
     expect(f).toThrow(new Error("`a` must be one of ['c', 'd'], but got 'b'"));
   });
