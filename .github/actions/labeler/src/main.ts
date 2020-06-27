@@ -2,6 +2,8 @@ import * as core from '@actions/core';
 import * as github from '@actions/github';
 import * as types from '@octokit/types';
 
+import { Logger, LoggingLevel } from './logger';
+
 type Label = {
   name: string;
   checked: boolean;
@@ -99,10 +101,12 @@ async function main(): Promise<void> {
   try {
     const token = core.getInput('repo-token', { required: true });
     const labelPattern = core.getInput('label-pattern', { required: true });
-    const q = core.getInput('quiet', { required: true });
+    const quiet = core.getInput('quiet', { required: true });
 
-    validateEnums('quiet', q, ['true', 'false']);
-    const quiet = q === 'true';
+    validateEnums('quiet', quiet, ['true', 'false']);
+    const logger = new Logger(
+      quiet === 'true' ? LoggingLevel.SILENT : LoggingLevel.DEBUG,
+    );
 
     const octokit = github.getOctokit(token);
     const { repo, owner } = github.context.repo;
@@ -126,9 +130,7 @@ async function main(): Promise<void> {
           html_url,
         } = issue as types.IssuesGetResponseData;
 
-        if (!quiet) {
-          console.log(`<<< ${html_url} >>>`);
-        }
+        logger.debug(`<<< ${html_url} >>>`);
 
         // Labels already attached on the PR
         const labelsOnIssueResp = await octokit.issues.listLabelsOnIssue({
@@ -152,16 +154,12 @@ async function main(): Promise<void> {
         );
 
         if (labels.length === 0) {
-          if (!quiet) {
-            console.log('No labels found');
-          }
+          logger.debug('No labels found');
           return;
         }
 
-        if (!quiet) {
-          console.log('Checked labels:');
-          console.log(formatStrArray(labels.filter(getChecked).map(getName)));
-        }
+        logger.debug('Checked labels:');
+        logger.debug(formatStrArray(labels.filter(getChecked).map(getName)));
 
         // Remove unchecked labels
         const labelsToRemove = labels
@@ -170,10 +168,8 @@ async function main(): Promise<void> {
           )
           .map(getName);
 
-        if (!quiet) {
-          console.log('Labels to remove:');
-          console.log(formatStrArray(labelsToRemove));
-        }
+        logger.debug('Labels to remove:');
+        logger.debug(formatStrArray(labelsToRemove));
 
         if (labelsToRemove.length > 0) {
           labelsToRemove.forEach(async name => {
@@ -193,10 +189,8 @@ async function main(): Promise<void> {
           )
           .map(getName);
 
-        if (!quiet) {
-          console.log('Labels to add:');
-          console.log(formatStrArray(labelsToAdd));
-        }
+        logger.debug('Labels to add:');
+        logger.debug(formatStrArray(labelsToAdd));
 
         if (labelsToAdd.length > 0) {
           await octokit.issues.addLabels({
