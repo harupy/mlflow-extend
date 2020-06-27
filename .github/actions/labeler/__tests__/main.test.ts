@@ -38,9 +38,11 @@ describe('main', (): void => {
   it(logAsList.name, () => {
     const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation();
     logAsList(['a', 'b', 'c']);
+    logAsList([]);
 
-    expect(consoleLogSpy).toHaveBeenCalledTimes(1);
-    expect(consoleLogSpy).toHaveBeenCalledWith('- a\n- b\n- c\n');
+    expect(consoleLogSpy).toHaveBeenCalledTimes(2);
+    expect(consoleLogSpy).toHaveBeenNthCalledWith(1, '- a\n- b\n- c\n');
+    expect(consoleLogSpy).toHaveBeenNthCalledWith(2, '');
     consoleLogSpy.mockRestore();
   });
 
