@@ -20,8 +20,8 @@ export function extractLabels(body: string, labelPattern: string): Label[] {
   return helper(new RegExp(labelPattern, 'gm'));
 }
 
-export function getName({name}: {name: string}): string {
-  return name
+export function getName({ name }: { name: string }): string {
+  return name;
 }
 
 async function main(): Promise<void> {
