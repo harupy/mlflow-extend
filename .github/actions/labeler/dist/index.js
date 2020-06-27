@@ -2522,11 +2522,11 @@ exports.formatStrArray = formatStrArray;
  * @param enumObj enum object
  *
  * @example
- * > enum Enum {
+ * > enum CD {
  *   C = 'c',
  *   D = 'd',
  * }
- * > validateEnums('a', 'b', Enum)
+ * > validateEnums('a', 'b', CD)
  * Uncaught Error: `a` must be one of ['c', 'd'], but got 'b'
  */
 function validateEnum(name, val, enumObj) {
