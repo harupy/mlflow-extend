@@ -1,4 +1,4 @@
-import { Logger } from '../src/logger';
+import { LoggingLevel, Logger } from '../src/logger';
 
 describe(Logger.name, (): void => {
   let logger: Logger;
@@ -16,17 +16,32 @@ describe(Logger.name, (): void => {
     consoleLogSpy.mockRestore();
   });
 
-  it('`log` should print a given message by default (quiet is false)', (): void => {
-    logger = new Logger();
+  test('LoggingLevel: DEBUG', (): void => {
+    logger = new Logger(LoggingLevel.DEBUG);
+    logger.debug('a');
+    logger.info('b');
 
-    logger.log('a');
-    expect(consoleLogSpy).toHaveBeenCalledTimes(1);
-    expect(consoleLogSpy).toHaveBeenLastCalledWith('a');
+    expect(consoleLogSpy).toHaveBeenCalledTimes(2);
+    expect(consoleLogSpy).toHaveBeenNthCalledWith(1, 'a');
+    expect(consoleLogSpy).toHaveBeenNthCalledWith(2, 'b');
   });
 
-  it('`log` should not print anything when quiet is true', (): void => {
-    logger = new Logger(true);
-    logger.log('a');
-    expect(consoleLogSpy).not.toHaveBeenCalled();
+  it('LoggingLevel: INFO', (): void => {
+    logger = new Logger(LoggingLevel.INFO);
+    logger.debug('a');
+    logger.info('b');
+
+    expect(consoleLogSpy).toHaveBeenCalledTimes(1);
+    expect(consoleLogSpy).toHaveBeenNthCalledWith(1, 'b');
+  });
+
+  it('setLevel', (): void => {
+    logger = new Logger(LoggingLevel.INFO);
+    logger.debug('a');
+    logger.setLevel(LoggingLevel.DEBUG);
+    logger.debug('b');
+
+    expect(consoleLogSpy).toHaveBeenCalledTimes(1);
+    expect(consoleLogSpy).toHaveBeenCalledWith('b');
   });
 });
