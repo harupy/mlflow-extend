@@ -1,11 +1,14 @@
-name: 'Labeler'
-description: 'A bot to automate issue labeling'
-author: 'harupy'
+name: "Labeler"
+description: "A bot to automate issue labeling"
+author: "harupy"
 inputs:
   repo-token:
-    description: 'GITHUB_TOKEN'
+    description: "GITHUB_TOKEN"
+    required: true
+  label-pattern:
+    description: "Pattern (regular expression) to extract labels (e.g. '- \\[([ xX]*)\\] ?`(.+)`')"
     required: true
 
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+  using: "node12"
+  main: "dist/index.js"
