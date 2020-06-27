@@ -2443,7 +2443,7 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
     function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateEnums = exports.logAsList = exports.getChecked = exports.getName = exports.extractLabels = void 0;
+exports.validateEnums = exports.formatStrArray = exports.getChecked = exports.getName = exports.extractLabels = void 0;
 const core = __importStar(__webpack_require__(470));
 const github = __importStar(__webpack_require__(469));
 /**
@@ -2484,13 +2484,22 @@ function getChecked({ checked }) {
 }
 exports.getChecked = getChecked;
 /**
- * Log a string array in a list format
+ * Format a string array into a list
  * @param strArray string array
+ * @returns string that represents a list
+ *
+ * Example:
+ * > toListStr(["a", "b"])
+ * - a
+ * - b
  */
-function logAsList(strArray) {
-    console.log(strArray.map(s => `- ${s}`).join('\n') + (strArray.length > 0 ? '\n' : ''));
+function formatStrArray(strArray) {
+    if (strArray.length === 0) {
+        return '';
+    }
+    return strArray.map(s => `- ${s}`).join('\n') + '\n';
 }
-exports.logAsList = logAsList;
+exports.formatStrArray = formatStrArray;
 /**
  * Validate an enum value
  * @param name name of the variable to check
@@ -2556,7 +2565,7 @@ function main() {
                         }
                         if (!quiet) {
                             console.log('Checked labels:');
-                            logAsList(labels.filter(getChecked).map(getName));
+                            console.log(formatStrArray(labels.filter(getChecked).map(getName)));
                         }
                         // Remove unchecked labels
                         const labelsToRemove = labels
@@ -2564,7 +2573,7 @@ function main() {
                             .map(getName);
                         if (!quiet) {
                             console.log('Labels to remove:');
-                            logAsList(labelsToRemove);
+                            console.log(formatStrArray(labelsToRemove));
                         }
                         if (labelsToRemove.length > 0) {
                             labelsToRemove.forEach((name) => __awaiter(this, void 0, void 0, function* () {
@@ -2582,7 +2591,7 @@ function main() {
                             .map(getName);
                         if (!quiet) {
                             console.log('Labels to add:');
-                            logAsList(labelsToAdd);
+                            console.log(formatStrArray(labelsToAdd));
                         }
                         if (labelsToAdd.length > 0) {
                             yield octokit.issues.addLabels({
