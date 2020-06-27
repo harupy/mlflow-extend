@@ -56,12 +56,19 @@ async function main(): Promise<void> {
     const octokit = github.getOctokit(token);
     const { repo, owner } = github.context.repo;
 
-    // Iterate over all the open PRs
+    // Iterate over all the open issues and pull requests
     for await (const page of octokit.paginate.iterator(
       octokit.issues.listForRepo,
       { owner, repo },
     )) {
       for (const issue of page.data) {
+        /*
+          For each issue and pull request, does the following:
+          1. Extract labels from the description.
+          2. Remove unchecked labels if they are already attached.
+          3. Add checked labels if they are NOT attached.
+        */
+
         const {
           body,
           number: issue_number,
@@ -72,7 +79,7 @@ async function main(): Promise<void> {
           console.log(`<<< ${html_url} >>>`);
         }
 
-        // Labels attached on the PR
+        // Labels already attached on the PR
         const labelsOnIssueResp = await octokit.issues.listLabelsOnIssue({
           owner,
           repo,
@@ -87,11 +94,18 @@ async function main(): Promise<void> {
         });
         const labelsForRepo = labelsForRepoResp.data.map(getName);
 
-        // Labels in the PR description
+        // Labels in the description
         const labels = extractLabels(body, labelPattern).filter(({ name }) =>
-          // Remove labels that are not registered in the repo.
+          // Remove labels that are not registered in the repository.
           labelsForRepo.includes(name),
         );
+
+        if (labels.length === 0) {
+          if (!quiet) {
+            console.log('No labels found');
+          }
+          return;
+        }
 
         if (!quiet) {
           console.log('Checked labels:');
