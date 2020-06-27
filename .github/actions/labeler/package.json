@@ -10,7 +10,7 @@
     "format:non-js": "prettier --write --config ./.prettierrc.js --ignore-path .gitignore \"./**/*.{md,yml}\"",
     "lint:js": "eslint src/**/*.ts",
     "lint:non-js": "prettier --check --config ./.prettierrc.js --ignore-path .gitignore \"./**/*.{md,yml}\"",
-    "test": "jest"
+    "test": "jest --verbose --colors"
   },
   "dependencies": {
     "@actions/core": "^1.2.0",
