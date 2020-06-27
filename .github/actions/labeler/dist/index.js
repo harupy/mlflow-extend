@@ -2443,7 +2443,7 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
     function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateEnums = exports.formatStrArray = exports.getChecked = exports.getName = exports.extractLabels = void 0;
+exports.validateEnum = exports.formatStrArray = exports.getChecked = exports.getName = exports.extractLabels = void 0;
 const core = __importStar(__webpack_require__(470));
 const github = __importStar(__webpack_require__(469));
 const logger_1 = __webpack_require__(504);
@@ -2519,20 +2519,25 @@ exports.formatStrArray = formatStrArray;
  * Validate an enum value
  * @param name name of the variable to check
  * @param val value to check
- * @param enums acceptable values
+ * @param enumObj enum object
  *
  * @example
- * > validateEnums('a', 'b', ['c', 'd'])
+ * > enum Enum {
+ *   C = 'c',
+ *   D = 'd',
+ * }
+ * > validateEnums('a', 'b', Enum)
  * Uncaught Error: `a` must be one of ['c', 'd'], but got 'b'
  */
-function validateEnums(name, val, enums) {
-    if (!enums.includes(val)) {
+function validateEnum(name, val, enumObj) {
+    const values = Object.values(enumObj);
+    if (!values.includes(val)) {
         const wrap = (s) => `'${s}'`;
-        const joined = enums.map(wrap).join(', ');
+        const joined = values.map(wrap).join(', ');
         throw new Error(`\`${name}\` must be one of [${joined}], but got ${wrap(val)}`);
     }
 }
-exports.validateEnums = validateEnums;
+exports.validateEnum = validateEnum;
 var Quiet;
 (function (Quiet) {
     Quiet["TRUE"] = "true";
@@ -2545,7 +2550,7 @@ function main() {
             const token = core.getInput('repo-token', { required: true });
             const labelPattern = core.getInput('label-pattern', { required: true });
             const quiet = core.getInput('quiet', { required: true });
-            validateEnums('quiet', quiet, Object.values(Quiet));
+            validateEnum('quiet', quiet, Quiet);
             const logger = new logger_1.Logger(quiet === 'true' ? logger_1.LoggingLevel.SILENT : logger_1.LoggingLevel.DEBUG);
             const octokit = github.getOctokit(token);
             const { repo, owner } = github.context.repo;
