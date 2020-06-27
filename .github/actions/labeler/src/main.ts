@@ -23,7 +23,7 @@ export function extractLabels(body: string, labelPattern: string): Label[] {
 async function main(): Promise<void> {
   try {
     const token = core.getInput('repo-token', { required: true });
-    const labelPattern = core.getInput('regexp-str', { required: true });
+    const labelPattern = core.getInput('label-pattern', { required: true });
 
     const octokit = github.getOctokit(token);
     const { repo, owner } = github.context.repo;

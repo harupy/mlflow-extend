@@ -2464,7 +2464,7 @@ function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const token = core.getInput('repo-token', { required: true });
-            const labelPattern = core.getInput('regexp-str', { required: true });
+            const labelPattern = core.getInput('label-pattern', { required: true });
             const octokit = github.getOctokit(token);
             const { repo, owner } = github.context.repo;
             try {
