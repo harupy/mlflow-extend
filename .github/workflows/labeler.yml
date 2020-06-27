@@ -47,3 +47,4 @@ jobs:
       - uses: ./.github/actions/labeler
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+          label-pattern: "- \\[([ xX]*)\\] ?`(.+?)`"
