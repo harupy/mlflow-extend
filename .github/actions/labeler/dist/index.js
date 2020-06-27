@@ -2450,7 +2450,7 @@ function extractLabels(body, labelPattern) {
     function helper(regex, labels = []) {
         const res = regex.exec(body);
         if (res) {
-            const checked = /[xX]/.test(res[1].trim());
+            const checked = res[1].trim().toLocaleLowerCase() === 'x';
             const name = res[2].trim();
             return helper(regex, [...labels, { name, checked }]);
         }

@@ -11,7 +11,7 @@ export function extractLabels(body: string, labelPattern: string): Label[] {
   function helper(regex: RegExp, labels: Label[] = []): Label[] {
     const res = regex.exec(body);
     if (res) {
-      const checked = /[xX]/.test(res[1].trim());
+      const checked = res[1].trim().toLocaleLowerCase() === 'x';
       const name = res[2].trim();
       return helper(regex, [...labels, { name, checked }]);
     }
