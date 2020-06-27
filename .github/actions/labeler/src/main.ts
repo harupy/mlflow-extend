@@ -12,7 +12,7 @@ type Label = {
  * @param body string that contains labels
  * @param labelPattern regular expression to use to find labels
  * @returns labels (list of { name: string; checked: boolean; })
- * 
+ *
  * @example
  * > const body = '- [ ] `a`\n- [x] `b`'
  * > const labelPattern = '- \\[([ xX]*)\\] ?`(.+?)`'
