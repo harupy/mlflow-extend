@@ -2468,7 +2468,7 @@ function getChecked({ checked }) {
 }
 exports.getChecked = getChecked;
 function logAsList(strArray) {
-    console.log(strArray.map(s => `- ${s}`).join('\n'));
+    console.log(strArray.map(s => `- ${s}`).join('\n') + (strArray.length > 0 ? '\n' : ''));
 }
 exports.logAsList = logAsList;
 function validateEnums(key, val, enums) {
@@ -2497,7 +2497,7 @@ function main() {
                     for (const issue of page.data) {
                         const { body, number: issue_number, html_url, } = issue;
                         if (!quiet) {
-                            console.log(`Processing: ${html_url}`);
+                            console.log(`>>> Processing: ${html_url}`);
                         }
                         // Labels attached on the PR
                         const labelsOnIssueResp = yield octokit.issues.listLabelsOnIssue({

@@ -29,7 +29,9 @@ export function getChecked({ checked }: { checked: boolean }): boolean {
 }
 
 export function logAsList(strArray: string[]): void {
-  console.log(strArray.map(s => `- ${s}`).join('\n'));
+  console.log(
+    strArray.map(s => `- ${s}`).join('\n') + (strArray.length > 0 ? '\n' : ''),
+  );
 }
 
 export function validateEnums<T>(key: T, val: T, enums: T[]): never | void {
@@ -68,7 +70,7 @@ async function main(): Promise<void> {
         } = issue as types.IssuesGetResponseData;
 
         if (!quiet) {
-          console.log(`Processing: ${html_url}`);
+          console.log(`>>> Processing: ${html_url}`);
         }
 
         // Labels attached on the PR
