@@ -2451,6 +2451,12 @@ const github = __importStar(__webpack_require__(469));
  * @param body string that contains labels
  * @param labelPattern regular expression to use to find labels
  * @returns labels (list of { name: string; checked: boolean; })
+ *
+ * @example
+ * > const body = '- [ ] `a`\n- [x] `b`'
+ * > const labelPattern = '- \\[([ xX]*)\\] ?`(.+?)`'
+ * > extractLabels(body, labelPattern)
+ * [ { name: 'a', checked: false }, { name: 'b', checked: true } ]
  */
 function extractLabels(body, labelPattern) {
     function helper(regex, labels = []) {
@@ -2469,6 +2475,10 @@ exports.extractLabels = extractLabels;
  * Get `name` property from an object
  * @param obj object that has `name` property
  * @returns value of `name` property
+ *
+ * @example
+ * > getName({ name: 'a' })
+ * 'a'
  */
 function getName({ name }) {
     return name;
@@ -2478,6 +2488,10 @@ exports.getName = getName;
  * Get `checked` property from an object
  * @param obj object that has `checked` property
  * @returns value of `checked` property
+ *
+ * @example
+ * > getChecked({ checked: true })
+ * true
  */
 function getChecked({ checked }) {
     return checked;
@@ -2505,10 +2519,14 @@ exports.formatStrArray = formatStrArray;
  * @param name name of the variable to check
  * @param val value to check
  * @param enums acceptable values
+ *
+ * @example
+ * > validateEnums('a', 'b', ['c', 'd'])
+ * Uncaught Error: `a` must be one of ['c', 'd'], but got 'b'
  */
 function validateEnums(name, val, enums) {
     if (!enums.includes(val)) {
-        const wrap = (s) => `"${s}"`;
+        const wrap = (s) => `'${s}'`;
         const joined = enums.map(wrap).join(', ');
         throw new Error(`\`${name}\` must be one of [${joined}], but got ${wrap(val)}`);
     }
