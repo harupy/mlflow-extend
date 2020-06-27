@@ -2443,7 +2443,7 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
     function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.extractLabels = void 0;
+exports.getName = exports.extractLabels = void 0;
 const core = __importStar(__webpack_require__(470));
 const github = __importStar(__webpack_require__(469));
 function extractLabels(body, labelPattern) {
@@ -2459,6 +2459,10 @@ function extractLabels(body, labelPattern) {
     return helper(new RegExp(labelPattern, 'gm'));
 }
 exports.extractLabels = extractLabels;
+function getName({ name }) {
+    return name;
+}
+exports.getName = getName;
 function main() {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function* () {
@@ -2479,13 +2483,13 @@ function main() {
                             repo,
                             issue_number,
                         });
-                        const labelsOnIssue = labelsOnIssueResp.data.map(({ name }) => name);
+                        const labelsOnIssue = labelsOnIssueResp.data.map(getName);
                         // Labels registered in the repository
                         const labelsForRepoResp = yield octokit.issues.listLabelsForRepo({
                             owner,
                             repo,
                         });
-                        const labelsForRepo = labelsForRepoResp.data.map(({ name }) => name);
+                        const labelsForRepo = labelsForRepoResp.data.map(getName);
                         // Labels in the PR description
                         const labels = extractLabels(body, labelPattern).filter(({ name }) => 
                         // Remove labels that are not registered in the repo.
@@ -2505,7 +2509,7 @@ function main() {
                         // Add checked labels
                         const labelsToAdd = labels
                             .filter(({ name, checked }) => checked && !labelsOnIssue.includes(name))
-                            .map(({ name }) => name);
+                            .map(getName);
                         if (labelsToAdd.length > 0) {
                             yield octokit.issues.addLabels({
                                 owner,
