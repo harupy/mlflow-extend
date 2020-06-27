@@ -24,7 +24,9 @@ jobs:
 
       - run: npm install
 
-      - run: npm run lint
+      - run: npm run lint:js
+
+      - run: npm run lint:non-js
 
       - run: npm run test
 
