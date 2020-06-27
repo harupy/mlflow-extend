@@ -97,13 +97,18 @@ export function validateEnums<T>(name: T, val: T, enums: T[]): never | void {
   }
 }
 
+enum Quiet {
+  TRUE = 'true',
+  FALSE = 'false',
+}
+
 async function main(): Promise<void> {
   try {
     const token = core.getInput('repo-token', { required: true });
     const labelPattern = core.getInput('label-pattern', { required: true });
     const quiet = core.getInput('quiet', { required: true });
 
-    validateEnums('quiet', quiet, ['true', 'false']);
+    validateEnums('quiet', quiet, Object.values(Quiet));
     const logger = new Logger(
       quiet === 'true' ? LoggingLevel.SILENT : LoggingLevel.DEBUG,
     );

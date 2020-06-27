@@ -2533,6 +2533,11 @@ function validateEnums(name, val, enums) {
     }
 }
 exports.validateEnums = validateEnums;
+var Quiet;
+(function (Quiet) {
+    Quiet["TRUE"] = "true";
+    Quiet["FALSE"] = "false";
+})(Quiet || (Quiet = {}));
 function main() {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function* () {
@@ -2540,7 +2545,7 @@ function main() {
             const token = core.getInput('repo-token', { required: true });
             const labelPattern = core.getInput('label-pattern', { required: true });
             const quiet = core.getInput('quiet', { required: true });
-            validateEnums('quiet', quiet, ['true', 'false']);
+            validateEnums('quiet', quiet, Object.values(Quiet));
             const logger = new logger_1.Logger(quiet === 'true' ? logger_1.LoggingLevel.SILENT : logger_1.LoggingLevel.DEBUG);
             const octokit = github.getOctokit(token);
             const { repo, owner } = github.context.repo;
