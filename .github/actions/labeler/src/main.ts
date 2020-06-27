@@ -49,7 +49,7 @@ export function getChecked({ checked }: { checked: boolean }): boolean {
  * @param strArray string array
  * @returns string that represents a list
  *
- * Example:
+ * @example
  * > toListStr(["a", "b"])
  * - a
  * - b

@@ -2488,7 +2488,7 @@ exports.getChecked = getChecked;
  * @param strArray string array
  * @returns string that represents a list
  *
- * Example:
+ * @example
  * > toListStr(["a", "b"])
  * - a
  * - b
