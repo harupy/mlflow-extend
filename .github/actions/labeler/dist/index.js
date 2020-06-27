@@ -2446,7 +2446,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.extractLabels = void 0;
 const core = __importStar(__webpack_require__(470));
 const github = __importStar(__webpack_require__(469));
-function extractLabels(body) {
+function extractLabels(body, labelPattern) {
     function helper(regex, labels = []) {
         const res = regex.exec(body);
         if (res) {
@@ -2456,7 +2456,7 @@ function extractLabels(body) {
         }
         return labels;
     }
-    return helper(/- \[([ xX]*)\] ?`(.+)`/gm);
+    return helper(new RegExp(labelPattern, 'gm'));
 }
 exports.extractLabels = extractLabels;
 function main() {
@@ -2464,6 +2464,7 @@ function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const token = core.getInput('repo-token', { required: true });
+            const labelPattern = core.getInput('regexp-str', { required: true });
             const octokit = github.getOctokit(token);
             const { repo, owner } = github.context.repo;
             try {
@@ -2486,7 +2487,7 @@ function main() {
                         });
                         const labelsForRepo = labelsForRepoResp.data.map(({ name }) => name);
                         // Labels in the PR description
-                        const labels = extractLabels(body).filter(({ name }) => 
+                        const labels = extractLabels(body, labelPattern).filter(({ name }) => 
                         // Remove labels that are not registered in the repo.
                         labelsForRepo.includes(name));
                         // Remove unchecked labels
