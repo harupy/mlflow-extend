@@ -2446,6 +2446,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateEnums = exports.formatStrArray = exports.getChecked = exports.getName = exports.extractLabels = void 0;
 const core = __importStar(__webpack_require__(470));
 const github = __importStar(__webpack_require__(469));
+const logger_1 = __webpack_require__(504);
 /**
  * Extract `checked` value from an object
  * @param body string that contains labels
@@ -2538,9 +2539,9 @@ function main() {
         try {
             const token = core.getInput('repo-token', { required: true });
             const labelPattern = core.getInput('label-pattern', { required: true });
-            const q = core.getInput('quiet', { required: true });
-            validateEnums('quiet', q, ['true', 'false']);
-            const quiet = q === 'true';
+            const quiet = core.getInput('quiet', { required: true });
+            validateEnums('quiet', quiet, ['true', 'false']);
+            const logger = new logger_1.Logger(quiet === 'true' ? logger_1.LoggingLevel.SILENT : logger_1.LoggingLevel.DEBUG);
             const octokit = github.getOctokit(token);
             const { repo, owner } = github.context.repo;
             try {
@@ -2555,9 +2556,7 @@ function main() {
                           3. Add checked labels if they are NOT attached.
                         */
                         const { body, number: issue_number, html_url, } = issue;
-                        if (!quiet) {
-                            console.log(`<<< ${html_url} >>>`);
-                        }
+                        logger.debug(`<<< ${html_url} >>>`);
                         // Labels already attached on the PR
                         const labelsOnIssueResp = yield octokit.issues.listLabelsOnIssue({
                             owner,
@@ -2576,23 +2575,17 @@ function main() {
                         // Remove labels that are not registered in the repository.
                         labelsForRepo.includes(name));
                         if (labels.length === 0) {
-                            if (!quiet) {
-                                console.log('No labels found');
-                            }
+                            logger.debug('No labels found');
                             return;
                         }
-                        if (!quiet) {
-                            console.log('Checked labels:');
-                            console.log(formatStrArray(labels.filter(getChecked).map(getName)));
-                        }
+                        logger.debug('Checked labels:');
+                        logger.debug(formatStrArray(labels.filter(getChecked).map(getName)));
                         // Remove unchecked labels
                         const labelsToRemove = labels
                             .filter(({ name, checked }) => !checked && labelsOnIssue.includes(name))
                             .map(getName);
-                        if (!quiet) {
-                            console.log('Labels to remove:');
-                            console.log(formatStrArray(labelsToRemove));
-                        }
+                        logger.debug('Labels to remove:');
+                        logger.debug(formatStrArray(labelsToRemove));
                         if (labelsToRemove.length > 0) {
                             labelsToRemove.forEach((name) => __awaiter(this, void 0, void 0, function* () {
                                 yield octokit.issues.removeLabel({
@@ -2607,10 +2600,8 @@ function main() {
                         const labelsToAdd = labels
                             .filter(({ name, checked }) => checked && !labelsOnIssue.includes(name))
                             .map(getName);
-                        if (!quiet) {
-                            console.log('Labels to add:');
-                            console.log(formatStrArray(labelsToAdd));
-                        }
+                        logger.debug('Labels to add:');
+                        logger.debug(formatStrArray(labelsToAdd));
                         if (labelsToAdd.length > 0) {
                             yield octokit.issues.addLabels({
                                 owner,
@@ -6022,6 +6013,42 @@ function resolveCommand(parsed) {
 }
 
 module.exports = resolveCommand;
+
+
+/***/ }),
+
+/***/ 504:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Logger = exports.LoggingLevel = void 0;
+var LoggingLevel;
+(function (LoggingLevel) {
+    LoggingLevel[LoggingLevel["DEBUG"] = 0] = "DEBUG";
+    LoggingLevel[LoggingLevel["SILENT"] = 1] = "SILENT";
+})(LoggingLevel = exports.LoggingLevel || (exports.LoggingLevel = {}));
+class Logger {
+    constructor(level = 0) {
+        this.level = level;
+    }
+    log(message, ...optionalParams) {
+        console.log(message, ...optionalParams);
+    }
+    shouldLog(level) {
+        return this.level <= level;
+    }
+    debug(message, ...optionalParams) {
+        if (this.shouldLog(LoggingLevel.DEBUG)) {
+            this.log(message, ...optionalParams);
+        }
+    }
+    setLevel(newLevel) {
+        this.level = newLevel;
+    }
+}
+exports.Logger = Logger;
 
 
 /***/ }),
