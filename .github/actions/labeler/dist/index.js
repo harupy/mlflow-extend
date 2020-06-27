@@ -2581,9 +2581,8 @@ function main() {
                         logger.debug('Checked labels:');
                         logger.debug(formatStrArray(labels.filter(getChecked).map(getName)));
                         // Remove unchecked labels
-                        const labelsToRemove = labels
-                            .filter(({ name, checked }) => !checked && labelsOnIssue.includes(name))
-                            .map(getName);
+                        const shouldRemove = ({ name, checked }) => !checked && labelsOnIssue.includes(name);
+                        const labelsToRemove = labels.filter(shouldRemove).map(getName);
                         logger.debug('Labels to remove:');
                         logger.debug(formatStrArray(labelsToRemove));
                         if (labelsToRemove.length > 0) {
@@ -2597,9 +2596,8 @@ function main() {
                             }));
                         }
                         // Add checked labels
-                        const labelsToAdd = labels
-                            .filter(({ name, checked }) => checked && !labelsOnIssue.includes(name))
-                            .map(getName);
+                        const shouldAdd = ({ name, checked }) => checked && !labelsOnIssue.includes(name);
+                        const labelsToAdd = labels.filter(shouldAdd).map(getName);
                         logger.debug('Labels to add:');
                         logger.debug(formatStrArray(labelsToAdd));
                         if (labelsToAdd.length > 0) {
