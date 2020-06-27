@@ -6,10 +6,11 @@
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc && ncc build",
-    "lint:fix": "eslint --fix src/**/*.ts",
+    "format:js": "eslint --fix src/**/*.ts",
+    "format:non-js": "prettier --write --config ./.prettierrc.js --ignore-path .gitignore \"./**/*.{md,yml}\"",
     "lint:js": "eslint src/**/*.ts",
-    "lint:non-js": "prettier --check --ignore-path .gitignore \"./**/*.{md,yml}\"",
-    "test": "jest"
+    "lint:non-js": "prettier --check --config ./.prettierrc.js --ignore-path .gitignore \"./**/*.{md,yml}\"",
+    "test": "jest --verbose --colors"
   },
   "dependencies": {
     "@actions/core": "^1.2.0",

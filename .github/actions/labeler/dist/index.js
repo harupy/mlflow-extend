@@ -2443,14 +2443,14 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
     function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getName = exports.extractLabels = void 0;
+exports.validateEnums = exports.logAsList = exports.getChecked = exports.getName = exports.extractLabels = void 0;
 const core = __importStar(__webpack_require__(470));
 const github = __importStar(__webpack_require__(469));
 function extractLabels(body, labelPattern) {
     function helper(regex, labels = []) {
         const res = regex.exec(body);
         if (res) {
-            const checked = /[xX]/.test(res[1].trim());
+            const checked = res[1].trim().toLocaleLowerCase() === 'x';
             const name = res[2].trim();
             return helper(regex, [...labels, { name, checked }]);
         }
@@ -2463,12 +2463,31 @@ function getName({ name }) {
     return name;
 }
 exports.getName = getName;
+function getChecked({ checked }) {
+    return checked;
+}
+exports.getChecked = getChecked;
+function logAsList(strArray) {
+    console.log(strArray.map(s => `- ${s}`).join('\n') + (strArray.length > 0 ? '\n' : ''));
+}
+exports.logAsList = logAsList;
+function validateEnums(key, val, enums) {
+    if (!enums.includes(val)) {
+        const wrap = (s) => `"${s}"`;
+        const joined = enums.map(wrap).join(', ');
+        throw new Error(`\`${key}\` must be one of [${joined}], but got ${wrap(val)}`);
+    }
+}
+exports.validateEnums = validateEnums;
 function main() {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const token = core.getInput('repo-token', { required: true });
             const labelPattern = core.getInput('label-pattern', { required: true });
+            const q = core.getInput('quiet', { required: true });
+            validateEnums('quiet', q, ['true', 'false']);
+            const quiet = q === 'true';
             const octokit = github.getOctokit(token);
             const { repo, owner } = github.context.repo;
             try {
@@ -2477,6 +2496,9 @@ function main() {
                     const page = _c.value;
                     for (const issue of page.data) {
                         const { body, number: issue_number, html_url, } = issue;
+                        if (!quiet) {
+                            console.log(`<<< ${html_url} >>>`);
+                        }
                         // Labels attached on the PR
                         const labelsOnIssueResp = yield octokit.issues.listLabelsOnIssue({
                             owner,
@@ -2494,10 +2516,20 @@ function main() {
                         const labels = extractLabels(body, labelPattern).filter(({ name }) => 
                         // Remove labels that are not registered in the repo.
                         labelsForRepo.includes(name));
+                        if (!quiet) {
+                            console.log('Checked labels:');
+                            logAsList(labels.filter(getChecked).map(getName));
+                        }
                         // Remove unchecked labels
-                        const labelsToRemove = labels.filter(({ name, checked }) => !checked && labelsOnIssue.includes(name));
+                        const labelsToRemove = labels
+                            .filter(({ name, checked }) => !checked && labelsOnIssue.includes(name))
+                            .map(getName);
+                        if (!quiet) {
+                            console.log('Labels to remove:');
+                            logAsList(labelsToRemove);
+                        }
                         if (labelsToRemove.length > 0) {
-                            labelsToRemove.forEach(({ name }) => __awaiter(this, void 0, void 0, function* () {
+                            labelsToRemove.forEach((name) => __awaiter(this, void 0, void 0, function* () {
                                 yield octokit.issues.removeLabel({
                                     owner,
                                     repo,
@@ -2510,6 +2542,10 @@ function main() {
                         const labelsToAdd = labels
                             .filter(({ name, checked }) => checked && !labelsOnIssue.includes(name))
                             .map(getName);
+                        if (!quiet) {
+                            console.log('Labels to add:');
+                            logAsList(labelsToAdd);
+                        }
                         if (labelsToAdd.length > 0) {
                             yield octokit.issues.addLabels({
                                 owner,
@@ -2517,9 +2553,6 @@ function main() {
                                 issue_number,
                                 labels: labelsToAdd,
                             });
-                        }
-                        if (labelsToRemove.length > 0 || labelsToAdd.length > 0) {
-                            console.log(`Updated: ${html_url}`);
                         }
                     }
                 }
