@@ -7,6 +7,12 @@ type Label = {
   checked: boolean;
 };
 
+/**
+ * Extract `checked` value from an object
+ * @param body string that contains labels
+ * @param labelPattern regular expression to use to find labels
+ * @returns labels (list of { name: string; checked: boolean; })
+ */
 export function extractLabels(body: string, labelPattern: string): Label[] {
   function helper(regex: RegExp, labels: Label[] = []): Label[] {
     const res = regex.exec(body);
@@ -20,26 +26,46 @@ export function extractLabels(body: string, labelPattern: string): Label[] {
   return helper(new RegExp(labelPattern, 'gm'));
 }
 
+/**
+ * Get `name` property from an object
+ * @param obj object that has `name` property
+ * @returns value of `name` property
+ */
 export function getName({ name }: { name: string }): string {
   return name;
 }
 
+/**
+ * Get `checked` property from an object
+ * @param obj object that has `checked` property
+ * @returns value of `checked` property
+ */
 export function getChecked({ checked }: { checked: boolean }): boolean {
   return checked;
 }
 
+/**
+ * Log a string array in a list format
+ * @param strArray string array
+ */
 export function logAsList(strArray: string[]): void {
   console.log(
     strArray.map(s => `- ${s}`).join('\n') + (strArray.length > 0 ? '\n' : ''),
   );
 }
 
-export function validateEnums<T>(key: T, val: T, enums: T[]): never | void {
+/**
+ * Validate an enum value
+ * @param name name of the variable to check
+ * @param val value to check
+ * @param enums acceptable values
+ */
+export function validateEnums<T>(name: T, val: T, enums: T[]): never | void {
   if (!enums.includes(val)) {
     const wrap = (s: T): string => `"${s}"`;
     const joined = enums.map(wrap).join(', ');
     throw new Error(
-      `\`${key}\` must be one of [${joined}], but got ${wrap(val)}`,
+      `\`${name}\` must be one of [${joined}], but got ${wrap(val)}`,
     );
   }
 }

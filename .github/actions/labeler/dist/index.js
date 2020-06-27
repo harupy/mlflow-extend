@@ -2446,6 +2446,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateEnums = exports.logAsList = exports.getChecked = exports.getName = exports.extractLabels = void 0;
 const core = __importStar(__webpack_require__(470));
 const github = __importStar(__webpack_require__(469));
+/**
+ * Extract `checked` value from an object
+ * @param body string that contains labels
+ * @param labelPattern regular expression to use to find labels
+ * @returns labels (list of { name: string; checked: boolean; })
+ */
 function extractLabels(body, labelPattern) {
     function helper(regex, labels = []) {
         const res = regex.exec(body);
@@ -2459,23 +2465,43 @@ function extractLabels(body, labelPattern) {
     return helper(new RegExp(labelPattern, 'gm'));
 }
 exports.extractLabels = extractLabels;
+/**
+ * Get `name` property from an object
+ * @param obj object that has `name` property
+ * @returns value of `name` property
+ */
 function getName({ name }) {
     return name;
 }
 exports.getName = getName;
+/**
+ * Get `checked` property from an object
+ * @param obj object that has `checked` property
+ * @returns value of `checked` property
+ */
 function getChecked({ checked }) {
     return checked;
 }
 exports.getChecked = getChecked;
+/**
+ * Log a string array in a list format
+ * @param strArray string array
+ */
 function logAsList(strArray) {
     console.log(strArray.map(s => `- ${s}`).join('\n') + (strArray.length > 0 ? '\n' : ''));
 }
 exports.logAsList = logAsList;
-function validateEnums(key, val, enums) {
+/**
+ * Validate an enum value
+ * @param name name of the variable to check
+ * @param val value to check
+ * @param enums acceptable values
+ */
+function validateEnums(name, val, enums) {
     if (!enums.includes(val)) {
         const wrap = (s) => `"${s}"`;
         const joined = enums.map(wrap).join(', ');
-        throw new Error(`\`${key}\` must be one of [${joined}], but got ${wrap(val)}`);
+        throw new Error(`\`${name}\` must be one of [${joined}], but got ${wrap(val)}`);
     }
 }
 exports.validateEnums = validateEnums;
