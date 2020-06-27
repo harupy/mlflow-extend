@@ -19,24 +19,20 @@ describe(Logger.name, (): void => {
   test('LoggingLevel: DEBUG', (): void => {
     logger = new Logger(LoggingLevel.DEBUG);
     logger.debug('a');
-    logger.info('b');
-
-    expect(consoleLogSpy).toHaveBeenCalledTimes(2);
-    expect(consoleLogSpy).toHaveBeenNthCalledWith(1, 'a');
-    expect(consoleLogSpy).toHaveBeenNthCalledWith(2, 'b');
-  });
-
-  it('LoggingLevel: INFO', (): void => {
-    logger = new Logger(LoggingLevel.INFO);
-    logger.debug('a');
-    logger.info('b');
 
     expect(consoleLogSpy).toHaveBeenCalledTimes(1);
-    expect(consoleLogSpy).toHaveBeenNthCalledWith(1, 'b');
+    expect(consoleLogSpy).toHaveBeenCalledWith('a');
+  });
+
+  test('LoggingLevel: SILENT', (): void => {
+    logger = new Logger(LoggingLevel.SILENT);
+    logger.debug('a');
+
+    expect(consoleLogSpy).not.toHaveBeenCalled();
   });
 
   it('setLevel', (): void => {
-    logger = new Logger(LoggingLevel.INFO);
+    logger = new Logger(LoggingLevel.SILENT);
     logger.debug('a');
     logger.setLevel(LoggingLevel.DEBUG);
     logger.debug('b');

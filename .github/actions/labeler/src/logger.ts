@@ -1,6 +1,6 @@
 export enum LoggingLevel {
-  DEBUG = 0,
-  INFO = 1,
+  DEBUG,
+  SILENT,
 }
 
 export class Logger {
@@ -16,12 +16,6 @@ export class Logger {
 
   debug(message?: any, ...optionalParams: any[]): void {
     if (this.shouldLog(LoggingLevel.DEBUG)) {
-      this.log(message, ...optionalParams);
-    }
-  }
-
-  info(message?: any, ...optionalParams: any[]): void {
-    if (this.shouldLog(LoggingLevel.INFO)) {
       this.log(message, ...optionalParams);
     }
   }
