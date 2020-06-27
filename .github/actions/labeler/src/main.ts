@@ -12,6 +12,12 @@ type Label = {
  * @param body string that contains labels
  * @param labelPattern regular expression to use to find labels
  * @returns labels (list of { name: string; checked: boolean; })
+ * 
+ * @example
+ * > const body = '- [ ] `a`\n- [x] `b`'
+ * > const labelPattern = '- \\[([ xX]*)\\] ?`(.+?)`'
+ * > extractLabels(body, labelPattern)
+ * [ { name: 'a', checked: false }, { name: 'b', checked: true } ]
  */
 export function extractLabels(body: string, labelPattern: string): Label[] {
   function helper(regex: RegExp, labels: Label[] = []): Label[] {
@@ -30,6 +36,10 @@ export function extractLabels(body: string, labelPattern: string): Label[] {
  * Get `name` property from an object
  * @param obj object that has `name` property
  * @returns value of `name` property
+ *
+ * @example
+ * > getName({ name: 'a' })
+ * 'a'
  */
 export function getName({ name }: { name: string }): string {
   return name;
@@ -39,6 +49,10 @@ export function getName({ name }: { name: string }): string {
  * Get `checked` property from an object
  * @param obj object that has `checked` property
  * @returns value of `checked` property
+ *
+ * @example
+ * > getChecked({ checked: true })
+ * true
  */
 export function getChecked({ checked }: { checked: boolean }): boolean {
   return checked;
@@ -66,10 +80,14 @@ export function formatStrArray(strArray: string[]): string {
  * @param name name of the variable to check
  * @param val value to check
  * @param enums acceptable values
+ *
+ * @example
+ * > validateEnums('a', 'b', ['c', 'd'])
+ * Uncaught Error: `a` must be one of ['c', 'd'], but got 'b'
  */
 export function validateEnums<T>(name: T, val: T, enums: T[]): never | void {
   if (!enums.includes(val)) {
-    const wrap = (s: T): string => `"${s}"`;
+    const wrap = (s: T): string => `'${s}'`;
     const joined = enums.map(wrap).join(', ');
     throw new Error(
       `\`${name}\` must be one of [${joined}], but got ${wrap(val)}`,

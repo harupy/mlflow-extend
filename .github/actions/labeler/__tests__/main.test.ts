@@ -46,6 +46,6 @@ describe('main', (): void => {
     const f = (): void => {
       validateEnums('a', 'b', ['c', 'd']);
     };
-    expect(f).toThrow(new Error('`a` must be one of ["c", "d"], but got "b"'));
+    expect(f).toThrow(new Error("`a` must be one of ['c', 'd'], but got 'b'"));
   });
 });
