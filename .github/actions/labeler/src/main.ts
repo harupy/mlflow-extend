@@ -20,6 +20,10 @@ export function extractLabels(body: string, labelPattern: string): Label[] {
   return helper(new RegExp(labelPattern, 'gm'));
 }
 
+export function getName({ name }: { name: string }): string {
+  return name;
+}
+
 async function main(): Promise<void> {
   try {
     const token = core.getInput('repo-token', { required: true });
@@ -46,14 +50,14 @@ async function main(): Promise<void> {
           repo,
           issue_number,
         });
-        const labelsOnIssue = labelsOnIssueResp.data.map(({ name }) => name);
+        const labelsOnIssue = labelsOnIssueResp.data.map(getName);
 
         // Labels registered in the repository
         const labelsForRepoResp = await octokit.issues.listLabelsForRepo({
           owner,
           repo,
         });
-        const labelsForRepo = labelsForRepoResp.data.map(({ name }) => name);
+        const labelsForRepo = labelsForRepoResp.data.map(getName);
 
         // Labels in the PR description
         const labels = extractLabels(body, labelPattern).filter(({ name }) =>
@@ -82,7 +86,7 @@ async function main(): Promise<void> {
           .filter(
             ({ name, checked }) => checked && !labelsOnIssue.includes(name),
           )
-          .map(({ name }) => name);
+          .map(getName);
 
         if (labelsToAdd.length > 0) {
           await octokit.issues.addLabels({
