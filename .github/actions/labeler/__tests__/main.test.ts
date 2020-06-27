@@ -3,7 +3,7 @@ import {
   getName,
   getChecked,
   formatStrArray,
-  validateEnums,
+  validateEnum,
 } from '../src/main';
 
 describe('main', (): void => {
@@ -40,11 +40,18 @@ describe('main', (): void => {
     expect(formatStrArray([])).toEqual('');
   });
 
-  it(validateEnums.name, () => {
-    expect(validateEnums('a', 'b', ['b'])).toBeUndefined();
+  it(validateEnum.name, () => {
+    enum B {
+      B = 'b',
+    }
+    expect(validateEnum('a', 'b' as string, B)).toBeUndefined();
 
+    enum CD {
+      C = 'c',
+      D = 'd',
+    }
     const f = (): void => {
-      validateEnums('a', 'b', ['c', 'd']);
+      validateEnum('a', 'b' as string, CD);
     };
     expect(f).toThrow(new Error("`a` must be one of ['c', 'd'], but got 'b'"));
   });

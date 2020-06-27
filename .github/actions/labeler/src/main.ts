@@ -81,20 +81,34 @@ export function formatStrArray(strArray: string[]): string {
  * Validate an enum value
  * @param name name of the variable to check
  * @param val value to check
- * @param enums acceptable values
+ * @param enumObj enum object
  *
  * @example
- * > validateEnums('a', 'b', ['c', 'd'])
+ * > enum CD {
+ *   C = 'c',
+ *   D = 'd',
+ * }
+ * > validateEnums('a', 'b', CD)
  * Uncaught Error: `a` must be one of ['c', 'd'], but got 'b'
  */
-export function validateEnums<T>(name: T, val: T, enums: T[]): never | void {
-  if (!enums.includes(val)) {
+export function validateEnum<T>(
+  name: T,
+  val: T,
+  enumObj: { [key: string]: T },
+): never | void {
+  const values = Object.values(enumObj);
+  if (!values.includes(val)) {
     const wrap = (s: T): string => `'${s}'`;
-    const joined = enums.map(wrap).join(', ');
+    const joined = values.map(wrap).join(', ');
     throw new Error(
       `\`${name}\` must be one of [${joined}], but got ${wrap(val)}`,
     );
   }
+}
+
+enum Quiet {
+  TRUE = 'true',
+  FALSE = 'false',
 }
 
 async function main(): Promise<void> {
@@ -103,7 +117,7 @@ async function main(): Promise<void> {
     const labelPattern = core.getInput('label-pattern', { required: true });
     const quiet = core.getInput('quiet', { required: true });
 
-    validateEnums('quiet', quiet, ['true', 'false']);
+    validateEnum('quiet', quiet, Quiet);
     const logger = new Logger(
       quiet === 'true' ? LoggingLevel.SILENT : LoggingLevel.DEBUG,
     );
