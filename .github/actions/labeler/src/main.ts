@@ -45,13 +45,20 @@ export function getChecked({ checked }: { checked: boolean }): boolean {
 }
 
 /**
- * Log a string array in a list format
+ * Format a string array into a list
  * @param strArray string array
+ * @returns string that represents a list
+ *
+ * @example
+ * > toListStr(["a", "b"])
+ * - a
+ * - b
  */
-export function logAsList(strArray: string[]): void {
-  console.log(
-    strArray.map(s => `- ${s}`).join('\n') + (strArray.length > 0 ? '\n' : ''),
-  );
+export function formatStrArray(strArray: string[]): string {
+  if (strArray.length === 0) {
+    return '';
+  }
+  return strArray.map(s => `- ${s}`).join('\n') + '\n';
 }
 
 /**
@@ -135,7 +142,7 @@ async function main(): Promise<void> {
 
         if (!quiet) {
           console.log('Checked labels:');
-          logAsList(labels.filter(getChecked).map(getName));
+          console.log(formatStrArray(labels.filter(getChecked).map(getName)));
         }
 
         // Remove unchecked labels
@@ -147,7 +154,7 @@ async function main(): Promise<void> {
 
         if (!quiet) {
           console.log('Labels to remove:');
-          logAsList(labelsToRemove);
+          console.log(formatStrArray(labelsToRemove));
         }
 
         if (labelsToRemove.length > 0) {
@@ -170,7 +177,7 @@ async function main(): Promise<void> {
 
         if (!quiet) {
           console.log('Labels to add:');
-          logAsList(labelsToAdd);
+          console.log(formatStrArray(labelsToAdd));
         }
 
         if (labelsToAdd.length > 0) {

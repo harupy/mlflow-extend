@@ -2,7 +2,7 @@ import {
   extractLabels,
   getName,
   getChecked,
-  logAsList,
+  formatStrArray,
   validateEnums,
 } from '../src/main';
 
@@ -35,15 +35,9 @@ describe('main', (): void => {
     expect(getChecked({ checked: true })).toEqual(true);
   });
 
-  it(logAsList.name, () => {
-    const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation();
-    logAsList(['a', 'b', 'c']);
-    logAsList([]);
-
-    expect(consoleLogSpy).toHaveBeenCalledTimes(2);
-    expect(consoleLogSpy).toHaveBeenNthCalledWith(1, '- a\n- b\n- c\n');
-    expect(consoleLogSpy).toHaveBeenNthCalledWith(2, '');
-    consoleLogSpy.mockRestore();
+  it(formatStrArray.name, () => {
+    expect(formatStrArray(['a', 'b', 'c'])).toEqual('- a\n- b\n- c\n');
+    expect(formatStrArray([])).toEqual('');
   });
 
   it(validateEnums.name, () => {
