@@ -168,8 +168,8 @@ async function main(): Promise<void> {
         );
 
         if (labels.length === 0) {
-          logger.debug('No labels found');
-          return;
+          logger.debug('No labels found in the description');
+          continue;
         }
 
         logger.debug('Checked labels:');

@@ -2585,8 +2585,8 @@ function main() {
                         // Remove labels that are not registered in the repository.
                         labelsForRepo.includes(name));
                         if (labels.length === 0) {
-                            logger.debug('No labels found');
-                            return;
+                            logger.debug('No labels found in the description');
+                            continue;
                         }
                         logger.debug('Checked labels:');
                         logger.debug(formatStrArray(labels.filter(getChecked).map(getName)));
