@@ -2504,7 +2504,7 @@ exports.getChecked = getChecked;
  * @returns string that represents a list
  *
  * @example
- * > toListStr(["a", "b"])
+ * > toListStr(['a', 'b'])
  * - a
  * - b
  */
@@ -2555,19 +2555,19 @@ function main() {
             const octokit = github.getOctokit(token);
             const { repo, owner } = github.context.repo;
             try {
-                // Iterate over all the open issues and pull requests
+                // Iterate over all open issues and pull requests
                 for (var _b = __asyncValues(octokit.paginate.iterator(octokit.issues.listForRepo, { owner, repo })), _c; _c = yield _b.next(), !_c.done;) {
                     const page = _c.value;
                     for (const issue of page.data) {
-                        /*
-                          For each issue and pull request, does the following:
-                          1. Extract labels from the description.
-                          2. Remove unchecked labels if they are already attached.
-                          3. Add checked labels if they are NOT attached.
-                        */
+                        /**
+                         * For each issue and pull request, does the following:
+                         * 1. Extract labels from the description.
+                         * 2. Remove unchecked labels if they are already attached.
+                         * 3. Add checked labels if they are NOT attached.
+                         */
                         const { body, number: issue_number, html_url, } = issue;
                         logger.debug(`<<< ${html_url} >>>`);
-                        // Labels already attached on the PR
+                        // Labels already attached on the pull request
                         const labelsOnIssueResp = yield octokit.issues.listLabelsOnIssue({
                             owner,
                             repo,
